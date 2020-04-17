@@ -1,10 +1,7 @@
 
-
 class Vote {
-    
     constructor() {
-        
     }
 }
 
-module.exports = Vote
+module.exports = Vote;

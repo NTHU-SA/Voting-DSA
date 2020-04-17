@@ -6,4 +6,4 @@ module.exports = {
     dbUser: '',
     dbPassword: '',
     serverPort: 3000,
-}
+};

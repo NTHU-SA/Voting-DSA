@@ -1,0 +1,30 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": "google",
+    "rules": {
+        "require-jsdoc" : 0,
+        "no-unused-vars": "warn",
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 0
+            }
+        ],
+        "no-underscore-dangle": [0],
+        "no-console": [
+            "error",
+            {
+                "allow": ["warn", "error", "log"]
+            }
+        ]
+    }
+}

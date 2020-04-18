@@ -1,7 +1,5 @@
-
 class Vote {
-    constructor() {
-    }
+    constructor() {}
 }
 
 module.exports = Vote;

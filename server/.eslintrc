@@ -10,7 +10,7 @@
     },
     "extends": "google",
     "rules": {
-        "require-jsdoc" : 0,
+        "require-jsdoc": 0,
         "no-unused-vars": "warn",
         "indent": [
             "error",
@@ -19,11 +19,17 @@
                 "SwitchCase": 0
             }
         ],
-        "no-underscore-dangle": [0],
+        "no-underscore-dangle": [
+            0
+        ],
         "no-console": [
             "error",
             {
-                "allow": ["warn", "error", "log"]
+                "allow": [
+                    "warn",
+                    "error",
+                    "log"
+                ]
             }
         ]
     }

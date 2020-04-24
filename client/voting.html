@@ -29,11 +29,31 @@
                                 <div class="candidate-img">
                                     <img src="./img/candidate-1.png" />
                                 </div>
-                                <div class="col voteBlock mb-4">
-                                    <div class="col-md-10 voteTransperencissAnimate" onclick="voteHandleClick(1)">
-                                        <img id="member-one-vote" src="
+                                <div class="col voteBlock mb-4" id="member-one-1">
+                                    <div class="col-md-10 voteTransperencissAnimate ">
+                                        <img id="member-one-vote-yes" src="
                                         https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5>我要投給他</h5>
+                                        <h5 id="oneYescancelNot" onclick="voteOneClick(1)">我要投給他</h5>
+                                        <h5 id="oneYescancel" onclick="imgOneClick(1)">取消投給他
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col voteBlock mb-4" id="member-one-2">
+                                    <div class="col-md-10 voteTransperencissAnimate">
+                                        <img id="member-one-vote-no" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="oneNocancelNot" onclick="voteOneClick(2)">我不投給他</h5>
+                                        <h5 id="oneNocancel" onclick="imgOneClick(2)">取消不投給他
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col voteBlock mb-4" id="member-one-3">
+                                    <div class="col-md-10 voteTransperencissAnimate">
+                                        <img id="member-one-vote-withoutOpinion" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="oneWOcancelNot" onclick="voteOneClick(3)">我沒有意見</h5>
+                                        <h5 id="oneWOcancel" onclick="imgOneClick(3)">取消我沒意見
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
@@ -126,13 +146,34 @@
                                 <div class="candidate-img">
                                     <img src="./img/candidate-2.png" />
                                 </div>
-                                <div class="col voteBlock mb-4">
-                                    <div class="col-md-10 voteTransperencissAnimate" onclick="voteHandleClick(2)">
-                                        <img id="member-two-vote" src="
+                                <div class="col voteBlock mb-4" id="member-two-1">
+                                    <div class="col-md-10 voteTransperencissAnimate">
+                                        <img id="member-two-vote-yes" src="
                                         https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5>我要投給他</h5>
+                                        <h5 id="twoYescancelNot" onclick="voteTwoClick(1)">我要投給他</h5>
+                                        <h5 id="twoYescancel" onclick="imgTwoClick(1)">取消投給他
+                                        </h5>
                                     </div>
                                 </div>
+                                <div class="col voteBlock mb-4" id="member-two-2">
+                                    <div class="col-md-10 voteTransperencissAnimate ">
+                                        <img id="member-two-vote-no" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="twoNocancelNot" onclick="voteTwoClick(2)">我不投給他</h5>
+                                        <h5 id="twoNocancel" onclick="imgTwoClick(2)">取消不投給他
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col voteBlock mb-4" id="member-two-3">
+                                    <div class="col-md-10 voteTransperencissAnimate ">
+                                        <img id="member-two-vote-withoutOpinion" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="twoWOcancelNot" onclick="voteTwoClick(3)">我沒有意見</h5>
+                                        <h5 id="twoWOcancel" onclick="imgTwoClick(3)">取消我沒意見
+                                        </h5>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-sm-4">
                                 <ul class="list-group candidateItems mb-4">
@@ -215,11 +256,31 @@
                                 <div class="candidate-img">
                                     <img src="./img/candidate-3.png" />
                                 </div>
-                                <div class="col voteBlock mb-4">
-                                    <div class="col-md-10 voteTransperencissAnimate" onclick="voteHandleClick(3)">
-                                        <img id="member-three-vote" src="
+                                <div class="col voteBlock mb-4" id="member-three-1">
+                                    <div class="col-md-10 voteTransperencissAnimate">
+                                        <img id="member-three-vote-yes" src="
                                         https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5>我要投給他</h5>
+                                        <h5 id="threeYescancelNot" onclick="voteThreeClick(1)">我要投給他</h5>
+                                        <h5 id="threeYescancel" onclick="imgThreeClick(1)">取消投給他
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col voteBlock mb-4" id="member-three-2">
+                                    <div class="col-md-10 voteTransperencissAnimate ">
+                                        <img id="member-three-vote-no" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="threeNocancelNot" onclick="voteThreeClick(2)">我不投給他</h5>
+                                        <h5 id="threeNocancel" onclick="imgThreeClick(2)">取消不投給他
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col voteBlock mb-4" id="member-three-3">
+                                    <div class="col-md-10 voteTransperencissAnimate ">
+                                        <img id="member-three-vote-withoutOpinion" src="
+                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
+                                        <h5 id="threeWOcancelNot" onclick="voteThreeClick(3)">我沒有意見</h5>
+                                        <h5 id="threeWOcancel" onclick="imgThreeClick(3)">取消我沒意見
+                                        </h5>
                                     </div>
                                 </div>
                             </div>

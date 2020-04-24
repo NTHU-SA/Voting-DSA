@@ -10,7 +10,8 @@ module.exports = {
             const account = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
             const serviceToken = ccxpAuth.obtainServiceToken(account);
-            res.send({status: true, service_token: serviceToken});
+            res.cookie('service_token', serviceToken);
+            res.redirect(`/`);
         } catch (e) {
             res.status(401).send({status: false, error: e.message});
         }

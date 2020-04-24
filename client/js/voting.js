@@ -33,6 +33,8 @@ function voteOneClick(Opt) {
 function imgOneClick(Opt) {
     imgDisappear = Opt;
     if (Opt == 1) {
+        ing 0e67e0f..d98f2db
+        error: Your local changes to the follo
         $('#member-one-vote-yes').css('max-width', '0%');
         $('#member-one-vote-yes').css('opacity', '0');
         $('#oneYescancelNot').css('display', 'block');
@@ -170,4 +172,18 @@ function imgThreeClick(Opt) {
         $('#member-three-1').css('display', 'block')
         $('#member-three-2').css('display', 'block');
     }
+}
+
+const clientId = 'nthusa';
+
+async function signIn(account, passwd, captcha) {
+    await axios.post(`https://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=${clientId}&response_type=code&state=xyz&scope=userid`, {
+        account, passwd, oauth_captcha: captcha,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Host': 'oauth.ccxp.nthu.edu.tw',
+            'Origin': 'https://oauth.ccxp.nthu.edu.tw',
+        },
+    });
 }

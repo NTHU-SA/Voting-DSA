@@ -7,7 +7,7 @@
     background-color: slategray;
 }
 
-.login-dark form {
+.login-dark > div {
     max-width: 320px;
     width: 90%;
     background-color: #1e2833;
@@ -28,7 +28,7 @@
     color: #2980ef;
 }
 
-.login-dark form .form-control {
+.login-dark div .form-control {
     background: none;
     border: none;
     border-bottom: 1px solid #434a52;
@@ -38,7 +38,7 @@
     color: inherit;
 }
 
-.login-dark form .btn-primary {
+.login-dark div .btn-primary {
     background: #214a80;
     border: none;
     border-radius: 4px;
@@ -49,13 +49,13 @@
     outline: none;
 }
 
-.login-dark form .btn-primary:hover,
-.login-dark form .btn-primary:active {
+.login-dark div .btn-primary:hover,
+.login-dark div .btn-primary:active {
     background: #214a80;
     outline: none;
 }
 
-.login-dark form .forgot {
+.login-dark div .forgot {
     display: block;
     text-align: center;
     font-size: 12px;
@@ -64,12 +64,12 @@
     text-decoration: none;
 }
 
-.login-dark form .forgot:hover,
-.login-dark form .forgot:active {
+.login-dark div .forgot:hover,
+.login-dark div .forgot:active {
     opacity: 1;
     text-decoration: none;
 }
 
-.login-dark form .btn-primary:active {
+.login-dark div .btn-primary:active {
     transform: translateY(1px);
 }

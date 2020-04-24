@@ -52,7 +52,6 @@
 
 .voteTransperencissAnimate > img {
     max-width: 0%;
-    opacity: 0;
     max-height: 0%;
     transition-property: all;
     transition-duration: 0.5s;
@@ -66,4 +65,8 @@
 
 .candidateItemsTitle {
     text-align: center;
+}
+
+#oneYescancel, #oneNocancel, #oneWOcancel, #twoYescancel, #twoNocancel, #twoWOcancel, #threeYescancel, #threeNocancel, #threeWOcancel{
+    display: none;
 }

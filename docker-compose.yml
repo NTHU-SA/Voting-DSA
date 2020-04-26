@@ -1,0 +1,20 @@
+version: '3'
+services:
+    db:
+        image: mariadb:10.2
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        restart: on-failure
+        volumes:
+            - ${PWD}/db_files:/var/lib/mysql
+    server:
+        build: ./server
+        ports:
+            - ${SERVER_PORT}:3000
+        environment:
+            - DATABASE_HOST=db
+        depends_on:
+            - db

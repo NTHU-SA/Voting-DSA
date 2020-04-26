@@ -2,18 +2,20 @@
 const {DataTypes} = require('sequelize');
 const database = require('../database/database.js');
 
-const VoteRecord = database.define('voteRecord', {
-    candidateNumber: {
-        type: DataTypes.INTEGER,
+const IsVote = database.define('isVote', {
+    studentId: {
+        type: DataTypes.STRING(20),
         allowNull: false,
-    },
-    password: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
+        primaryKey: true,
+        references: {
+            model: 'student', // table name
+            key: 'id',
+        },
     },
     activityName: {
         type: DataTypes.STRING(60),
         allowNull: false,
+        primaryKey: true,
         references: {
             model: 'activity', // table name
             key: 'name',
@@ -22,4 +24,4 @@ const VoteRecord = database.define('voteRecord', {
     freezeTableName: true,
 });
 
-module.exports = VoteRecord;
+module.exports = IsVote;

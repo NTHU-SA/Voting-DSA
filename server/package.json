@@ -4,7 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "init": "npx sequelize init",
+    "create": "npx db:create",
+    "create:prod": "npx sequelize db:create --env production",
+    "migration": "npx sequelize migration:create --name create-examples-table",
+    "migration:prod": "npx sequelize migration:create --name create-examples-table --env production",
+    "migrate": "npx sequelize db:migrate",
+    "migrate:prod": "npx sequelize db:migrate --env production",
+    "seeder": "npx sequelize seed:create --name init-users",
+    "seeder:prod": "npx sequelize seed:create --name init-users --env production"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +28,7 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "sequelize-cli": "^5.5.1"
   }
 }

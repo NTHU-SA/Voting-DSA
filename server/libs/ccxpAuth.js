@@ -6,9 +6,6 @@ const config = require('../config.js');
 module.exports = {
 
     async obtainCode(account, passwd, captcha, phpsessid) {
-        const response1 = await axios.post(`http://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=nthusa&response_type=code&state=xyz&scope=userid`);
-        const cookie = response1.headers['set-cookie'][0].split(';')[0]+';';
-        
         const options = {
             method: 'POST',
             url: 'https://oauth.ccxp.nthu.edu.tw/v1/authorize.php',
@@ -36,7 +33,7 @@ module.exports = {
         rp(options).then((html) => {
             console.log(html);
         });
-    }
+    },
 
 
     /**

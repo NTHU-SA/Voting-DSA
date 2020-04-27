@@ -1,4 +1,6 @@
-const Student = require('../models/student.js');
+const {sequelize} = require('../models');
+const {DataTypes} = require('sequelize');
+const Student = require('../models/student.js')(sequelize, DataTypes);
 
 module.exports = {
     async createStudent(req, res) {

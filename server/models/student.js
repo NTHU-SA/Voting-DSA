@@ -1,18 +1,19 @@
 /* eslint-disable new-cap */
-const {DataTypes} = require('sequelize');
-const database = require('../database/database.js');
-
-const Student = database.define('student', {
-    id: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-        primaryKey: true,
-    },
-    isVote: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-    }}, {
-    freezeTableName: true,
-});
-
-module.exports = Student;
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+    const student = sequelize.define('Student', {
+        id: {
+            type: DataTypes.STRING(25),
+            allowNull: false,
+            primaryKey: true,
+        },
+        college: {
+            allowNull: false,
+            type: DataTypes.STRING,
+        },
+    }, {freezeTableName: true});
+    student.associate = function(models) {
+        // associations can be defined here
+    };
+    return student;
+};

@@ -19,6 +19,13 @@ module.exports = {
 
     async verifyServiceToken(req, res, next) {
         const auth = req.headers.authorization;
+        if (!auth) {
+            res.status(401).send({
+                status: false,
+                error: 'service_token should be given in Authorization header',
+            });
+            return;
+        }
         if (auth.substring(0, 7) !== 'Bearer ') {
             res.status(401).send({
                 status: false,

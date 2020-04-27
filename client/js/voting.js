@@ -1,3 +1,5 @@
+// document.cookie = ""
+
 let voteOpt = null;
 let imgDisappear = null;
 
@@ -15,8 +17,8 @@ function voteOneClick(Opt) {
         $('#member-one-2').css('display', 'none');
         $('#member-one-3').css('display', 'none');
         vote_answer1 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第一號候選人',
+            ['answer']: '我要投給他'
         }
     }
     else if (Opt == 2) {
@@ -27,8 +29,8 @@ function voteOneClick(Opt) {
         $('#member-one-1').css('display', 'none');
         $('#member-one-3').css('display', 'none');
         vote_answer1 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第一號候選人',
+            ['answer']: '我不投給他'
         }
 
     }
@@ -40,8 +42,8 @@ function voteOneClick(Opt) {
         $('#member-one-1').css('display', 'none');
         $('#member-one-2').css('display', 'none');
         vote_answer1 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第一號候選人',
+            ['answer']: '我沒意見'
         }
     }
 }
@@ -84,8 +86,8 @@ function voteTwoClick(Opt) {
         $('#member-two-2').css('display', 'none');
         $('#member-two-3').css('display', 'none');
         vote_answer2 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第二號候選人',
+            ['answer']: '我要投給他'
         }
     }
     else if (Opt == 2) {
@@ -96,8 +98,8 @@ function voteTwoClick(Opt) {
         $('#member-two-1').css('display', 'none');
         $('#member-two-3').css('display', 'none');
         vote_answer2 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第二號候選人',
+            ['answer']: '我不頭給他'
         }
     }
     else if (Opt == 3) {
@@ -108,8 +110,8 @@ function voteTwoClick(Opt) {
         $('#member-two-1').css('display', 'none');
         $('#member-two-2').css('display', 'none');
         vote_answer2 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第二號候選人',
+            ['answer']: '我沒意見'
         }
     }
 }
@@ -153,8 +155,8 @@ function voteThreeClick(Opt) {
         $('#member-three-2').css('display', 'none');
         $('#member-three-3').css('display', 'none');
         vote_answer3 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第三號候選人',
+            ['answer']: '我要投給他'
         }
     }
     else if (Opt == 2) {
@@ -165,8 +167,8 @@ function voteThreeClick(Opt) {
         $('#member-three-1').css('display', 'none');
         $('#member-three-3').css('display', 'none');
         vote_answer3 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第三號候選人',
+            ['answer']: '我不投給他'
         }
     }
     else if (Opt == 3) {
@@ -177,8 +179,8 @@ function voteThreeClick(Opt) {
         $('#member-three-1').css('display', 'none');
         $('#member-three-2').css('display', 'none');
         vote_answer3 = {
-            ['question']: 'q`${Opt}`',
-            ['answer']: 'a`${Opt}`'
+            ['question']: '第三號號選人',
+            ['answer']: '我沒意見'
         }
     }
 }
@@ -212,16 +214,21 @@ function imgThreeClick(Opt) {
 }
 
 async function sendResult() {
-    await axios.post('http://localhost:3000/v1/vote'), {
-        activity_name: 'first_vote',
-        vote_answers: [
-            vote_answer1, vote_answer2, vote_answer3
-        ]
+    console.log(document.cookie);
+    try {
+        const result = await axios.post('http://localhost:3000/api/vote', {
+            activity_name: 'first_vote',
+            vote_answers: [
+                vote_answer1, vote_answer2, vote_answer3
+            ]
+        }, {
+            headers: {
+                Authorization: `Bearer ${document.cookie.split('service_token=')[1]}`
+            }
+        })
+        console.log(result);
     }
-}
-
-async function vote(candidate1, candidate2, candidate3) {
-    await axios.post(`https://voting.nthusa.cf/api/vote`, {
-        
-    });
+    catch (e) {
+        console.log(e.response.data);
+    }
 }

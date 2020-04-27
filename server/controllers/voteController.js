@@ -3,6 +3,7 @@ const {DataTypes} = require('sequelize');
 const Student = require('../models/student.js')(sequelize, DataTypes);
 const VoteRecord = require('../models/voteRecord.js')(sequelize, DataTypes);
 const IsVote = require('../models/isVote.js')(sequelize, DataTypes);
+const Activity = require('../models/activity.js')(sequelize, DataTypes);
 
 module.exports = {
     async vote(req, res) {
@@ -17,8 +18,10 @@ module.exports = {
             where: {id: studentId},
         });
         if (studentResult.length === 0) {
-            res.status(200).send({status: false,
-                error: 'This student id is not allowed to vote.'});
+            res.status(200).send({
+                status: false,
+                error: 'This student id is not allowed to vote.',
+            });
             return;
         }
 
@@ -27,8 +30,10 @@ module.exports = {
             where: {studentId, activityName: activityName},
         });
         if (isvoteResult.length !== 0) {
-            res.status(200).send({status: false,
-                error: 'This student id has already vote.'});
+            res.status(200).send({
+                status: false,
+                error: 'This student id has already vote.',
+            });
             return;
         }
 
@@ -37,8 +42,10 @@ module.exports = {
             where: {name: activityName},
         });
         if (activityResult.length === 0) {
-            res.status(200).send({status: false,
-                error: 'This activity not exists.'});
+            res.status(200).send({
+                status: false,
+                error: 'This activity not exists.',
+            });
             return;
         }
 

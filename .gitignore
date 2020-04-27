@@ -4,4 +4,3 @@
 db_files/
 **/node_modules
 *.swp
-server/script/*

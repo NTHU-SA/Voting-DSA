@@ -220,14 +220,8 @@ async function sendResult() {
     }
 }
 
-async function signIn(account, passwd, captcha) {
-    await axios.post(`https://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=${clientId}&response_type=code&state=xyz&scope=userid`, {
-        account, passwd, oauth_captcha: captcha,
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Host': 'oauth.ccxp.nthu.edu.tw',
-            'Origin': 'https://oauth.ccxp.nthu.edu.tw',
-        },
+async function vote(candidate1, candidate2, candidate3) {
+    await axios.post(`https://voting.nthusa.cf/api/vote`, {
+        
     });
 }

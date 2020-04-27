@@ -22,7 +22,8 @@ module.exports = {
         if (auth.substring(0, 7) !== 'Bearer ') {
             res.status(401).send({
                 status: false,
-                error: 'token fromat should be "Bearer <jwt token>"'});
+                error: 'token fromat should be "Bearer <jwt token>"',
+            });
             return;
         }
         try {
@@ -31,20 +32,23 @@ module.exports = {
                 serviceToken, config.tokenSecret).account;
             req.user = account;
         } catch (e) {
-            if (e.name === 'JsonWebTokenError'
-                && e.message === 'invalid token') {
+            if (e.name === 'JsonWebTokenError' &&
+                e.message === 'invalid token') {
                 res.status(401).send({
                     status: false,
-                    error: 'UnAuthorized: invalid token'});
-            } else if (e.name === 'TokenExpiredError'
-                && e.message === 'jwt expired') {
+                    error: 'UnAuthorized: invalid token',
+                });
+            } else if (e.name === 'TokenExpiredError' &&
+                e.message === 'jwt expired') {
                 res.status(401).send({
                     status: false,
-                    error: 'UnAuthorized: the token is expired'});
+                    error: 'UnAuthorized: the token is expired',
+                });
             } else {
                 res.status(401).send({
                     status: false,
-                    error: `UnAuthorized: ${e.name}, ${e.message}`});
+                    error: `UnAuthorized: ${e.name}, ${e.message}`,
+                });
             }
             return;
         }

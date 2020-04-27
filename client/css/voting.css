@@ -70,3 +70,7 @@
 #oneYescancel, #oneNocancel, #oneWOcancel, #twoYescancel, #twoNocancel, #twoWOcancel, #threeYescancel, #threeNocancel, #threeWOcancel{
     display: none;
 }
+
+.btn-result{
+    text-align:center;
+}

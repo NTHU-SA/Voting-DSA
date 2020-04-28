@@ -1,4 +1,4 @@
-const Mongoose = require('../libs/database');
+const Mongoose = require('Mongoose');
 const { Schema } = Mongoose;
 
 const candidateSchema = new Schema({
@@ -52,5 +52,4 @@ const optionsSchema = new Schema({
 });
 
 optionsSchema.index({ activity_id: 1 });
-
-module.exports = Mongoose.model('options', optionsSchema);
+Mongoose.model('options', optionsSchema);

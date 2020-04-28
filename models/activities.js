@@ -1,4 +1,4 @@
-const Mongoose = require('../libs/database');
+const Mongoose = require('mongoose');
 const { Schema } = Mongoose;
 
 const activitiesSchema = new Schema({
@@ -22,4 +22,4 @@ const activitiesSchema = new Schema({
   }
 });
 
-module.exports = Mongoose.model('activities', activitiesSchema);
+Mongoose.model('activities', activitiesSchema);

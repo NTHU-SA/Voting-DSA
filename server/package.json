@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "dev": "docker-compose -f ./docker-compose.dev.yml up -d && env NODE_ENV=dev && node app.js",
     "start": "node app.js",
     "init": "npx sequelize init",
     "create": "npx db:create",
@@ -25,9 +26,9 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.3.1",
+    "mongoose": "^5.9.10",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5",
-    "sequelize": "^5.21.6"
+    "request-promise": "^4.2.5"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

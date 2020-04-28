@@ -1,20 +1,23 @@
 version: '3'
 services:
-    db:
-        image: mariadb:10.2
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${DATABASE_NAME}
-            MYSQL_USER: ${DB_USER}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-        restart: on-failure
-        volumes:
-            - ${PWD}/db_files:/var/lib/mysql
-    server:
-        build: ./server
-        ports:
-            - ${SERVER_PORT}:3000
-        environment:
-            - DATABASE_HOST=db
-        depends_on:
-            - db
+  mongo:
+    image: mongo:4.2
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - /data/db
+    ports:
+      - 27017:27017
+    restart: on-failure
+    networks:
+      - internal
+    command: mongod
+  server:
+    build: ./server
+    ports:
+      - ${SERVER_PORT}:3000
+    environment:
+      - DATABASE_HOST=db
+    depends_on:
+      - mongo

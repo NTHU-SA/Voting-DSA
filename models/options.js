@@ -1,4 +1,4 @@
-const Mongoose = require('Mongoose');
+const Mongoose = require('mongoose');
 const { Schema } = Mongoose;
 
 const candidateSchema = new Schema({
@@ -26,6 +26,9 @@ const candidateSchema = new Schema({
     type: [String],
     required: true
   }
+}, {
+  _id: false,
+  strict: 'throw'
 });
 
 const optionsSchema = new Schema({
@@ -38,8 +41,7 @@ const optionsSchema = new Schema({
     required: true
   },
   candidate: {
-    type: candidateSchema,
-    required: true
+    type: candidateSchema
   },
   created_at: {
     type: Date,
@@ -49,6 +51,8 @@ const optionsSchema = new Schema({
     type: Date,
     required: true
   }
+}, {
+  strict: 'throw'
 });
 
 optionsSchema.index({ activity_id: 1 });

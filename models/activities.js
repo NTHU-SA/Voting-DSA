@@ -20,6 +20,8 @@ const activitiesSchema = new Schema({
     type: Date,
     required: true
   }
+}, {
+  strict: 'throw'
 });
 
 Mongoose.model('activities', activitiesSchema);

@@ -22,6 +22,8 @@ const votesSchema = new Schema({
     type: Date,
     required: true
   }
+}, {
+  strict: 'throw'
 });
 
 votesSchema.index({ activity_id: 1, option_id: 1 });

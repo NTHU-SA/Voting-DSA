@@ -11,7 +11,7 @@ module.exports = {
       const result = await Activities.create({ name, created_at, updated_at });
       res.json(result);
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -21,7 +21,7 @@ module.exports = {
       const result = await Activities.findById(_id).lean();
       res.json(result);
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -32,7 +32,7 @@ module.exports = {
       const data = await Activities.find(filter, null, { limit, skip, sort }).lean();
       res.json({ total, data });
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -43,7 +43,7 @@ module.exports = {
       const result = await Activities.updateOne({ _id }, { name, updated_at }).lean();
       res.json(result.n > 0 ? { success: true } : {});
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -53,7 +53,7 @@ module.exports = {
       const result = await Activities.deleteOne({ _id }).lean();
       res.json(result.n > 0 ? { success: true } : {});
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   }
 };

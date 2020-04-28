@@ -2,6 +2,7 @@ const authController = require('./controllers/authController.js');
 const users = require('./controllers/users');
 const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
+const options = require('./controllers/options');
 
 const router = require('express').Router();
 
@@ -27,5 +28,12 @@ router.post('/activities/getActivity', activities.getActivity);
 router.post('/activities/getActivities', activities.getActivities);
 router.post('/activities/modifyActivity', activities.modifyActivity);
 router.post('/activities/removeActivity', activities.removeActivity);
+
+// options
+router.post('/options/addOption', options.addOption);
+router.post('/options/getOption', options.getOption);
+router.post('/options/getOptions', options.getOptions);
+router.post('/options/modifyOption', options.modifyOption);
+router.post('/options/removeOption', options.removeOption);
 
 module.exports = router;

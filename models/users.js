@@ -14,8 +14,9 @@ const usersSchema = new Schema({
     type: Date,
     required: true
   }
+}, {
+  strict: 'throw'
 });
 
 usersSchema.index({ student_id: 1 });
-
-module.exports = Mongoose.model('users', usersSchema);
+Mongoose.model('users', usersSchema);

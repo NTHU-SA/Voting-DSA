@@ -1,4 +1,4 @@
-const Mongoose = require('mongoose');
+const Mongoose = require('../libs/database');
 const { Schema } = Mongoose;
 
 const candidateSchema = new Schema({

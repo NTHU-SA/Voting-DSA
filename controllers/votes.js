@@ -11,13 +11,13 @@ module.exports = {
     try {
       const { user_id, activity_id, option_id } = req.body;
 
-      const activity = Activities.findById(activity_id).lean();
-      const option = Options.findById(option_id).lean();
-      const user = Users.findById(user_id).lean();
+      const activity = await Activities.findById(activity_id).lean();
+      const option = await Options.findById(option_id).lean();
+      const user = await Users.findById(user_id).lean();
       if (!activity) throw new Error('Failed to add vote, activity_id not found');
       if (!option) throw new Error('Failed to add option, option_id not found');
       if (!user) throw new Error('Failed to add vote, user_id not found');
-      if (activity.users.includes(user._id)) throw new Error('Failed to add vote, user already vote');
+      if (activity.users.findIndex(user => user.toString() === user_id) !== -1) throw new Error('Failed to add vote, user already vote');
 
       const created_at = new Date();
       const updated_at = created_at;
@@ -27,7 +27,7 @@ module.exports = {
         $addToSet: {
           users: user_id
         }
-      });
+      }).lean();
       res.json(result);
     } catch (error) {
       res.status(404).json({ error });
@@ -58,19 +58,30 @@ module.exports = {
   async getVoteResult(req, res) {
     try {
       const { activity_id } = req.body;
-      const result = Votes.aggregate([
+      const result = await Votes.aggregate([
         {
           $match: {
             activity_id: Mongoose.Types.ObjectId(activity_id)
-          },
+          }
+        },
+        {
           $group: {
             _id: '$option_id',
-            count: { $sum: 1 }
+            total: { $sum: 1 }
           }
         }
-      ]).lean();
+      ]).exec();
+      
+      // Format result
+      const optionArr = [];
+      for (const option of result) optionArr.push(option._id);
+      const options = await Options.find({ _id: { $in: optionArr } }).lean();
+      const optionObj = {};
+      for (const option of options) optionObj[option._id] = option;
+      for (const option of result) option.option = optionObj[option._id];
       res.json(result);
     } catch (error) {
+      console.log(error);
       res.status(404).json({ error });
     }
   },

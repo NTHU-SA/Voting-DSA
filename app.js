@@ -16,6 +16,9 @@ Mongoose.connect(url, {
 Mongoose.set('debug', true);
 
 require('./models/users');
+require('./models/votes');
+require('./models/activities');
+require('./models/options');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({type: 'application/json'}));

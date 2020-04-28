@@ -68,11 +68,13 @@ module.exports = {
     try {
       const { _id } = req.body;
       const option = await Options.findById(_id).lean();
-      await Activities.updateOne({ _id: option.activity_id }, {
-        $pull: {
-          options: _id
-        }
-      });
+      if (option) {
+        await Activities.updateOne({ _id: option.activity_id }, {
+          $pull: {
+            options: _id
+          }
+        });
+      }
       await Votes.deleteMany({ option_id: _id }).lean();
       const result = await Options.deleteOne({ _id }).lean();
       res.json(result.n > 0 ? { success: true } : {});

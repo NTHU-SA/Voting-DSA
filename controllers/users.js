@@ -1,6 +1,7 @@
 
 const Mongoose = require('mongoose');
 const Users = Mongoose.model('users');
+const Activities = Mongoose.model('activities');
 
 module.exports = {
   async addUser(req, res) {
@@ -11,7 +12,7 @@ module.exports = {
       const result = await Users.create({ student_id, created_at, updated_at });
       res.json(result);
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -21,7 +22,7 @@ module.exports = {
       const result = await Users.findById(_id).lean();
       res.json(result);
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -32,7 +33,7 @@ module.exports = {
       const data = await Users.find(filter, null, { limit, skip, sort }).lean();
       res.json({ total, data });
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
@@ -43,17 +44,25 @@ module.exports = {
       const result = await Users.updateOne({ _id }, { student_id, updated_at }).lean();
       res.json(result.n > 0 ? { success: true } : {});
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   },
 
   async removeUser(req, res) {
     try {
       const { _id } = req.body;
+      const user = await Users.findById(_id).lean();
+      if (user) {
+        await Activities.updateOne({ _id: user.activity_id }, {
+          $pull: {
+            users: _id
+          }
+        });
+      }
       const result = await Users.deleteOne({ _id }).lean();
       res.json(result.n > 0 ? { success: true } : {});
     } catch (error) {
-      res.status(404).json(error);
+      res.status(404).json({ error });
     }
   }
 };

@@ -9,20 +9,49 @@ const {v4: uuid} = require('uuid');
 module.exports = {
     async addVote(req, res) {
         try {
-            const {user_id, activity_id, option_id} = req.body;
+            const {user_id, activity_id, rule, choose_all = null, choose_one = null} = req.body;
+            const allowRules = ['choose_all', 'choose_one'];
+            if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
+            if (!req.body[rule]) throw new Error(`Failed to add vote, params should carry key: ${rule}`);
+
+            // TODO: Validate choose_all (remark)
+
+            // Get all options
+            const optionArr = [];
+            switch (rule) {
+            case 'choose_all':
+                for (const choice of choose_all) {
+                    optionArr.push(choice.option_id);
+                }
+                break;
+            case 'choose_one':
+                optionArr.push(choose_one);
+                break;
+            default:
+                break;
+            };
 
             const activity = await Activities.findById(activity_id).lean();
-            const option = await Options.findById(option_id).lean();
+            const options = await Options.find({_id: {$in: optionArr}, activity_id}).lean();
             const user = await Users.findById(user_id).lean();
             if (!activity) throw new Error('Failed to add vote, activity_id not found');
-            if (!option) throw new Error('Failed to add option, option_id not found');
+            if (options.length !== optionArr.length) throw new Error('Failed to add vote, given options are not valid');
             if (!user) throw new Error('Failed to add vote, user_id not found');
             if (activity.users.findIndex((user) => user.toString() === user_id) !== -1) throw new Error('Failed to add vote, user already vote');
+            if (activity.rule !== rule) throw new Error('Failed to add vote, rule does not match activity\'s rule');
 
             const created_at = new Date();
             const updated_at = created_at;
             const token = uuid();
-            const result = await Votes.create({activity_id, option_id, token, created_at, updated_at});
+            const params = {
+                activity_id,
+                rule,
+                token,
+                created_at,
+                updated_at,
+                [rule]: req.body[rule],
+            };
+            const result = await Votes.create(params);
             await Activities.updateOne({_id: activity_id}, {
                 $addToSet: {
                     users: user_id,
@@ -65,24 +94,27 @@ module.exports = {
                         activity_id: Mongoose.Types.ObjectId(activity_id),
                     },
                 },
+                /*
                 {
                     $group: {
                         _id: '$option_id',
                         total: {$sum: 1},
                     },
                 },
+                */
             ]).exec();
 
             // Format result
+            /*
             const optionArr = [];
             for (const option of result) optionArr.push(option._id);
             const options = await Options.find({_id: {$in: optionArr}}).lean();
             const optionObj = {};
             for (const option of options) optionObj[option._id] = option;
             for (const option of result) option.option = optionObj[option._id];
+            */
             res.json(result);
         } catch (error) {
-            console.log(error);
             res.status(404).json({error});
         }
     },

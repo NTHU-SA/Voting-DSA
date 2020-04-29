@@ -3,6 +3,7 @@ const users = require('./controllers/users');
 const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
+const files = require('./controllers/files');
 
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
@@ -39,5 +40,8 @@ router.post('/options/getOption', options.getOption);
 router.post('/options/getOptions', options.getOptions);
 router.post('/options/modifyOption', options.modifyOption);
 router.post('/options/removeOption', options.removeOption);
+
+// files
+router.post('/files/uploadFile', files.uploadFile);
 
 module.exports = router;

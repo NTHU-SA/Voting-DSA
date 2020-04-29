@@ -14,8 +14,9 @@ module.exports = {
             const created_at = new Date();
             const updated_at = created_at;
 
-            const activity = Activities.findById(activity_id).lean();
+            const activity = await Activities.findById(activity_id).lean();
             if (!activity) throw new Error('Failed to add option, activity_id not found');
+            if (activity.type !== type) throw new Error('Failed to add option, type does not match activity\'s type');
 
             const result = await Options.create({...params, created_at, updated_at});
             await Activities.updateOne({_id: activity_id}, {
@@ -26,6 +27,7 @@ module.exports = {
 
             res.json(result);
         } catch (error) {
+            console.log(error);
             res.status(404).json({error});
         }
     },
@@ -55,6 +57,7 @@ module.exports = {
         try {
             const {_id, ...params} = req.body;
             if (params.activity_id !== undefined) throw new Error('Cannot modify option.activity_id');
+            if (params.type !== undefined) throw new Error('Cannot modify option.type');
 
             const updated_at = new Date();
             const result = await Options.updateOne({_id}, {...params, updated_at}).lean();

@@ -6,6 +6,14 @@ const activitiesSchema = new Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
+    rule: {
+        type: String,
+        required: true,
+    },
     users: {
         type: [Mongoose.Types.ObjectId],
     },

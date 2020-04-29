@@ -30,9 +30,16 @@ module.exports = {
                 undefined: undefined,
             },
         };
-        rp(options).then((html) => {
-            console.log(html);
-        });
+        try {
+            await rp(options);
+        } catch (error) {
+            if (error.response.statusCode === 302 && error.response.body === '') {
+                return (error.response.headers.location.split('?code=')[1].split('&')[0]);
+            } else {
+                throw Error('obtain code from ccxp authorize failed.');
+            }
+        }
+        throw Error('obtain code from ccxp authorize failed.');
     },
 
 

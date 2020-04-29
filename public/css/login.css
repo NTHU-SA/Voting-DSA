@@ -73,3 +73,9 @@
 .login-dark div .btn-primary:active {
     transform: translateY(1px);
 }
+
+#form-prompt {
+    color:red;
+    display: none;
+    margin-bottom: 7px;
+}

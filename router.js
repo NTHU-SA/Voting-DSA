@@ -7,6 +7,8 @@ const options = require('./controllers/options');
 const router = require('express').Router();
 
 router.get('/callback', authController.authccxpCallback);
+router.get('/auth/ccxp/captcha', authController.getccxpCaptchaImage);
+router.post('/auth/ccxp', authController.authccxp);
 
 // users
 router.post('/users/addUser', users.addUser);

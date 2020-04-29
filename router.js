@@ -4,6 +4,7 @@ const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
 
+// eslint-disable-next-line new-cap
 const router = require('express').Router();
 
 router.get('/callback', authController.authccxpCallback);

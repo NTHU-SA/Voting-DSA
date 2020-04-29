@@ -5,13 +5,13 @@ const config = require('./config.js');
 const app = express();
 const Mongoose = require('mongoose');
 
-const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME } = process.env;
+const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME} = process.env;
 
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}?authSource=admin&w=1`;
 Mongoose.connect(url, {
-  keepAlive: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+    keepAlive: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 Mongoose.set('debug', true);
 

@@ -23,8 +23,8 @@ router.post('/users/removeUser', users.removeUser);
 router.post('/votes/addVote', votes.addVote);
 router.post('/votes/getVote', votes.getVote);
 router.post('/votes/getVotes', votes.getVotes);
-router.post('/votes/getVoteResult', votes.getVoteResult);
-// router.post('/votes/modifyVote', votes.modifyVote);
+// Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);
+// No Need: router.post('/votes/modifyVote', votes.modifyVote);
 router.post('/votes/removeVote', votes.removeVote);
 
 // activities

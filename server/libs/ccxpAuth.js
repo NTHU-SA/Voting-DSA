@@ -1,8 +1,40 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const rp = require('request-promise');
 const config = require('../config.js');
 
 module.exports = {
+
+    async obtainCode(account, passwd, captcha, phpsessid) {
+        const options = {
+            method: 'POST',
+            url: 'https://oauth.ccxp.nthu.edu.tw/v1/authorize.php',
+            qs: {
+                client_id: 'nthusa',
+                response_type: 'code',
+                state: 'xyz',
+                scope: 'userid',
+            },
+            headers: {
+                'Postman-Token': '9f1982c4-453d-42af-980e-3ac17decba27',
+                'cache-control': 'no-cache',
+                'Cookie': `PHPSESSID=${phpsessid};`,
+                'User-Agent': 'Mozilla/5.0',
+                'Origin': 'https://oauth.ccxp.nthu.edu.tw',
+                'Host': 'oauth.ccxp.nthu.edu.tw',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            form: {
+                account, passwd,
+                oauth_captcha: captcha,
+                undefined: undefined,
+            },
+        };
+        rp(options).then((html) => {
+            console.log(html);
+        });
+    },
+
 
     /**
      * @param {string} code authorization code

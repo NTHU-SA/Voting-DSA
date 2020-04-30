@@ -18,7 +18,7 @@ router.post('/users/modifyUser', users.modifyUser);
 router.post('/users/removeUser', users.removeUser);
 
 // votes
-router.post('/votes/addVote', votes.addVote);
+router.post('/votes/addVote', authController.verifyServiceToken, votes.addVote);
 router.post('/votes/getVote', votes.getVote);
 router.post('/votes/getVotes', votes.getVotes);
 // Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);

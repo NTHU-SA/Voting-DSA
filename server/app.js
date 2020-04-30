@@ -1,3 +1,4 @@
+require('dotenv').config({path: '../.env'});
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config.js');
@@ -13,3 +14,5 @@ require('./database/database.js');
 
 app.listen(config.serverPort,
     () => console.log(`Server is listening on port ${config.serverPort}.`));
+
+console.log(require('./libs/ccxpAuth.js').obtainServiceToken('107034549'));

@@ -5,7 +5,7 @@ const sequelize = new Sequelize(
     config.dbName, config.dbUser, config.dbPassword, {
         host: config.dbHost,
         dialect: 'mariadb',
-    }
+    },
 );
 
 // test the connection

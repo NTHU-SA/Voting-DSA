@@ -5,5 +5,6 @@ module.exports = {
     dbName: process.env.DATABASE_NAME || 'voting',
     dbUser: process.env.DB_USER || 'nthu',
     dbPassword: process.env.DB_PASSWORD || 'nthuvoting',
+    tokenSecret: process.env.TOKEN_SECRET || 'mysecret',
     serverPort: 3000,
 };

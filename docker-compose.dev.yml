@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mongo:
+    env_file:
+      - ./.env.dev
+    image: mongo:4.2
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - /data/db
+    ports:
+      - 27017:27017
+    restart: on-failure
+    networks:
+      - internal
+    command: mongod
+
+networks:
+  internal:
+    driver: bridge
+

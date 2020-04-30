@@ -9,29 +9,30 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./js/voting.js"></script>
+    <script src="./js/signIn.js"></script>
     <title>Voting</title>
 </head>
 
 <body>
-    <script>
-        location.href = 'http://localhost:3000/voting.html';
-    </script>
-    <div class="login-dark" style="display: none">
+    <div class="login-dark" style="height: 100vh">
         <div>
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration">
                 <i class="icon ion-ios-locked-outline"></i>
             </div>
             <div class="form-group">
-                <input id="account-input" class="form-control" type="text" name="email" placeholder="Email" />
+                <input id="account-input" class="form-control" type="text" name="email" placeholder="校務資訊系統學號" />
             </div>
             <div class="form-group">
                 <input id="password-input" class="form-control" type="password" name="password"
-                    placeholder="Password" />
+                    placeholder="校務資訊系統密碼" />
             </div>
             <div class="form-group">
-                <input id="captcha-input" class="form-control" type="text" name="captcha" placeholder="Captcha" />
+                <input id="captcha-input" class="form-control" type="text" name="captcha" placeholder="驗證碼" />
+            </div>
+            <div id="form-prompt" style="text-align: center;"><p> * 資訊輸入錯誤，請再試一次</p></div>
+            <div style="text-align: center;">
+                <img src="/auth/ccxp/captcha" alt="">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block"

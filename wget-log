@@ -1,0 +1,6 @@
+--2020-04-30 22:27:10--  https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0dcc6773-f8fd-4978-81b2-77b0ab5b2ca0/Options.postman_collection.json?X-Amz-Algorithm=AWS4-HMAC-SHA256
+Resolving s3.us-west-2.amazonaws.com (s3.us-west-2.amazonaws.com)... 52.218.241.160
+Connecting to s3.us-west-2.amazonaws.com (s3.us-west-2.amazonaws.com)|52.218.241.160|:443... connected.
+HTTP request sent, awaiting response... 400 Bad Request
+2020-04-30 22:27:11 ERROR 400: Bad Request.
+

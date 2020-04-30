@@ -29,7 +29,7 @@ module.exports = {
             res.cookie('service_token', serviceToken);
             res.redirect(`/`);
         } catch (e) {
-            res.status(401).send({status: false, error: e.message});
+            res.status(401).send({ status: false, error: e.message });
         }
     },
 
@@ -85,3 +85,4 @@ module.exports = {
         next();
     },
 };
+

@@ -76,9 +76,9 @@ async function addAct() {
         await axios.post('/activities/addActivity', {
             'name': '第28屆學生議會議員補選',
             'type': 'candidate',
-            'candidate': [
+            'candidate': {
                 vote_answer1, vote_answer2, vote_answer3,
-            ],
+            },
             'rule': 'choose_all',
         }, {});
     } catch (e) {

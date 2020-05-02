@@ -198,7 +198,7 @@ async function sendUserResult() {
         optionID = resOption.data.data[0]._id;
 
         await axios.post('/votes/addVote', {
-            'user_id': '5ea93fa8c7107e135ddb0a60',
+            'user_id': '',
             'activity_id': activityID,
             'rule': 'choose_one',
             'choose_one': optionID,
@@ -215,7 +215,7 @@ async function sendUserResult() {
 async function getUserResult() {
     try {
         const resUserID = await axios.post('/users/getUsers', {
-            'filter': { student_id: '107034549' },
+            'filter': { student_id: '' },
             'limit': 0, 'skip': 0, 'sort': 0,
         }, {});
         const userID = resUserID.data.data[0]._id;

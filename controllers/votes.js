@@ -11,8 +11,10 @@ module.exports = {
         try {
             const { user_id, activity_id, rule, choose_all = null, choose_one = null } = req.body;
             const allowRules = ['choose_all', 'choose_one'];
+            console.log('dladhsjkhdkjasdhkjkasd');
             if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
             if (!req.body[rule]) throw new Error(`Failed to add vote, params should carry key: ${rule}`);
+
 
             // TODO: Validate choose_all (remark)
 
@@ -30,7 +32,6 @@ module.exports = {
                 default:
                     break;
             };
-
             const activity = await Activities.findById(activity_id).lean();
             const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();
             const user = await Users.findById(user_id).lean();

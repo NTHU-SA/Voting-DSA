@@ -1,19 +1,18 @@
 document.cookie = 'service_token=';
-
-let voteOpt = null;
-let imgDisappear = null;
+let voteOpt1 = null; let voteOpt2 = null; let voteOpt3 = null;
+const imgDisappear = null;
 
 function voteOneClick(Opt) {
-    voteOpt = Opt;
     if (Opt == 1) {
+        voteOpt1 = '我要投給他';
         $('#member-one-vote-yes').css('max-width', '50%');
         $('#member-one-vote-yes').css('opacity', '100');
         $('#oneYescancelNot').css('display', 'none');
         $('#oneYescancel').css('display', 'block');
         $('#member-one-2').css('display', 'none');
         $('#member-one-3').css('display', 'none');
-
     } else if (Opt == 2) {
+        voteOpt1 = '我不投給他';
         $('#member-one-vote-no').css('max-width', '50%');
         $('#member-one-vote-no').css('opacity', '100');
         $('#oneNocancelNot').css('display', 'none');
@@ -21,6 +20,7 @@ function voteOneClick(Opt) {
         $('#member-one-1').css('display', 'none');
         $('#member-one-3').css('display', 'none');
     } else if (Opt == 3) {
+        voteOpt1 = Opt;
         $('#member-one-vote-withoutOpinion').css('max-width', '50%');
         $('#member-one-vote-withoutOpinion').css('opacity', '100');
         $('#oneWOcancelNot').css('display', 'none');
@@ -31,7 +31,6 @@ function voteOneClick(Opt) {
 }
 
 function imgOneClick(Opt) {
-    imgDisappear = Opt;
     if (Opt == 1) {
         $('#member-one-vote-yes').css('max-width', '0%');
         $('#member-one-vote-yes').css('opacity', '0');
@@ -54,19 +53,20 @@ function imgOneClick(Opt) {
         $('#member-one-1').css('display', 'block');
         $('#member-one-2').css('display', 'block');
     }
+    return Opt;
 }
 
 function voteTwoClick(Opt) {
-    voteOpt = Opt;
     if (Opt == 1) {
+        voteOpt2 = '我要投給他';
         $('#member-two-vote-yes').css('max-width', '50%');
         $('#member-two-vote-yes').css('opacity', '100');
         $('#twoYescancelNot').css('display', 'none');
         $('#twoYescancel').css('display', 'block');
         $('#member-two-2').css('display', 'none');
         $('#member-two-3').css('display', 'none');
-
     } else if (Opt == 2) {
+        voteOpt2 = '我不投給他';
         $('#member-two-vote-no').css('max-width', '50%');
         $('#member-two-vote-no').css('opacity', '100');
         $('#twoNocancelNot').css('display', 'none');
@@ -74,6 +74,7 @@ function voteTwoClick(Opt) {
         $('#member-two-1').css('display', 'none');
         $('#member-two-3').css('display', 'none');
     } else if (Opt == 3) {
+        voteOpt2 = Opt;
         $('#member-two-vote-withoutOpinion').css('max-width', '50%');
         $('#member-two-vote-withoutOpinion').css('opacity', '100');
         $('#twoWOcancelNot').css('display', 'none');
@@ -81,10 +82,10 @@ function voteTwoClick(Opt) {
         $('#member-two-1').css('display', 'none');
         $('#member-two-2').css('display', 'none');
     }
+    return Opt;
 }
 
 function imgTwoClick(Opt) {
-    imgDisappear = Opt;
     if (Opt == 1) {
         $('#member-two-vote-yes').css('max-width', '0%');
         $('#member-two-vote-yes').css('opacity', '0');
@@ -107,19 +108,20 @@ function imgTwoClick(Opt) {
         $('#member-two-1').css('display', 'block');
         $('#member-two-2').css('display', 'block');
     }
+    return Opt;
 }
 
 function voteThreeClick(Opt) {
-    voteOpt = Opt;
     if (Opt == 1) {
+        voteOpt3 = '我要投給他';
         $('#member-three-vote-yes').css('max-width', '50%');
         $('#member-three-vote-yes').css('opacity', '100');
         $('#threeYescancelNot').css('display', 'none');
         $('#threeYescancel').css('display', 'block');
         $('#member-three-2').css('display', 'none');
         $('#member-three-3').css('display', 'none');
-
     } else if (Opt == 2) {
+        voteOpt3 = '我不投給他';
         $('#member-three-vote-no').css('max-width', '50%');
         $('#member-three-vote-no').css('opacity', '100');
         $('#threeNocancelNot').css('display', 'none');
@@ -127,6 +129,7 @@ function voteThreeClick(Opt) {
         $('#member-three-1').css('display', 'none');
         $('#member-three-3').css('display', 'none');
     } else if (Opt == 3) {
+        voteOpt3 = '我沒有意見';
         $('#member-three-vote-withoutOpinion').css('max-width', '50%');
         $('#member-three-vote-withoutOpinion').css('opacity', '100');
         $('#threeWOcancelNot').css('display', 'none');
@@ -137,7 +140,6 @@ function voteThreeClick(Opt) {
 }
 
 function imgThreeClick(Opt) {
-    imgDisappear = Opt;
     if (Opt == 1) {
         $('#member-three-vote-yes').css('max-width', '0%');
         $('#member-three-vote-yes').css('opacity', '0');
@@ -164,15 +166,21 @@ function imgThreeClick(Opt) {
 
 async function checkVote() {
     try {
+        $('.modal-title').html('投票結果');
+        $('.modalCheck').html('您確定要將投票結果送出？');
         const resUserVoteRecord = await getUserResult();
-        console.log(resUserVoteRecord);
-        if (resUserVoteRecord) {
-            //TODO: interface at front-end
-            console.log('you have already voted');
+        if (String(resUserVoteRecord).length === 24 && resUserVoteRecord !== null) {
+            $('.modalInfo').html('您已經投過票了哦！');
+        } else if (voteOpt1 === null || voteOpt2 === null || voteOpt3 === null) {
+            $('.modalInfo').html('尚未選擇所有候選人哦！您將重新返回投票頁面進行投票');
+            $('.btn-modalInfoSecondary').css('display', 'none');
         } else {
-            //TODO: interface at front-end
-            console.log('plz vote');
-            await sendUserResult();
+            $('.modalInfo').html('您的所選擇的候選人依序爲<br>' +
+                '一號候選人：' + voteOpt1 + '<br>' +
+                '二號候選人：' + voteOpt2 + '<br>' +
+                '三號候選人：' + voteOpt3 + '<br>');
+            $('.btn-modalInfoPrimary').css('display', 'inline');
+            $('.btn-modalInfoSecondary').css('display', 'inline');
         }
     } catch (e) {
         console.log(e.response.data);
@@ -180,8 +188,7 @@ async function checkVote() {
 }
 
 async function sendUserResult() {
-    // console.log(document.cookie);
-    //TODO:403 error, check it later
+    console.log(document.cookie);
     try {
         const resActivity = await axios.post('/activities/getActivities', {
             'filter': { name: '第28屆學生議會議員補選' },
@@ -196,12 +203,14 @@ async function sendUserResult() {
             'limit': 0, 'skip': 0, 'sort': 0,
         }, {});
         optionID = resOption.data.data[0]._id;
-
         await axios.post('/votes/addVote', {
+            //TODO:token API updated
+            //TODO:wait for remark path in DB complete
             'user_id': '',
             'activity_id': activityID,
-            'rule': 'choose_one',
-            'choose_one': optionID,
+            'rule': 'choose_all',
+            'choose_all': [
+                { 'option_id': optionID }],
         }, {
             headers: {
                 Authorization: `Bearer ${document.cookie.split('service_token=')[1]}`,
@@ -213,16 +222,21 @@ async function sendUserResult() {
 }
 
 async function getUserResult() {
-    try {
-        const resUserID = await axios.post('/users/getUsers', {
-            'filter': { student_id: '' },
-            'limit': 0, 'skip': 0, 'sort': 0,
-        }, {});
-        const userID = resUserID.data.data[0]._id;
-        const resVote = await axios.post('/votes/getVote', { '_id': userID }, {});
-        const UserVoteRecord = resVote.config.data;
+    const resActivity = await axios.post('/activities/getActivities', {
+        'filter': { name: '第28屆學生議會議員補選' },
+        'limit': 0, 'skip': 0, 'sort': 0,
+    }, {});
+    activityID = resActivity.data.data[0]._id;
+    const resVote = await axios.post('/votes/getVotes', {
+        //TODO:token API updated
+        'filter': { activity_id: activityID, token: '' },
+        'limit': 0, 'skip': 0, 'sort': 0,
+    }, {});
+    if (Object.values(resVote.data)[1].length === 0) {
+        return 0;
+    } else {
+        const UserVoteRecord = (Object.values(resVote.data)[1])[0]._id;
+        console.log(String(UserVoteRecord.length));
         return UserVoteRecord;
-    } catch (e) {
-        console.log(e.response.data);
     }
 };

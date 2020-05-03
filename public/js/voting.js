@@ -1,4 +1,3 @@
-document.cookie = 'service_token=';
 let voteOpt1 = null; let voteOpt2 = null; let voteOpt3 = null;
 const imgDisappear = null;
 
@@ -188,7 +187,6 @@ async function checkVote() {
 }
 
 async function sendUserResult() {
-    console.log(document.cookie);
     try {
         const resActivity = await axios.post('/activities/getActivities', {
             'filter': { name: '第28屆學生議會議員補選' },
@@ -203,10 +201,8 @@ async function sendUserResult() {
             'limit': 0, 'skip': 0, 'sort': 0,
         }, {});
         optionID = resOption.data.data[0]._id;
+        //TODO: addVote should include the "remark" path in DB
         await axios.post('/votes/addVote', {
-            //TODO:token API updated
-            //TODO:wait for remark path in DB complete
-            'user_id': '',
             'activity_id': activityID,
             'rule': 'choose_all',
             'choose_all': [
@@ -228,7 +224,7 @@ async function getUserResult() {
     }, {});
     activityID = resActivity.data.data[0]._id;
     const resVote = await axios.post('/votes/getVotes', {
-        //TODO:token API updated
+        // TODO:token to get the votes
         'filter': { activity_id: activityID, token: '' },
         'limit': 0, 'skip': 0, 'sort': 0,
     }, {});
@@ -236,7 +232,6 @@ async function getUserResult() {
         return 0;
     } else {
         const UserVoteRecord = (Object.values(resVote.data)[1])[0]._id;
-        console.log(String(UserVoteRecord.length));
         return UserVoteRecord;
     }
 };

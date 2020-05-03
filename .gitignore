@@ -6,3 +6,4 @@ db_files/
 *.swp
 .DS_Store
 uploads/
+wget*

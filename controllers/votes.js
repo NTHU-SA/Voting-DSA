@@ -9,7 +9,10 @@ const {v4: uuid} = require('uuid');
 module.exports = {
     async addVote(req, res) {
         try {
-            const {user_id, activity_id, rule, choose_all = null, choose_one = null} = req.body;
+            const studentID = req.user;
+            const userID = await Users.find({'student_id': studentID}, {student_id: 0, created_at: 0, updated_at: 0, __v: 0}).lean();
+            const user_id = Object.values(userID[0])[0];
+            const {activity_id, rule, choose_all = null, choose_one = null} = req.body;
             const allowRules = ['choose_all', 'choose_one'];
             if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
             if (!req.body[rule]) throw new Error(`Failed to add vote, params should carry key: ${rule}`);

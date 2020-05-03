@@ -4,14 +4,13 @@ const Votes = Mongoose.model('votes');
 const Options = Mongoose.model('options');
 const Activities = Mongoose.model('activities');
 const Users = Mongoose.model('users');
-const { v4: uuid } = require('uuid');
+const {v4: uuid} = require('uuid');
 
 module.exports = {
     async addVote(req, res) {
         try {
-            const { user_id, activity_id, rule, choose_all = null, choose_one = null } = req.body;
+            const {user_id, activity_id, rule, choose_all = null, choose_one = null} = req.body;
             const allowRules = ['choose_all', 'choose_one'];
-            console.log('dladhsjkhdkjasdhkjkasd');
             if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
             if (!req.body[rule]) throw new Error(`Failed to add vote, params should carry key: ${rule}`);
 
@@ -21,19 +20,20 @@ module.exports = {
             // Get all options
             const optionArr = [];
             switch (rule) {
-                case 'choose_all':
-                    for (const choice of choose_all) {
-                        optionArr.push(choice.option_id);
-                    }
-                    break;
-                case 'choose_one':
-                    optionArr.push(choose_one);
-                    break;
-                default:
-                    break;
+            case 'choose_all':
+                for (const choice of choose_all) {
+                    optionArr.push(choice.option_id);
+                }
+                break;
+            case 'choose_one':
+                optionArr.push(choose_one);
+                break;
+            default:
+                break;
             };
+
             const activity = await Activities.findById(activity_id).lean();
-            const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();
+            const options = await Options.find({_id: {$in: optionArr}, activity_id}).lean();
             const user = await Users.findById(user_id).lean();
             if (!activity) throw new Error('Failed to add vote, activity_id not found');
             if (options.length !== optionArr.length) throw new Error('Failed to add vote, given options are not valid');
@@ -53,41 +53,41 @@ module.exports = {
                 [rule]: req.body[rule],
             };
             const result = await Votes.create(params);
-            await Activities.updateOne({ _id: activity_id }, {
+            await Activities.updateOne({_id: activity_id}, {
                 $addToSet: {
                     users: user_id,
                 },
             }).lean();
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).json({error});
         }
     },
 
     async getVote(req, res) {
         try {
-            const { _id } = req.body;
+            const {_id} = req.body;
             const result = await Votes.findById(_id).lean();
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).json({error});
         }
     },
 
     async getVotes(req, res) {
         try {
-            const { filter, limit, skip, sort } = req.body;
+            const {filter, limit, skip, sort} = req.body;
             const total = await Votes.countDocuments(filter).lean();
-            const data = await Votes.find(filter, null, { limit, skip, sort }).lean();
-            res.json({ total, data });
+            const data = await Votes.find(filter, null, {limit, skip, sort}).lean();
+            res.json({total, data});
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).json({error});
         }
     },
 
     async getVoteResult(req, res) {
         try {
-            const { activity_id } = req.body;
+            const {activity_id} = req.body;
             const result = await Votes.aggregate([
                 {
                     $match: {
@@ -116,7 +116,7 @@ module.exports = {
             */
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).json({error});
         }
     },
 
@@ -135,11 +135,11 @@ module.exports = {
 
     async removeVote(req, res) {
         try {
-            const { _id } = req.body;
-            const result = await Votes.deleteOne({ _id }).lean();
-            res.json(result.n > 0 ? { success: true } : {});
+            const {_id} = req.body;
+            const result = await Votes.deleteOne({_id}).lean();
+            res.json(result.n > 0 ? {success: true} : {});
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).json({error});
         }
     },
 };

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-document.cookie = 'service_token=';
->>>>>>> 2d759fd083eceec8035e5b0401ea6986259f5f82
 let voteOpt1 = null; let voteOpt2 = null; let voteOpt3 = null;
 const imgDisappear = null;
 
@@ -168,21 +164,20 @@ function imgThreeClick(Opt) {
 }
 
 async function checkVote() {
-<<<<<<< HEAD
     try {
         $('.modal-title').html('投票結果');
-        $('.modalCheck').html('您確定要將投票結果送出？');
+        $('.modalCheck').html('您確定要將投票結果送出嗎？');
         const resUserVoteRecord = await getUserResult();
         if (String(resUserVoteRecord).length === 24 && resUserVoteRecord !== null) {
             $('.modalInfo').html('您已經投過票了哦！');
         } else if (voteOpt1 === null || voteOpt2 === null || voteOpt3 === null) {
-            $('.modalInfo').html('尚未選擇所有候選人哦！您將重新返回投票頁面進行投票');
+            $('.modalInfo').html('尚未選擇所有候選人哦！請您重新返回投票頁面進行投票');
             $('.btn-modalInfoSecondary').css('display', 'none');
         } else {
             $('.modalInfo').html('您的所選擇的候選人依序爲<br>' +
                 '一號候選人：' + voteOpt1 + '<br>' +
                 '二號候選人：' + voteOpt2 + '<br>' +
-                '三號候選人：' + voteOpt3 + '<br>');
+                '三號候選人：' + voteOpt3);
             $('.btn-modalInfoPrimary').css('display', 'inline');
             $('.btn-modalInfoSecondary').css('display', 'inline');
         }
@@ -193,33 +188,6 @@ async function checkVote() {
 
 async function sendUserResult() {
     try {
-=======
-    try {
-        $('.modal-title').html('投票結果');
-        $('.modalCheck').html('您確定要將投票結果送出？');
-        const resUserVoteRecord = await getUserResult();
-        if (String(resUserVoteRecord).length === 24 && resUserVoteRecord !== null) {
-            $('.modalInfo').html('您已經投過票了哦！');
-        } else if (voteOpt1 === null || voteOpt2 === null || voteOpt3 === null) {
-            $('.modalInfo').html('尚未選擇所有候選人哦！您將重新返回投票頁面進行投票');
-            $('.btn-modalInfoSecondary').css('display', 'none');
-        } else {
-            $('.modalInfo').html('您的所選擇的候選人依序爲<br>' +
-                '一號候選人：' + voteOpt1 + '<br>' +
-                '二號候選人：' + voteOpt2 + '<br>' +
-                '三號候選人：' + voteOpt3 + '<br>');
-            $('.btn-modalInfoPrimary').css('display', 'inline');
-            $('.btn-modalInfoSecondary').css('display', 'inline');
-        }
-    } catch (e) {
-        console.log(e.response.data);
-    }
-}
-
-async function sendUserResult() {
-    console.log(document.cookie);
-    try {
->>>>>>> 2d759fd083eceec8035e5b0401ea6986259f5f82
         const resActivity = await axios.post('/activities/getActivities', {
             'filter': { name: '第28屆學生議會議員補選' },
             'limit': 0, 'skip': 0, 'sort': 0,
@@ -233,15 +201,8 @@ async function sendUserResult() {
             'limit': 0, 'skip': 0, 'sort': 0,
         }, {});
         optionID = resOption.data.data[0]._id;
-<<<<<<< HEAD
         //TODO: addVote should include the "remark" path in DB
         await axios.post('/votes/addVote', {
-=======
-        await axios.post('/votes/addVote', {
-            //TODO:token API updated
-            //TODO:wait for remark path in DB complete
-            'user_id': '',
->>>>>>> 2d759fd083eceec8035e5b0401ea6986259f5f82
             'activity_id': activityID,
             'rule': 'choose_all',
             'choose_all': [
@@ -263,11 +224,7 @@ async function getUserResult() {
     }, {});
     activityID = resActivity.data.data[0]._id;
     const resVote = await axios.post('/votes/getVotes', {
-<<<<<<< HEAD
         // TODO:token to get the votes
-=======
-        //TODO:token API updated
->>>>>>> 2d759fd083eceec8035e5b0401ea6986259f5f82
         'filter': { activity_id: activityID, token: '' },
         'limit': 0, 'skip': 0, 'sort': 0,
     }, {});
@@ -275,10 +232,6 @@ async function getUserResult() {
         return 0;
     } else {
         const UserVoteRecord = (Object.values(resVote.data)[1])[0]._id;
-<<<<<<< HEAD
-=======
-        console.log(String(UserVoteRecord.length));
->>>>>>> 2d759fd083eceec8035e5b0401ea6986259f5f82
         return UserVoteRecord;
     }
 };

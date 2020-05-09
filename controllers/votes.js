@@ -34,7 +34,6 @@ module.exports = {
                 default:
                     break;
             };
-            console.log(optionArr)
 
             const activity = await Activities.findById(activity_id).lean();
             const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();

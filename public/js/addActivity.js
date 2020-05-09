@@ -1,4 +1,3 @@
-
 const candidate1PersonalExperiences = [
     '1. 清華AI樂團 擊樂組',
     '2. 「音樂演奏與實習」課程助教',
@@ -48,7 +47,7 @@ const vote_answer1 = {
     'name': '劉彥均',
     'department': '人文社會學院',
     'college': '中國文學學系 21 級',
-    'avatar_url': 'dasjkh',
+    'avatar_url': 'http://test.jpeg',
     'personal_experiences': candidate1PersonalExperiences,
     'political_opinions': candidate1PoliticalOpinions,
 };
@@ -57,7 +56,7 @@ const vote_answer2 = {
     'name': '陳皆錫',
     'department': '人文社會學院',
     'college': '人文社會學院學士班 22 級',
-    'avatar_url': '',
+    'avatar_url': 'http://test.jpeg',
     'personal_experiences': candidate2PersonalExperiences,
     'political_opinions': candidate2PoliticalOpinions,
 };
@@ -66,7 +65,7 @@ const vote_answer3 = {
     'name': '葉信宏',
     'department': '電機資訊學院',
     'college': '電機工程學系 23 級',
-    'avatar_url': '',
+    'avatar_url': 'http://test.jpeg',
     'personal_experiences': candidate3PersonalExperiences,
     'political_opinions': candidate3PoliticalOpinions,
 };
@@ -93,11 +92,24 @@ async function addOption() {
         await axios.post('/options/addOption', {
             'activity_id': activityID,
             'type': 'candidate',
-            'candidate': {
-                'candidate1': vote_answer1, 'candidate2': vote_answer2, 'candidate3': vote_answer3,
-            },
+            'candidate': vote_answer1
+            ,
+        });
+        await axios.post('/options/addOption', {
+            'activity_id': activityID,
+            'type': 'candidate',
+            'candidate': vote_answer2
+            ,
+        });
+        await axios.post('/options/addOption', {
+            'activity_id': activityID,
+            'type': 'candidate',
+            'candidate': vote_answer3
+            ,
         });
     } catch (e) {
         console.log(e.response.data);
     }
 }
+
+

@@ -1,5 +1,5 @@
 let voteOpt1 = null; let voteOpt2 = null; let voteOpt3 = null;
-const imgDisappear = null;
+let remark1 = null; let remark2 = null; let remark3 = null;
 
 function voteOneClick(Opt) {
     if (Opt == 1) {
@@ -52,7 +52,6 @@ function imgOneClick(Opt) {
         $('#member-one-1').css('display', 'block');
         $('#member-one-2').css('display', 'block');
     }
-    return Opt;
 }
 
 function voteTwoClick(Opt) {
@@ -81,7 +80,6 @@ function voteTwoClick(Opt) {
         $('#member-two-1').css('display', 'none');
         $('#member-two-2').css('display', 'none');
     }
-    return Opt;
 }
 
 function imgTwoClick(Opt) {
@@ -107,7 +105,6 @@ function imgTwoClick(Opt) {
         $('#member-two-1').css('display', 'block');
         $('#member-two-2').css('display', 'block');
     }
-    return Opt;
 }
 
 function voteThreeClick(Opt) {
@@ -180,38 +177,10 @@ async function checkVote() {
                 '三號候選人：' + voteOpt3);
             $('.btn-modalInfoPrimary').css('display', 'inline');
             $('.btn-modalInfoSecondary').css('display', 'inline');
+            remark1 = `一號候選人：${voteOpt1}`;
+            remark2 = `二號候選人：${voteOpt2}`;
+            remark3 = `三號候選人：${voteOpt3}`;
         }
-    } catch (e) {
-        console.log(e.response.data);
-    }
-}
-
-async function sendUserResult() {
-    try {
-        const resActivity = await axios.post('/activities/getActivities', {
-            'filter': { name: '第28屆學生議會議員補選' },
-            'limit': 0, 'skip': 0, 'sort': 0,
-        }, {});
-        activityID = resActivity.data.data[0]._id;
-        const resOption = await axios.post('/options/getOptions', {
-            'filter': {
-                activity_id: activityID,
-                type: 'candidate',
-            },
-            'limit': 0, 'skip': 0, 'sort': 0,
-        }, {});
-        optionID = resOption.data.data[0]._id;
-        //TODO: addVote should include the "remark" path in DB
-        await axios.post('/votes/addVote', {
-            'activity_id': activityID,
-            'rule': 'choose_all',
-            'choose_all': [
-                { 'option_id': optionID }],
-        }, {
-            headers: {
-                Authorization: `Bearer ${document.cookie.split('service_token=')[1]}`,
-            },
-        });
     } catch (e) {
         console.log(e.response.data);
     }
@@ -235,3 +204,45 @@ async function getUserResult() {
         return UserVoteRecord;
     }
 };
+
+async function sendUserResult() {
+    try {
+        const resActivity = await axios.post('/activities/getActivities', {
+            'filter': { name: '第28屆學生議會議員補選' },
+            'limit': 0, 'skip': 0, 'sort': 0,
+        }, {});
+        activityID = resActivity.data.data[0]._id;
+        const resOption = await axios.post('/options/getOptions', {
+            'filter': {
+                activity_id: activityID,
+                type: 'candidate',
+            },
+            'limit': 0, 'skip': 0, 'sort': 0,
+        }, {});
+        optionID1 = resOption.data.data[0]._id;
+        optionID2 = resOption.data.data[1]._id;
+        optionID3 = resOption.data.data[2]._id;
+        await axios.post('/votes/addVote', {
+            'activity_id': activityID,
+            'rule': 'choose_all',
+            'choose_all': [
+                {
+                    'option_id': optionID1,
+                    'remark': remark1,
+                }, {
+                    'option_id': optionID2,
+                    'remark': remark2,
+                }, {
+                    'option_id': optionID3,
+                    'remark': remark3,
+                }],
+        }, {
+            headers: {
+                Authorization: `Bearer ${document.cookie.split('service_token=')[1]}`,
+            },
+        });
+    } catch (e) {
+        console.log(e.response.data);
+    }
+}
+

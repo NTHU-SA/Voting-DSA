@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./css/voting.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<title>
+		第 28 屆學生議會議員補選
+	</title>
+</head>
+
+<body>
+	<h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
+
+	<section class="member1">
+	</section>
+
+	<section class="member2">
+	</section>
+
+	<div class="btn-result">
+		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
+			onclick="checkVote()">
+			送出投票結果
+		</button>
+	</div>
+
+	<div class="modal fade" id="checkResult" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalCheck">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+						data-target="#modalInfo">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalInfo" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalInfo">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-modalInfoSecondary" data-dismiss="modal"
+						onclick="sendUserResult()">確定送出投票結果</button>
+					<button type="button" class="btn btn-primary btn-modalInfoPrimary" data-dismiss="modal">返回投票頁面</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/voting.js"> </script>
+	<script src="./js/addActivity.js"></script>
+	<script src="./js/candidates.js"></script>
+	<script src="./js/test.js"></script>
+</body>
+
+</html>

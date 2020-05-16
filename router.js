@@ -13,6 +13,7 @@ router.get('/auth/ccxp/captcha', authController.getccxpCaptchaImage);
 router.post('/auth/ccxp', authController.authccxp);
 
 // users
+router.post('/users/getUser', authController.verifyServiceToken, users.getUser);
 router.post('/users/addUser', users.addUser);
 router.post('/users/getUser', users.getUser);
 router.post('/users/getUsers', users.getUsers);

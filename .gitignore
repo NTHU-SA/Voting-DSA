@@ -5,3 +5,5 @@ db_files/
 **/node_modules
 *.swp
 .DS_Store
+uploads/
+wget*

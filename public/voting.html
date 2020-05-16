@@ -351,10 +351,60 @@
     </section>
 
     <div class="btn-result">
-        <button class="btn btn-primary" onclick="sendResult()">送出投票結果</button>
+        <button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
+            onclick="checkVote()">
+            送出投票結果
+        </button>
     </div>
 
-    <script src="./js/voting.js"></script>
+    <div class="modal fade" id="checkResult" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modalCheck">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                        data-target="#modalInfo">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalInfo" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modalInfo">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modalInfoSecondary" data-dismiss="modal"
+                        onclick="sendUserResult()">確定送出投票結果</button>
+                    <button type="button" class="btn btn-primary btn-modalInfoPrimary"
+                        data-dismiss="modal">返回投票頁面</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    //TODO: add thanks modal for students
+
+    <script src="./js/voting.js"> </script>
+    <script src="./js/addActivity.js"></script>
 </body>
 
 </html>

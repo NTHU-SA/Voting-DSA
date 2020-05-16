@@ -9,7 +9,8 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./js/signIn.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
     <title>Voting</title>
 </head>
 
@@ -30,7 +31,9 @@
             <div class="form-group">
                 <input id="captcha-input" class="form-control" type="text" name="captcha" placeholder="驗證碼" />
             </div>
-            <div id="form-prompt" style="text-align: center;"><p> * 資訊輸入錯誤，請再試一次</p></div>
+            <div id="form-prompt" style="text-align: center;">
+                <p> * 資訊輸入錯誤，請再試一次</p>
+            </div>
             <div style="text-align: center;">
                 <img src="/auth/ccxp/captcha" alt="">
             </div>
@@ -42,8 +45,7 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/signIn.js"></script>
 </body>
 
 </html>

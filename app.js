@@ -1,4 +1,4 @@
-require('dotenv').config({path: '.env.dev'});
+require('dotenv').config({path: '.env'});
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config.js');
@@ -9,13 +9,13 @@ const fileUpload = require('express-fileupload');
 const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME} = process.env;
 
 // const url =
-// `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}?authSource=admin&w=1`;
+//   `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}?authSource=admin&w=1`;
 const url =
-    `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}`;
+  `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}`;
 Mongoose.connect(url, {
-  keepAlive: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    keepAlive: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 Mongoose.set('debug', true);
 

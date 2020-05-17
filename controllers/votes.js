@@ -5,18 +5,28 @@ const Options = Mongoose.model('options');
 const Activities = Mongoose.model('activities');
 const Users = Mongoose.model('users');
 const { v4: uuid } = require('uuid');
+const fsPromise = require('fs').promises;
 
 module.exports = {
     async addVote(req, res) {
         try {
-            const { _id: user_id } = req.user;
+            const { _id: user_id, student_id } = req.user;
             const { activity_id, rule, choose_all = null, choose_one = null } = req.body;
             const allowRules = ['choose_all', 'choose_one'];
             if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
             if (!req.body[rule]) throw new Error(`Failed to add vote, params should carry key: ${rule}`);
 
+            // Validate choose_all remark
+            if (rule === 'choose_all') {
+                const valid = choose_all.every((choice) => ['我要投給他', '我不投給他', '我沒有意見'].includes(choice.remark));
+                if (!valid) throw new Error('Failed to add vote, choose_all remark is not valid');
+            }
 
-            // TODO: Validate choose_all (remark)
+            // Validate student_id
+            const csvData = await fsPromise.readFile('libs/全校在學學生資料.csv', 'utf8');
+            const availableStudentList = csvData.split(/\r?\n/).slice(1);
+            const availableStudentIds = availableStudentList.map((student) => student.split(',')[1]);
+            if (!availableStudentIds.includes(student_id)) throw new Error('Failed to add vote, student_id is not available');
 
             // Get all options
             const optionArr = [];
@@ -36,10 +46,11 @@ module.exports = {
             const activity = await Activities.findById(activity_id).lean();
             const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();
             const user = await Users.findById(user_id).lean();
+            const hasVote = await Activities.exists({ _id: activity_id, users: user_id });
             if (!activity) throw new Error('Failed to add vote, activity_id not found');
             if (options.length !== optionArr.length) throw new Error('Failed to add vote, given options are not valid');
             if (!user) throw new Error('Failed to add vote, user_id not found');
-            if (activity.users.findIndex((user) => user.toString() === user_id) !== -1) throw new Error('Failed to add vote, user already vote');
+            if (hasVote) throw new Error('Failed to add vote, user already vote');
             if (activity.rule !== rule) throw new Error('Failed to add vote, rule does not match activity\'s rule');
 
             const created_at = new Date();
@@ -61,7 +72,7 @@ module.exports = {
             }).lean();
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).send(error.message || error);
         }
     },
 
@@ -71,7 +82,7 @@ module.exports = {
             const result = await Votes.findById(_id).lean();
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).send(error.message || error);
         }
     },
 
@@ -82,7 +93,7 @@ module.exports = {
             const data = await Votes.find(filter, null, { limit, skip, sort }).lean();
             res.json({ total, data });
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).send(error.message || error);
         }
     },
 
@@ -117,7 +128,7 @@ module.exports = {
             */
             res.json(result);
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).send(error.message || error);
         }
     },
 
@@ -140,7 +151,7 @@ module.exports = {
             const result = await Votes.deleteOne({ _id }).lean();
             res.json(result.n > 0 ? { success: true } : {});
         } catch (error) {
-            res.status(404).json({ error });
+            res.status(404).send(error.message || error);
         }
     },
 };

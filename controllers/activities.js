@@ -12,7 +12,6 @@ module.exports = {
             const allowRules = ['choose_one', 'choose_all'];
             if (!allowTypes.includes(type)) throw new Error(`Cannot add activity, invalid type=${type}`);
             if (!allowRules.includes(rule)) throw new Error(`Cannot add activity, invalid rule=${rule}`);
-            console.log('Passed');
             const created_at = new Date();
             const updated_at = created_at;
             const result = await Activities.create({name, type, rule, created_at, updated_at});

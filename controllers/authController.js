@@ -14,15 +14,16 @@ module.exports = {
             const tokenInfo = await ccxpAuth.verifyCode(code);
             const userId = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
-            let user = await Users.exists({ student_id: userId });
+            let user = await Users.findOne({ student_id: userId }).lean();
             if (!user) {
-                user = await Users.create({ student_id: userId });
+                const newUser = await Users.create({ student_id: userId, created_at: Date.now(), updated_at: Date.now() });
+                user = newUser.toObject();
             }
             const serviceToken = ccxpAuth.obtainServiceToken(userId, user);
             res.cookie('service_token', serviceToken);
             res.send({status: true});
         } catch (e) {
-            res.status(401).send({status: false, error: 'Sign in to ccxp failed.'});
+            res.status(401).send({status: false, error: 'Sign in to ccxp failed'});
         }
     },
 
@@ -33,7 +34,8 @@ module.exports = {
                 tokenInfo.access_token)).Userid;
             let user = await Users.exists({ student_id: userId });
             if (!user) {
-                user = await Users.create({ student_id: userId });
+                const newUser = await Users.create({ student_id: userId, created_at: Date.now(), updated_at: Date.now() });
+                user = newUser.toObject();
             }
             const serviceToken = ccxpAuth.obtainServiceToken(account, user);
             res.cookie('service_token', serviceToken);

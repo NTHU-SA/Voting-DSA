@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env.dev' });
+require('dotenv').config({path: '.env.dev'});
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./config.js');
@@ -6,7 +6,7 @@ const app = express();
 const Mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 
-const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME } = process.env;
+const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME} = process.env;
 
 // const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}?authSource=admin&w=1`;
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}`;
@@ -22,8 +22,8 @@ require('./models/votes');
 require('./models/activities');
 require('./models/options');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ type: 'application/json' }));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({type: 'application/json'}));
 app.use(fileUpload());
 
 app.use(require('./router'));

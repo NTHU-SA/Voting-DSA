@@ -79,12 +79,8 @@ module.exports = {
         }
     },
 
-    /**
-     * @param {string} account student ccxp id
-     * @return {string} service_token
-     */
-    obtainServiceToken(account) {
-        const payload = {account};
+    obtainServiceToken(account, user) {
+        const payload = {account, ...user};
         const options = {
             'algorithm': 'HS256',
             'expiresIn': '1d',

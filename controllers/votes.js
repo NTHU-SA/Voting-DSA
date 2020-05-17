@@ -9,9 +9,7 @@ const { v4: uuid } = require('uuid');
 module.exports = {
     async addVote(req, res) {
         try {
-            const studentID = req.user;
-            const userID = await Users.find({ 'student_id': studentID }, { student_id: 0, created_at: 0, updated_at: 0, __v: 0 }).lean();
-            const user_id = Object.values(userID[0])[0];
+            const { _id: user_id } = req.user;
             const { activity_id, rule, choose_all = null, choose_one = null } = req.body;
             const allowRules = ['choose_all', 'choose_one'];
             if (!allowRules.includes(rule)) throw new Error(`Failed to add vote, rule=${rule} is not valid`);
@@ -23,16 +21,16 @@ module.exports = {
             // Get all options
             const optionArr = [];
             switch (rule) {
-                case 'choose_all':
-                    for (const choice of choose_all) {
-                        optionArr.push(choice.option_id);
-                    }
-                    break;
-                case 'choose_one':
-                    optionArr.push(choose_one);
-                    break;
-                default:
-                    break;
+            case 'choose_all':
+                for (const choice of choose_all) {
+                    optionArr.push(choice.option_id);
+                }
+                break;
+            case 'choose_one':
+                optionArr.push(choose_one);
+                break;
+            default:
+                break;
             };
 
             const activity = await Activities.findById(activity_id).lean();

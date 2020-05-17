@@ -4,6 +4,7 @@ const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
 const files = require('./controllers/files');
+const authentication = require('./middlewares/authentication');
 
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
@@ -20,7 +21,7 @@ router.post('/users/modifyUser', users.modifyUser);
 router.post('/users/removeUser', users.removeUser);
 
 // votes
-router.post('/votes/addVote', authController.verifyServiceToken, votes.addVote);
+router.post('/votes/addVote', authentication, votes.addVote);
 router.post('/votes/getVote', votes.getVote);
 router.post('/votes/getVotes', votes.getVotes);
 // Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);

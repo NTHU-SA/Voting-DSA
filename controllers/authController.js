@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const ccxpAuth = require('../libs/ccxpAuth.js');
 const config = require('../config.js');
+const Mongoose = require('mongoose');
+const Users = Mongoose.model('users');
 
 module.exports = {
 
@@ -12,7 +14,11 @@ module.exports = {
             const tokenInfo = await ccxpAuth.verifyCode(code);
             const userId = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
-            const serviceToken = ccxpAuth.obtainServiceToken(userId);
+            let user = await Users.exists({ student_id: userId });
+            if (!user) {
+                user = await Users.create({ student_id: userId });
+            }
+            const serviceToken = ccxpAuth.obtainServiceToken(userId, user);
             res.cookie('service_token', serviceToken);
             res.send({status: true});
         } catch (e) {
@@ -25,11 +31,15 @@ module.exports = {
             const tokenInfo = await ccxpAuth.verifyCode(req.query.code);
             const account = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
-            const serviceToken = ccxpAuth.obtainServiceToken(account);
+            let user = await Users.exists({ student_id: userId });
+            if (!user) {
+                user = await Users.create({ student_id: userId });
+            }
+            const serviceToken = ccxpAuth.obtainServiceToken(account, user);
             res.cookie('service_token', serviceToken);
             res.redirect(`/`);
         } catch (e) {
-            res.status(401).send({ status: false, error: e.message });
+            res.status(401).send({status: false, error: e.message});
         }
     },
 

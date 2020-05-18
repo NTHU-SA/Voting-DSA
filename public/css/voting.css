@@ -67,7 +67,7 @@
     text-align: center;
 }
 
-#oneYescancel, #oneNocancel, #oneWOcancel, #twoYescancel, #twoNocancel, #twoWOcancel, #threeYescancel, #threeNocancel, #threeWOcancel{
+.voteTransperencissAnimate > .voteUndo{
     display: none;
 }
 

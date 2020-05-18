@@ -2,409 +2,90 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/voting.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>
-        第 28 屆學生議會議員補選
-    </title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./css/voting.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<title>
+		第 28 屆學生議會議員補選
+	</title>
 </head>
 
 <body>
-    <h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
-    <section class="member">
-        <div class="container">
-            <div class="listBullteinBox">
-                <div class="card card-text-center">
-                    <div class="card-header cardTitle">人社院1號候選人</div>
-                    <div class="card-body">
-                        <div class="row memberInfo">
-                            <div class="col-sm-4">
-                                <div class="candidate-img">
-                                    <img src="./img/candidate-1.png" />
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-one-1">
-                                    <div class="col-md-10 voteTransperencissAnimate ">
-                                        <img id="member-one-vote-yes" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="oneYescancelNot" onclick="voteOneClick(1)">我要投給他</h5>
-                                        <h5 id="oneYescancel" onclick="imgOneClick(1)">取消投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-one-2">
-                                    <div class="col-md-10 voteTransperencissAnimate">
-                                        <img id="member-one-vote-no" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="oneNocancelNot" onclick="voteOneClick(2)">我不投給他</h5>
-                                        <h5 id="oneNocancel" onclick="imgOneClick(2)">取消不投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-one-3">
-                                    <div class="col-md-10 voteTransperencissAnimate">
-                                        <img id="member-one-vote-withoutOpinion" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="oneWOcancelNot" onclick="voteOneClick(3)">我沒有意見</h5>
-                                        <h5 id="oneWOcancel" onclick="imgOneClick(3)">取消我沒意見
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        劉彥均
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        人文社會學院
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        中國文學學系 21 級
-                                    </li>
-                                </ul>
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人經歷
-                                    </li>
-                                    <li class="list-group-item">
-                                        清華AI樂團 擊樂組
-                                    </li>
-                                    <li class="list-group-item">
-                                        「音樂演奏與實習」課程助教
-                                    </li>
-                                    <li class="list-group-item">
-                                        清華愛樂-聖誕音樂會籌辦人
-                                    </li>
-                                    <li class="list-group-item">
-                                        《繆斯的綺想》芭蕾 配樂團隊
-                                    </li>
-                                    <li class="list-group-item">
-                                        中國北京 璃墟劇場 訪問工作人員
-                                    </li>
-                                    <li class="list-group-item">
-                                        陸軍 302 旅 2 營 x 連
-                                        二等兵(兵籍資料保密)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人政見
-                                    </li>
-                                    <li class="list-group-item">
-                                        積極維護學生權益,包括成績申訴、選課爭議、轉系爭議等。
-                                    </li>
-                                    <li class="list-group-item">
-                                        協助改善校內交通問題,包括校園巴士、校區區間車的班次、安全,汽
-                                        機車入校、外送機車入校、汽機車位規劃等問題。
-                                    </li>
-                                    <li class="list-group-item">
-                                        與學生會持續共同關注有關學校建設、學生安全、學生權益的議題,透
-                                        明化運作與提升效率。
-                                    </li>
-                                    <li class="list-group-item">
-                                        持續推動學生活動的舉行,延續現有活動、開辦新活動。
-                                    </li>
-                                    <li class="list-group-item">
-                                        積極反應與協調系、學院內的問題,解決爭端,並協助系、學院師生維
-                                        持良好關係。
-                                    </li>
-                                    <li class="list-group-item">
-                                        持續推動校園內性別友善、性別平等。
-                                    </li>
-                                    <li class="list-group-item">
-                                        推動兩校區學生平等互助,開創合作雙贏的新局面。
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
 
-    <section class="member">
-        <div class="container">
-            <div class="listBullteinBox">
-                <div class="card card-text-center">
-                    <div class="card-header cardTitle">
-                        人社院2號候選人
-                    </div>
-                    <div class="card-body">
-                        <div class="row memberInfo">
-                            <div class="col-sm-4">
-                                <div class="candidate-img">
-                                    <img src="./img/candidate-2.png" />
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-two-1">
-                                    <div class="col-md-10 voteTransperencissAnimate">
-                                        <img id="member-two-vote-yes" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="twoYescancelNot" onclick="voteTwoClick(1)">我要投給他</h5>
-                                        <h5 id="twoYescancel" onclick="imgTwoClick(1)">取消投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-two-2">
-                                    <div class="col-md-10 voteTransperencissAnimate ">
-                                        <img id="member-two-vote-no" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="twoNocancelNot" onclick="voteTwoClick(2)">我不投給他</h5>
-                                        <h5 id="twoNocancel" onclick="imgTwoClick(2)">取消不投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-two-3">
-                                    <div class="col-md-10 voteTransperencissAnimate ">
-                                        <img id="member-two-vote-withoutOpinion" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="twoWOcancelNot" onclick="voteTwoClick(3)">我沒有意見</h5>
-                                        <h5 id="twoWOcancel" onclick="imgTwoClick(3)">取消我沒意見
-                                        </h5>
-                                    </div>
-                                </div>
+	<div class="test"></div>
 
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        陳皆錫
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        人文社會學院
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        人文社會學院學士班 22 級
-                                    </li>
-                                </ul>
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人經歷
-                                    </li>
-                                    <li class="list-group-item">
-                                        清大 T-bike 校園單車計畫(107-1 ~)
-                                    </li>
-                                    <li class="list-group-item">
-                                        載物產創-室友分配小組(107-1 ~)
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人政見
-                                    </li>
-                                    <li class="list-group-item">
-                                        以「清大 T-bike
-                                        校園單車計畫」的經歷,提出三項政見:
-                                    </li>
-                                    <ol>
-                                        <li class="list-group-item">
-                                            協助改善「認領腳踏車」的方式,以及增加相關可用資源。
-                                        </li>
-                                        <li class="list-group-item">
-                                            協助推動改善「校園廢棄腳踏車」的處理方式,發揮其潛在價值。
-                                        </li>
-                                        <li class="list-group-item">
-                                            推廣「清大校園愛心單車」。
-                                        </li>
-                                    </ol>
-                                    <li class="list-group-item">
-                                        以「載物書院-室友分配小組」的經歷,提出三項政見:
-                                    </li>
-                                    <ol>
-                                        <li class="list-group-item">
-                                            針對「宿舍室友」問題,建立住宿生與校方之間有效的溝通管道。
-                                        </li>
-                                        <li class="list-group-item">
-                                            維持上述溝通管道的運作順利。
-                                        </li>
-                                        <li class="list-group-item">
-                                            推廣「清大校園愛心單車」。
-                                        </li>
-                                    </ol>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<section class="member1">
+	</section>
 
-    <section class="member">
-        <div class="container">
-            <div class="listBullteinBox">
-                <div class="card card-text-center">
-                    <div class="card-header cardTitle">
-                        電資院1號候選人
-                    </div>
-                    <div class="card-body">
-                        <div class="row memberInfo">
-                            <div class="col-sm-4">
-                                <div class="candidate-img">
-                                    <img src="./img/candidate-3.png" />
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-three-1">
-                                    <div class="col-md-10 voteTransperencissAnimate">
-                                        <img id="member-three-vote-yes" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="threeYescancelNot" onclick="voteThreeClick(1)">我要投給他</h5>
-                                        <h5 id="threeYescancel" onclick="imgThreeClick(1)">取消投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-three-2">
-                                    <div class="col-md-10 voteTransperencissAnimate ">
-                                        <img id="member-three-vote-no" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="threeNocancelNot" onclick="voteThreeClick(2)">我不投給他</h5>
-                                        <h5 id="threeNocancel" onclick="imgThreeClick(2)">取消不投給他
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="col voteBlock mb-4" id="member-three-3">
-                                    <div class="col-md-10 voteTransperencissAnimate ">
-                                        <img id="member-three-vote-withoutOpinion" src="
-                                        https://i.imgur.com/ue4ktGb.png" class="img-responsive" />
-                                        <h5 id="threeWOcancelNot" onclick="voteThreeClick(3)">我沒有意見</h5>
-                                        <h5 id="threeWOcancel" onclick="imgThreeClick(3)">取消我沒意見
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        葉信宏
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        電機資訊學院
-                                    </li>
-                                    <li class="list-group-item candidateItemsTitle">
-                                        電機工程學系 23 級
-                                    </li>
-                                </ul>
-                                <ul class="list-group candidateItems mb-4">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人經歷
-                                    </li>
-                                    <li class="list-group-item">
-                                        國際交流社副社長、總務長
-                                    </li>
-                                    <li class="list-group-item">
-                                        國際視訊團隊之國際模擬法庭辯論賽、模聯以
-                                        及下議院辯論
-                                    </li>
-                                    <li class="list-group-item">
-                                        吉他社社員
-                                    </li>
-                                    <li class="list-group-item">
-                                        秩序糾察
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-4">
-                                <ul class="list-group candidateItems">
-                                    <li class="list-group-item active candidateItemsTitle">
-                                        個人政見
-                                    </li>
-                                    <li class="list-group-item">
-                                        校內 Youbike
-                                        收費調整:新竹內的共享單車收費方式即一經租借,開始計
-                                        費,若在校內完成租借與歸還的動作,意即不長占腳踏車的狀況下,還要
-                                        收費的話,我認為此舉將大大降低學生使用的意願。因此我認為,可以效
-                                        法中彰地區的前三十分鐘免費方案,免費時段可議。藉此,不但讓學生更
-                                        方便,也讓學生不會有虧錢之感。
-                                    </li>
-                                    <li class="list-group-item">
-                                        自用腳踏車架維護:停腳踏車時,尖峰時刻,如中午時段,當腳踏車一
-                                        多,空位常剩下毀損的腳踏車架,造成使用者無法順利停入,於是任意擺
-                                        放,阻礙交通。我認為應和學校溝通與叮嚀,定期維護並更換毀損的車
-                                        架,以方便使用者停放。
-                                    </li>
-                                    <li class="list-group-item">
-                                        學餐:就個人觀察,大家對學餐抱著嗤之以鼻之態,因此我認為應參考學
-                                        生意願,選擇最大公約數,讓攤販進入學校,如此一來,他們才有市場,
-                                        學生也吃得開心。
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<section class="member2">
+	</section>
 
-    <div class="btn-result">
-        <button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
-            onclick="checkVote()">
-            送出投票結果
-        </button>
-    </div>
+	<section class="member3">
+	</section>
 
-    <div class="modal fade" id="checkResult" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body modalCheck">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-                        data-target="#modalInfo">確定</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="btn-result">
+		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
+			onclick="checkVote()">
+			送出投票結果
+		</button>
+	</div>
 
-    <div class="modal fade" id="modalInfo" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body modalInfo">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-modalInfoSecondary" data-dismiss="modal"
-                        onclick="sendUserResult()">確定送出投票結果</button>
-                    <button type="button" class="btn btn-primary btn-modalInfoPrimary"
-                        data-dismiss="modal">返回投票頁面</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="modal fade" id="checkResult" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalCheck">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+						data-target="#modalInfo">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    //TODO: add thanks modal for students
+	<div class="modal fade" id="modalInfo" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalInfo">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-modalInfoSecondary" data-dismiss="modal"
+						onclick="sendUserResult()">確定送出投票結果</button>
+					<button type="button" class="btn btn-primary btn-modalInfoPrimary"
+						data-dismiss="modal">返回投票頁面</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <script src="./js/voting.js"> </script>
-    <script src="./js/addActivity.js"></script>
+	<script src="./js/voting.js"> </script>
+	<script src="./js/addActivity.js"></script>
+	<script src="./js/candidates.js"></script>
+	<script src="./js/template.js"></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@ module.exports = {
 
     async authccxp(req, res) {
         try {
-            const {account, passwd, captcha, ccxp_sessid} = req.body;
+            const { account, passwd, captcha, ccxp_sessid } = req.body;
             const code = await ccxpAuth.obtainCode(account, passwd, captcha, ccxp_sessid);
             const tokenInfo = await ccxpAuth.verifyCode(code);
             const userId = (await ccxpAuth.verifyAccessToken(
@@ -21,7 +21,7 @@ module.exports = {
             }
             const serviceToken = ccxpAuth.obtainServiceToken(userId, user);
             res.cookie('service_token', serviceToken);
-            res.send({status: true});
+            res.send({ status: true });
         } catch (e) {
             res.status(401).send({status: false, error: 'Sign in to ccxp failed'});
         }
@@ -46,18 +46,18 @@ module.exports = {
     },
 
     async getccxpCaptchaImage(req, res) {
-        const response = await axios.get('https://oauth.ccxp.nthu.edu.tw/v1/vendor/securimage/3.6.7/securimage_show.php?fnstr=654321', {responseType: 'arraybuffer'});
+        const response = await axios.get('https://oauth.ccxp.nthu.edu.tw/v1/vendor/securimage/3.6.7/securimage_show.php?fnstr=654321', { responseType: 'arraybuffer' });
         res.cookie('ccxp_sessid', response.headers['set-cookie'][0].split('PHPSESSID=')[1].split(';')[0]);
         res.contentType('image/png');
         res.end(Buffer.from(response.data, 'binary'), 'binary');
     },
 
     async verifyServiceToken(req, res, next) {
-        const auth = req.headers.authorization;
+        const auth = req.headers.authentication;
         if (!auth) {
             res.status(401).send({
                 status: false,
-                error: 'service_token should be given in Authorization header',
+                error: 'service_token should be given in Authentication header',
             });
             return;
         }

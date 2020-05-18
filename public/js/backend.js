@@ -7,12 +7,20 @@ function showActivity(resp) {
 }
 async function getActivity() {
     try {
-        await axios.post("/activities/getActivities", {}).then(showActivity);
+        await axios.post("/activities/getActivities", {}, config).then(showActivity);
     } catch (error) {
         alert("發生錯誤，請重新整理此頁面😥");
     }
 }
+
+var token = getCookie('service_token');
+config = {
+    headers: {
+        Authorization: `Bearer ${token}`,
+    }
+};
 getActivity();
+
 
 function operateFormatter(value, row, index) {
     return [
@@ -23,7 +31,7 @@ function operateFormatter(value, row, index) {
 }
 
 window.operateEvents = {
-    "click .edit": function(e, value, row, index) {
+    "click .edit": function (e, value, row, index) {
         console.log(row._id);
         // TODO: 建立編輯頁面
     },
@@ -40,19 +48,20 @@ function detailFormatter(index, row) {
         }),
         type: "POST",
         dataType: "json",
+        headers: { Authorization: `Bearer ${token}` },
         contentType: "application/json;charset=utf-8",
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert("發生錯誤，請重新整理此頁面😥");
             return false;
         },
     }).responseJSON;
-    const votes = getVotes();
     if (resp) {
         const candidates = resp.data;
+        var votes = getVotes(row._id, candidates);
         html.push('<b>候選人：</b><ol>')
         candidates.forEach((item) => {
             // TOOD: 投票結果排序
@@ -70,7 +79,7 @@ function detailFormatter(index, row) {
                 const vote = votes[id];
                 html.push('<ul>');
                 $.each(vote, (k, v) => {
-                    html.push(`${k}: ${v}`);
+                    html.push(`<li>${k}: ${v}</li>`);
                 });
                 html.push('</ul>');
             }
@@ -81,7 +90,11 @@ function detailFormatter(index, row) {
     }
 }
 
-function getVotes(activityId) {
+function getCookie(cname) {
+    return document.cookie.split('service_token=')[1];
+}
+
+function getVotes(activityId, candidates) {
     var resp = $.ajax({
         url: "/votes/getVotes",
         data: JSON.stringify({
@@ -92,11 +105,12 @@ function getVotes(activityId) {
         type: "POST",
         dataType: "json",
         contentType: "application/json;charset=utf-8",
+        headers: { 'Authorization': `Bearer ${token}`, },
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert("發生錯誤，請重新整理此頁面😥");
             return false;
         },
@@ -104,19 +118,19 @@ function getVotes(activityId) {
     if (resp) {
         const votes = resp.data;
         var statics = {};
+        candidates.forEach((item) => {
+            // 加入該候選人
+            statics[item._id] = {
+                '我要投給他': 0,
+                '我不投給他': 0,
+                '我沒有意見': 0,
+            }
+        });
         votes.forEach(vote => {
             (vote.choose_all).forEach(candidate => {
                 var remark = candidate.remark;
-                // 加入該候選人
-                if (statics[candidate.option_id] === undefined) {
-                    statics[candidate.option_id] = {};
-                } 
                 // 加入該投票選項
-                if (statics[candidate.option_id][remark] === undefined) {
-                    statics[candidate.option_id][remark] = 1;
-                } else {
-                    statics[candidate.option_id][remark] += 1;
-                }
+                statics[candidate.option_id][remark] += 1;
             })
         });
         return statics;

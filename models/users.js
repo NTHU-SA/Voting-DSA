@@ -6,6 +6,10 @@ const usersSchema = new Schema({
         type: String,
         required: true,
     },
+    remark: {
+        type: String,
+        required: false,
+    },
     created_at: {
         type: Date,
         required: true,

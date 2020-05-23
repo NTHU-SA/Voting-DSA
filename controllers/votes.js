@@ -95,6 +95,7 @@ module.exports = {
     async getVotes(req, res) {
         try {
             const { filter, limit, skip, sort } = req.body;
+            const { _id: user_id, student_id } = req.user;
             const total = await Votes.countDocuments(filter).lean();
             const data = await Votes.find(filter, null, { limit, skip, sort }).lean();
             res.json({ total, data });

@@ -43,6 +43,12 @@ const optionsSchema = new Schema({
     candidate: {
         type: candidateSchema,
     },
+    vice1: {
+        type: candidateSchema,
+    },
+    vice2: {
+        type: candidateSchema,
+    },
     created_at: {
         type: Date,
         required: true,

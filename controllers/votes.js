@@ -48,10 +48,15 @@ module.exports = {
             const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();
             const user = await Users.findById(user_id).lean();
             const hasVote = await Activities.exists({ _id: activity_id, users: user_id });
+            const now = new Date();
+            const isExpired = await Activities.exists({ _id: activity_id, open_to: {"$lt": now}});
+            const isNotStarted = await Activities.exists({ _id: activity_id, open_from: {"$gte": now}});
             if (!activity) throw new Error('Failed to add vote, activity_id not found');
             if (options.length !== optionArr.length) throw new Error('Failed to add vote, given options are not valid');
             if (!user) throw new Error('Failed to add vote, user_id not found');
             if (hasVote) throw new Error('Failed to add vote, user already vote');
+            if (isExpired) throw new Error('This activity has been exipred');
+            if (isNotStarted) throw new Error('This activity has not started');
             if (activity.rule !== rule) throw new Error('Failed to add vote, rule does not match activity\'s rule');
 
             const created_at = new Date();

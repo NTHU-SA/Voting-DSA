@@ -2,6 +2,8 @@ $(document).ready(() => {
     $('#chooseTypeModal').modal('show');
     $('h1').hide();
     $('.btn-result').hide();
+    getAvailableActivities();
+    test("test100");
     $('.btn-chooseType').click(() => {
         $('h1').show();
         $('.btn-result').show();
@@ -201,14 +203,15 @@ async function getUserResult() {
     }, {
         headers: {
             Authentication:
-            `Bearer ${document.cookie.split('service_token=')[1]} `,
+                `Bearer ${document.cookie.split('service_token=')[1]} `,
 
-        }});
+        }
+    });
     userID = mongoObj2ID(resUser);
     const resActivity = await axios.post(
         '/activities/getActivities', {
-            'filter': { name: '第28屆學生議會議員補選' },
-        },
+        'filter': { name: '第28屆學生議會議員補選' },
+    },
         {
             headers: {
                 Authentication:
@@ -218,10 +221,10 @@ async function getUserResult() {
     activityID = mongoObjOfObj2ID(resActivity);
     let resVote = await axios.post(
         '/activities/getActivities', {
-            'filter': {
-                _id: activityID, users: userID,
-            },
+        'filter': {
+            _id: activityID, users: userID,
         },
+    },
         {
             headers: {
                 Authentication:
@@ -237,37 +240,37 @@ async function sendUserResult() {
     try {
         const resActivity = await axios.post(
             '/activities/getActivities', {
-                'filter': { name: '第28屆學生議會議員補選' },
-            }, {});
+            'filter': { name: '第28屆學生議會議員補選' },
+        }, {});
         activityID = mongoObjOfObj2ID(resActivity);
         const resOption = await axios.post(
             '/options/getOptions', {
-                'filter': {
-                    activity_id: activityID,
-                    type: 'candidate',
-                },
-            });
+            'filter': {
+                activity_id: activityID,
+                type: 'candidate',
+            },
+        });
         if (chooseType.chooseAll === 1) {
             for (i = 0; i < optionIDs.length; i++) optionIDs[i] = resOption.data.data[i]._id;
             await axios.post(
                 '/votes/addVote', {
-                    'activity_id': activityID,
-                    'rule': 'choose_all',
-                    'choose_all': [
-                        {
-                            'option_id': optionIDs[0],
-                            'remark': remarks.remark1,
-                        },
-                        {
-                            'option_id': optionIDs[1],
-                            'remark': remarks.remark2,
-                        },
-                        {
-                            'option_id': optionIDs[2],
-                            'remark': remarks.remark3,
-                        },
-                    ],
-                },
+                'activity_id': activityID,
+                'rule': 'choose_all',
+                'choose_all': [
+                    {
+                        'option_id': optionIDs[0],
+                        'remark': remarks.remark1,
+                    },
+                    {
+                        'option_id': optionIDs[1],
+                        'remark': remarks.remark2,
+                    },
+                    {
+                        'option_id': optionIDs[2],
+                        'remark': remarks.remark3,
+                    },
+                ],
+            },
                 {
                     headers: {
                         Authentication:
@@ -277,15 +280,15 @@ async function sendUserResult() {
         } else if (chooseType.chooseAll === 0) {
             await axios.post(
                 '/votes/addVote', {
-                    'activity_id': activityID,
-                    'rule': 'choose_one',
-                    'choose_one': [
-                        {
-                            'option_id': mongoObjOfObj2ID(resOption),
-                            'remark': votes,
-                        },
-                    ],
-                },
+                'activity_id': activityID,
+                'rule': 'choose_one',
+                'choose_one': [
+                    {
+                        'option_id': mongoObjOfObj2ID(resOption),
+                        'remark': votes,
+                    },
+                ],
+            },
                 {
                     headers: {
                         Authentication:

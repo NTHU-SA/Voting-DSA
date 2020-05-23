@@ -13,27 +13,39 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<title>
-		第 28 屆學生議會議員補選
+		第 28 屆學生議會委員補選
 	</title>
 </head>
 
 <body>
 	<h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
 
-	<div class="test"></div>
-
-	<section class="member1">
-	</section>
-
-	<section class="member2">
-	</section>
-
-	<section class="member3">
-	</section>
+	<div class="modal fade" id="chooseTypeModal" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+						請選擇您要參與的投票活動
+					</h5>
+				</div>
+				<div class="modal-body">
+					<p>此次投票活動：第28屆學生議會委員補選</p>
+					<p>活動說明：</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-chooseType btn-chooseOne" value="chooseOne" data-dismiss="modal"
+						onclick="getCandidate(0)">學生議會議長補選</button>
+					<button type="button" class="btn btn-primary btn-chooseType btn-chooseAll" value="chooseAll" data-dismiss="modal"
+						onclick="getCandidates(1)">學生議會議長補選</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="btn-result">
 		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
-			onclick="checkVote()">
+			onclick="addImg('candidate-1.png')">
 			送出投票結果
 		</button>
 	</div>

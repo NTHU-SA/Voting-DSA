@@ -1,90 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./css/login.css" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-            />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"
-            />
-        <link
-            href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css"
-            rel="stylesheet"
-            />
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-            rel="stylesheet"
-            />
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            crossorigin="anonymous"
-            ></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"
-            ></script>
-        <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
-        <script src="./js/backend.js"></script>
-        <title>選舉活動列表</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <h1>選舉活動列表</h1>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <!-- TODO: 新增投票 -->
-                    <a class="btn btn-info pullright" href="addActivity.html">新增投票活動</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10">
-                    <table
-                        id="table"
-                        data-search="true"
-                        data-show-columns="true"
-                        data-show-columns-toggle-all="true"
-                        data-detail-view="true"
-                        data-detail-view-by-click="true"
-                        data-detail-formatter="detailFormatter"
-                        >
-                        <thead>
-                            <tr>
-                                <th data-field="name" data-sortable="true">活動名稱</th>
-                                <th data-field="type" data-visible="false" data-sortable="true">
-                                    類型
-                                </th>
-                                <th data-field="rule" data-visible="false" data-sortable="true">
-                                    選舉規則
-                                </th>
-                                <th data-field="created_at" data-sortable="true">建立日期</th>
-                                <th data-field="_id" data-visible="false">id</th>
-                                <th
-                                    data-field="operate"
-                                    data-formatter="operateFormatter"
-                                    data-events="operateEvents"
-                                    >
-                                    <!-- TODO: 編輯頁面 -->
-                                    編輯
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/login.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
+    <script src="./js/backend.js"></script>
+    <title>選舉活動列表</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>選舉活動列表</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <!-- TODO: 新增投票 -->
+                <a class="btn btn-info pullright" href="addActivity.html">新增投票活動</a>
             </div>
         </div>
-    </body>
-</html>
+        <div class="row">
+            <div class="col-md-10">
+                <table id="table" data-search="true" data-show-columns="true" data-show-columns-toggle-all="true"
+                    data-detail-view="true" data-detail-view-by-click="true" data-detail-formatter="detailFormatter">
+                    <thead>
+                        <tr>
+                            <th data-field="name" data-sortable="true">活動名稱</th>
+                            <th data-field="type" data-visible="false" data-sortable="true">
+                                類型
+                            </th>
+                            <th data-field="rule" data-visible="false" data-sortable="true">
+                                選舉規則
+                            </th>
+                            <th data-field="created_at" data-sortable="true">建立日期</th>
+                            <th data-field="_id" data-visible="false">id</th>
+                            <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">
+                                <!-- TODO: 編輯頁面 -->
+                                編輯
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
 
+</html>

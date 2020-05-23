@@ -11,7 +11,7 @@ async function getCandidates(opt) {
                 'type': 'candidate',
             }, {
                 headers: {
-                    Authentication:
+                    Authorization:
                     `Bearer ${document.cookie.split('service_token=')[1]} `,
                 },
             });
@@ -47,7 +47,7 @@ async function getCandidate(opt) {
                 'type': 'candidate',
             }, {
                 headers: {
-                    Authentication:
+                    Authorization:
                     `Bearer ${document.cookie.split('service_token=')[1]} `,
                 },
             });

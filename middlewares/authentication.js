@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 module.exports = async (req, res, next) => {
-    const auth = req.headers.authentication;
+    const auth = req.headers.authorization;
     if (auth && auth.startsWith('Bearer')) {
         const token = auth.slice(7);
         try {

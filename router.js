@@ -33,6 +33,7 @@ router.post('/votes/removeVote', authentication, adminAuthorization, votes.remov
 router.post('/activities/addActivity', authentication, adminAuthorization, activities.addActivity);
 router.post('/activities/getActivity', authentication, activities.getActivity);
 router.post('/activities/getActivities', authentication, activities.getActivities);
+router.post('/activities/getAvailableActivities', authentication, activities.getAvailableActivities);
 router.post('/activities/modifyActivity', authentication, adminAuthorization, activities.modifyActivity);
 router.post('/activities/removeActivity', authentication, adminAuthorization, activities.removeActivity);
 

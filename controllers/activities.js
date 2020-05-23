@@ -42,6 +42,21 @@ module.exports = {
         }
     },
 
+    async getAvailableActivities(req, res) {
+        try {
+            const {filter, limit, skip, sort} = req.body;
+            const { _id: user_id, student_id } = req.user;
+            const availableData = await Activities.find({users: {'$nin': user_id} }, null, {limit, skip, sort}).lean();
+            const unavailableData = await Activities.find({users: user_id}, null, {limit, skip, sort}).lean();
+            const result = {'available': [], 'unavailable': []};
+            availableData.forEach(activity => {result.available.push({_id: activity._id, name: activity.name});});
+            unavailableData.forEach(activity => {result.unavailable.push({_id: activity._id, name: activity.name});});
+            res.json(result);
+        } catch (error) {
+            res.status(404).json({error});
+        }
+    },
+
     async modifyActivity(req, res) {
         try {
             const {_id, ...params} = req.body;

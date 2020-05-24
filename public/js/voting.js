@@ -1,19 +1,25 @@
 $(document).ready(() => {
     $('#chooseTypeModal').modal('show');
-    $('h1').hide();
-    $('.btn-result').hide();
+    // $('h1').hide();
+    // $('.btn-result').hide();
     getAvailableActivities();
-    test("test100");
     $('.btn-chooseType').click(() => {
-        $('h1').show();
-        $('.btn-result').show();
+        // $('h1').show();
+        // $('.btn-result').show();
     });
 });
 
 let votes = {};
-const chooseType = { 'chooseAll': undefined };
-const { member1, member2, member3 } = votes;
-const remarks = { 'remark1': undefined, 'remark2': undefined, 'remark3': undefined };
+const chooseType = {
+    'chooseAll': undefined
+};
+const {
+    member1,
+    member2,
+    member3
+} = votes;
+var remarks = {};
+var voteName = "";
 const optionIDs = new Array(Object.keys(remarks).length);
 
 const mongoObjOfObj2ID = (i) => i.data.data[0]._id;
@@ -29,8 +35,13 @@ const chooseOneClick = (
     temp.forEach((element) => params.push(getIdAttr(element)));
 
     paramsList = {
-        'objYes': '', 'yes': '', 'yesUndo': '',
-        'bk1': '', 'memberbk1': '', 'memberbk2': '', 'memberbk3': '',
+        'objYes': '',
+        'yes': '',
+        'yesUndo': '',
+        'bk1': '',
+        'memberbk1': '',
+        'memberbk2': '',
+        'memberbk3': '',
     };
     for (i = 0; i < params.length + 1; i++) paramsList[Object.keys(paramsList)[i]] = params[i];
     memberOption = paramsList.bk1.split('bk1')[0];
@@ -84,10 +95,18 @@ const chooseAllClick = (
     temp.forEach((element) => params.push(getIdAttr(element)));
 
     paramsList = {
-        'objYes': '', 'yes': '', 'yesUndo': '',
-        'objNo': '', 'no': '', 'noUndo': '',
-        'objWhatever': '', 'whatever': '',
-        'whateverUndo': '', 'bk1': '', 'bk2': '', 'bk3': '',
+        'objYes': '',
+        'yes': '',
+        'yesUndo': '',
+        'objNo': '',
+        'no': '',
+        'noUndo': '',
+        'objWhatever': '',
+        'whatever': '',
+        'whateverUndo': '',
+        'bk1': '',
+        'bk2': '',
+        'bk3': '',
     };
     for (i = 0; i < params.length + 1; i++) paramsList[Object.keys(paramsList)[i]] = params[i];
 
@@ -151,13 +170,12 @@ async function checkVote() {
         $('.modalCheck').html('您確定要將投票結果送出嗎？');
         const resUserVoteRecord = await getUserResult();
         if (String(resUserVoteRecord).length === 24 && resUserVoteRecord !== undefined) {
-            console.log(Object.values(votes));
             $('.modalInfo').html('您已經投過票了哦！');
             $('.btn-modalInfoSecondary').css('display', 'none');
             return 0;
         }
         if (chooseType.chooseAll === 1) {
-            if (Object.keys(remarks).every(isUndefined) === true || (Object.keys(remarks).length > Object.keys(votes).length) !== 3) {
+            if (Object.keys(remarks).every(isUndefined) === true || (Object.keys(remarks).length > Object.keys(votes).length) !== false) {
                 $('.modalInfo')
                     .html('尚未選擇所有候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
@@ -180,7 +198,6 @@ async function checkVote() {
                     .html('尚未選擇候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
             } else if (Object.keys(votes).length === 1) {
-                console.log(votes);
                 votesTemplate = Object.values(votes);
                 const votesMarkup =
                     '<p> 您的所選擇的候選人爲： </p>' +
@@ -194,43 +211,40 @@ async function checkVote() {
             }
         }
     } catch (e) {
-        console.log(e.response.data);
+        console.log(e);
     }
 }
 
 async function getUserResult() {
-    const resUser = await axios.post('/users/getUser', {
-    }, {
+    const resUser = await axios.post('/users/getUser', {}, {
         headers: {
-            Authentication:
-                `Bearer ${document.cookie.split('service_token=')[1]} `,
+            Authorization: `Bearer ${jwtToken}`,
 
         }
     });
     userID = mongoObj2ID(resUser);
     const resActivity = await axios.post(
         '/activities/getActivities', {
-        'filter': { name: '第28屆學生議會議員補選' },
-    },
-        {
-            headers: {
-                Authentication:
-                    `Bearer ${document.cookie.split('service_token=')[1]} `,
-            },
-        });
+        'filter': {
+            name: voteName
+        },
+    }, {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`,
+        },
+    });
     activityID = mongoObjOfObj2ID(resActivity);
     let resVote = await axios.post(
         '/activities/getActivities', {
         'filter': {
-            _id: activityID, users: userID,
+            _id: activityID,
+            users: userID,
         },
-    },
-        {
-            headers: {
-                Authentication:
-                    `Bearer ${document.cookie.split('service_token=')[1]} `,
-            },
-        });
+    }, {
+        headers: {
+            Authorization: `Bearer ${jwtToken}`,
+        },
+    });
     if (resVote.data.data.length === 0) resVote = undefined;
     else resVote = mongoObjOfObj2ID(resVote);
     return resVote;
@@ -240,8 +254,14 @@ async function sendUserResult() {
     try {
         const resActivity = await axios.post(
             '/activities/getActivities', {
-            'filter': { name: '第28屆學生議會議員補選' },
-        }, {});
+            'filter': {
+                name: voteName
+            },
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        });
         activityID = mongoObjOfObj2ID(resActivity);
         const resOption = await axios.post(
             '/options/getOptions', {
@@ -249,54 +269,47 @@ async function sendUserResult() {
                 activity_id: activityID,
                 type: 'candidate',
             },
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
         });
         if (chooseType.chooseAll === 1) {
-            for (i = 0; i < optionIDs.length; i++) optionIDs[i] = resOption.data.data[i]._id;
-            await axios.post(
+            let voteContent = [];
+            for (i = 0; i < candidates.length; i++) {
+                voteContent.push({
+                    'option_id': candidates[i]._id,
+                    'remark': votes[`member${i+1}`],
+                });
+            }
+            resp = await axios.post(
                 '/votes/addVote', {
                 'activity_id': activityID,
                 'rule': 'choose_all',
-                'choose_all': [
-                    {
-                        'option_id': optionIDs[0],
-                        'remark': remarks.remark1,
-                    },
-                    {
-                        'option_id': optionIDs[1],
-                        'remark': remarks.remark2,
-                    },
-                    {
-                        'option_id': optionIDs[2],
-                        'remark': remarks.remark3,
-                    },
-                ],
-            },
-                {
-                    headers: {
-                        Authentication:
-                            `Bearer ${document.cookie.split('service_token=')[1]} `,
-                    },
-                });
+                'choose_all': voteContent,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+            $('.modalToken').html(`投票成功！<br>請保存好您的存根權杖，以供驗票使用：<br>${resp.data.token}`);
+            $('#modalToken').modal('show');
         } else if (chooseType.chooseAll === 0) {
             await axios.post(
                 '/votes/addVote', {
                 'activity_id': activityID,
                 'rule': 'choose_one',
-                'choose_one': [
-                    {
-                        'option_id': mongoObjOfObj2ID(resOption),
-                        'remark': votes,
-                    },
-                ],
-            },
-                {
-                    headers: {
-                        Authentication:
-                            `Bearer ${document.cookie.split('service_token=')[1]} `,
-                    },
-                });
+                'choose_one': [{
+                    'option_id': mongoObjOfObj2ID(resOption),
+                    'remark': votes,
+                },],
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         }
     } catch (e) {
-        console.log(e.response.data);
+        console.log(e);
     }
 }

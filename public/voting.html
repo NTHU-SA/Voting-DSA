@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
+	<h1 id="h1" style="text-align: center; margin-top: 30px;"></h1>
 
 	<div class="modal fade" id="chooseTypeModal" data-backdrop="static" tabindex="-1" role="dialog"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -34,10 +34,10 @@
 			</div>
 		</div>
 	</div>
-	<div id="test"></div>
+	<!-- <div id="test"></div> -->
 	<div class="btn-result">
 		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
-			onclick="addImg('candidate-1.png')">
+			onclick="checkVote();">
 			送出投票結果
 		</button>
 	</div>
@@ -86,9 +86,30 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalToken" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+						投票成功
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalToken">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-modalTokenSecondary" data-dismiss="modal" onClick="window.location.reload();">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/utils.js"></script>
 	<script src="./js/voting.js"> </script>
 	<script src="./js/addActivity.js"></script>
-	<script src="./js/candidates.js"></script>
 	<script src="./js/template.js"></script>
 </body>
 

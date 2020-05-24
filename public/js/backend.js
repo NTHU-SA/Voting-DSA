@@ -13,10 +13,9 @@ async function getActivity() {
     }
 }
 
-var token = getCookie('service_token');
 config = {
     headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwtToken}`,
     }
 };
 getActivity();
@@ -48,7 +47,7 @@ function detailFormatter(index, row) {
         }),
         type: "POST",
         dataType: "json",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${jwtToken}` },
         contentType: "application/json;charset=utf-8",
         async: false,
         success: function (resp) {
@@ -90,10 +89,6 @@ function detailFormatter(index, row) {
     }
 }
 
-function getCookie(cname) {
-    return document.cookie.split('service_token=')[1];
-}
-
 function getVotes(activityId, candidates) {
     var resp = $.ajax({
         url: "/votes/getVotes",
@@ -105,7 +100,7 @@ function getVotes(activityId, candidates) {
         type: "POST",
         dataType: "json",
         contentType: "application/json;charset=utf-8",
-        headers: { 'Authorization': `Bearer ${token}`, },
+        headers: { 'Authorization': `Bearer ${jwtToken}`, },
         async: false,
         success: function (resp) {
             return resp;

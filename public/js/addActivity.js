@@ -56,8 +56,7 @@ async function addImg(src) {
                 ],
             }, {
                 headers: {
-                    Authentication:
-                    `Bearer ${document.cookie.split('service_token=')[1]} `,
+                    Authorization: `Bearer ${jwtToken}`,
                 },
             }
         );

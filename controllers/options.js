@@ -49,9 +49,10 @@ module.exports = {
 
     async getOptions(req, res) {
         try {
-            const { filter, limit, skip, sort } = req.body;
+            const {filter, limit, skip, sort} = req.body;
+            console.log({filter, limit, skip, sort});
             const total = await Options.countDocuments(filter).lean();
-            const data = await Options.find(filter, null, { limit, skip, sort }).lean();
+            const data = await Options.find(filter, null, {limit, skip, sort}).lean();
             res.json({ total, data });
         } catch (error) {
             res.status(404).json({ error });

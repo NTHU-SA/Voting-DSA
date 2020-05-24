@@ -1,11 +1,7 @@
 $(document).ready(() => {
     $('#chooseTypeModal').modal('show');
-    // $('h1').hide();
-    // $('.btn-result').hide();
     getAvailableActivities();
     $('.btn-chooseType').click(() => {
-        // $('h1').show();
-        // $('.btn-result').show();
     });
 });
 

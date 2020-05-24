@@ -155,7 +155,7 @@ async function checkVote() {
             return 0;
         }
         if (chooseType.chooseAll === 1) {
-            if (Object.keys(remarks).every(isUndefined) === true || (Object.keys(remarks).length > Object.keys(votes).length) !== 3) {
+            if (Object.keys(remarks).every(isUndefined) === true || Object.keys(remarks).length > Object.keys(votes).length) {
                 $('.modalInfo')
                     .html('尚未選擇所有候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
@@ -178,7 +178,6 @@ async function checkVote() {
                     .html('尚未選擇候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
             } else if (Object.keys(votes).length === 1) {
-                console.log(votes);
                 votesTemplate = Object.values(votes);
                 const votesMarkup =
                     '<p> 您的所選擇的候選人爲： </p>' +

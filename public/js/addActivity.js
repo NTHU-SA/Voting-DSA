@@ -1,4 +1,4 @@
-const options = [];
+var options = [];
 async function addAct() {
     try {
         await axios.post(
@@ -56,8 +56,7 @@ async function addImg(src) {
                 ],
             }, {
                 headers: {
-                    Authentication:
-                    `Bearer ${document.cookie.split('service_token=')[1]} `,
+                    Authorization: `Bearer ${jwtToken}`,
                 },
             }
         );
@@ -67,7 +66,6 @@ async function addImg(src) {
 }
 
 function addPersonalExpField(order) {
-    console.log(order);
     optionsNode = document.getElementById(`option-${order}-exp`);
     options[order-1].personal_experiences += 1;
     newOrder = options[order-1].personal_experiences;
@@ -75,7 +73,7 @@ function addPersonalExpField(order) {
     html.push(`
         <label for='option-${order}-exp-${newOrder}'>經歷${newOrder}：</label>
         <input id='option-${order}-exp-${newOrder}' class="form-control" />
-    `);
+    `)
     optionsNode.innerHTML += html.join('');
 }
 
@@ -88,14 +86,14 @@ function addPoliticalField(order) {
     html.push(`
         <label for='option-${order}-political-${newOrder}'>政見${newOrder}：</label>
         <input id='option-${order}-political-${newOrder}' class="form-control" />
-    `);
+    `)
     optionsNode.innerHTML += html.join('');
 }
 
 function addOptionField() {
-    optionsNode = document.getElementById('options');
+    optionsNode = document.getElementById("options");
     order = options.length + 1;
-    html = [];
+    html = []
     html.push(`
         <br>
         <h4>候選人${order}：</h4>
@@ -117,9 +115,10 @@ function addOptionField() {
     html.push(`
         <div id='option-${order}-exp'></div>
         <div id='option-${order}-political'></div>
+        <br>
         <button class="btn btn-primary" onclick="addPersonalExpField(${order})">新增經歷</button>
         <button class="btn btn-primary" onclick="addPoliticalField(${order})">新增政見</button>
-    `);
-    options.push({personal_experiences: 0, political_options: 0});
+    `)
+    options.push({personal_experiences:0, political_options: 0});
     optionsNode.innerHTML += html.join('');
 };

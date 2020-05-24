@@ -20,6 +20,14 @@ const activitiesSchema = new Schema({
     options: {
         type: [Mongoose.Types.ObjectId],
     },
+    open_from: {
+        type: Date,
+        required: true,
+    },
+    open_to: {
+        type: Date,
+        required: true,
+    },
     created_at: {
         type: Date,
         required: true,

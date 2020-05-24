@@ -3,19 +3,19 @@ const arrNoItemiztion = (arr) => {
     return arr;
 };
 const candidateTempl = [];
-var candidates;
+let candidates;
 // for choose_all
 async function getCandidates(opt, name) {
     chooseType.chooseAll = 1;
     try {
         const resCandidate = await axios.post(
             '/options/getOptions', {
-            'filter': { 'activity_id': opt, }
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+                'filter': { 'activity_id': opt },
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         candidates = resCandidate.data.data;
         // construct remark
         for (let i = 0; i < candidates.length; i++) {
@@ -25,7 +25,7 @@ async function getCandidates(opt, name) {
         document.getElementById('h1').innerHTML = name;
         voteName = name;
         // construct candidates
-        for (let i = 0; i < Object.keys(remarks).length; i++) {
+        for (let i = 0; i < candidateTempl.data.data.length; i++) {
             candidateTempl.push(
                 [{
                     'member': 'member' + (i + 1),
@@ -55,12 +55,12 @@ async function getCandidate(opt) {
     try {
         const resCandidate = await axios.post(
             '/options/getOptions', {
-            'type': 'candidate',
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+                'type': 'candidate',
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         for (i = 0; i < Object.keys(remarks).length; i++) {
             candidateTempl.push(
                 [{
@@ -167,7 +167,7 @@ const candidateAppend = () => {
 };
 
 const candidatesAppend = () => {
-    for (idx = 0; idx < candidateTempl.length; idx++) {
+    for (let idx = 0; idx < candidateTempl.length; idx++) {
         imgIwantThis = 'https://i.imgur.com/ue4ktGb.png';
         members = candidateTempl[idx][0].member;
         cardTitles = candidateTempl[idx][0].cardTitle;
@@ -263,20 +263,20 @@ async function getAvailableActivities() {
     try {
         const resActivities = await axios.post(
             '/activities/getAvailableActivities', {}, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         Promise.resolve('Success').then(() => {
-            let node = document.getElementById('activityList');
-            resActivities.data.available.forEach(activity => {
+            const node = document.getElementById('activityList');
+            resActivities.data.available.forEach((activity) => {
                 node.innerHTML += `<button type="button" class="btn btn-link btn-chooseType btn-chooseOne" value="chooseOne" data-dismiss="modal"
             onclick="getCandidates('${activity._id}', '${activity.name}');">${activity.name}</button>`;
             });
-            resActivities.data.unavailable.forEach(activity => {
+            resActivities.data.unavailable.forEach((activity) => {
                 node.innerHTML += `<span class="d-inline-block" data-toggle="popover" data-content="尚未開始或已經結束"><button type="button" class="btn btn-link disabled">${activity.name}</button></span>`;
             });
-            $('.d-inline-block').popover(options)
+            $('.d-inline-block').popover(options);
         }, () => {
             console.log('Fail to call getAvailableActivities function');
         });

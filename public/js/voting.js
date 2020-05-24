@@ -7,15 +7,16 @@ $(document).ready(() => {
 
 let votes = {};
 const chooseType = {
-    'chooseAll': undefined;
+    'chooseAll': undefined,
 };
 const {
     member1,
     member2,
-    member3
+    member3,
 } = votes;
-var remarks = {};
-var voteName = "";
+
+const remarks = {};
+const voteName = '';
 const optionIDs = new Array(Object.keys(remarks).length);
 
 const mongoObjOfObj2ID = (i) => i.data.data[0]._id;
@@ -216,31 +217,31 @@ async function getUserResult() {
         headers: {
             Authorization: `Bearer ${jwtToken}`,
 
-        }
+        },
     });
     userID = mongoObj2ID(resUser);
     const resActivity = await axios.post(
         '/activities/getActivities', {
-        'filter': {
-            name: voteName
-        },
-    }, {
-        headers: {
-            Authorization: `Bearer ${jwtToken}`,
-        },
-    });
+            'filter': {
+                name: voteName,
+            },
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        });
     activityID = mongoObjOfObj2ID(resActivity);
     let resVote = await axios.post(
         '/activities/getActivities', {
-        'filter': {
-            _id: activityID,
-            users: userID,
-        },
-    }, {
-        headers: {
-            Authorization: `Bearer ${jwtToken}`,
-        },
-    });
+            'filter': {
+                _id: activityID,
+                users: userID,
+            },
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        });
     if (resVote.data.data.length === 0) resVote = undefined;
     else resVote = mongoObjOfObj2ID(resVote);
     return resVote;
@@ -250,28 +251,28 @@ async function sendUserResult() {
     try {
         const resActivity = await axios.post(
             '/activities/getActivities', {
-            'filter': {
-                name: voteName
-            },
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+                'filter': {
+                    name: voteName,
+                },
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         activityID = mongoObjOfObj2ID(resActivity);
         const resOption = await axios.post(
             '/options/getOptions', {
-            'filter': {
-                activity_id: activityID,
-                type: 'candidate',
-            },
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
+                'filter': {
+                    activity_id: activityID,
+                    type: 'candidate',
+                },
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
         if (chooseType.chooseAll === 1) {
-            let voteContent = [];
+            const voteContent = [];
             for (i = 0; i < candidates.length; i++) {
                 voteContent.push({
                     'option_id': candidates[i]._id,
@@ -280,30 +281,30 @@ async function sendUserResult() {
             }
             resp = await axios.post(
                 '/votes/addVote', {
-                'activity_id': activityID,
-                'rule': 'choose_all',
-                'choose_all': voteContent,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+                    'activity_id': activityID,
+                    'rule': 'choose_all',
+                    'choose_all': voteContent,
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                });
             $('.modalToken').html(`投票成功！<br>請保存好您的存根權杖，以供驗票使用：<br>${resp.data.token}`);
             $('#modalToken').modal('show');
         } else if (chooseType.chooseAll === 0) {
             await axios.post(
                 '/votes/addVote', {
-                'activity_id': activityID,
-                'rule': 'choose_one',
-                'choose_one': [{
-                    'option_id': mongoObjOfObj2ID(resOption),
-                    'remark': votes,
-                },],
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+                    'activity_id': activityID,
+                    'rule': 'choose_one',
+                    'choose_one': [{
+                        'option_id': mongoObjOfObj2ID(resOption),
+                        'remark': votes,
+                    }],
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                });
         }
     } catch (e) {
         console.log(e);

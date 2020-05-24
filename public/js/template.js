@@ -1,8 +1,9 @@
 const arrNoItemiztion = (arr) => {
-    for (i = 0; i < arr.length; i++) arr[i] = arr[i].split('. ')[1];
+    for (let i = 0; i < arr.length; i++) arr[i] = arr[i].split('. ')[1];
     return arr;
 };
 const candidateTempl = [];
+const getmongoObj = (i) => { i.data.data; };
 async function getCandidates(opt) {
     chooseType.chooseAll = opt;
     try {
@@ -15,7 +16,7 @@ async function getCandidates(opt) {
                     `Bearer ${document.cookie.split('service_token=')[1]} `,
                 },
             });
-        for (i=0; i<Object.keys(remarks).length; i++) {
+        for (let i=0; i<resCandidate.data.data.length; i++) {
             candidateTempl.push(
                 [{
                     'member': 'member' + (i+1),
@@ -51,7 +52,7 @@ async function getCandidate(opt) {
                     `Bearer ${document.cookie.split('service_token=')[1]} `,
                 },
             });
-        for (i=0; i<Object.keys(remarks).length; i++) {
+        for (let i=0; i<resCandidate.data.data.length; i++) {
             candidateTempl.push(
                 [{
                     'member': 'member' + (i+1),
@@ -76,7 +77,7 @@ async function getCandidate(opt) {
 }
 
 const candidateAppend = () => {
-    for (idx = 0; idx < candidateTempl.length; idx++) {
+    for (let idx = 0; idx < candidateTempl.length; idx++) {
         imgIwantThis = 'https://i.imgur.com/ue4ktGb.png';
         members = candidateTempl[idx][0].member;
         cardTitles = candidateTempl[idx][0].cardTitle;
@@ -167,7 +168,6 @@ const candidateAppend = () => {
         $.tmpl('candidatesTemplate', candidateTempl[idx]).appendTo('.' + members);
     };
 };
-
 
 const candidatesAppend = () => {
     for (idx = 0; idx < candidateTempl.length; idx++) {

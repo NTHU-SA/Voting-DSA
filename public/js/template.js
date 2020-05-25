@@ -52,6 +52,8 @@ async function getCandidates(opt, name) {
         });
     } catch (e) {
         console.log(e);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 }
 
@@ -88,6 +90,8 @@ async function getCandidate(opt) {
         });
     } catch (e) {
         console.log(e.response.data);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 }
 
@@ -361,5 +365,7 @@ async function getAvailableActivities() {
         });
     } catch (e) {
         console.log(e.response.data);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 }

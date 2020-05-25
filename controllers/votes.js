@@ -23,7 +23,7 @@ module.exports = {
             }
 
             // Validate student_id
-            const csvData = await fsPromise.readFile('libs/全校在學學生資料.csv', 'utf8');
+            const csvData = await fsPromise.readFile('/libs/全校在學學生資料.csv', 'utf8');
             const availableStudentList = csvData.split(/\r?\n/).slice(1);
             const availableStudentIds = availableStudentList.map((student) => student.split(',')[1]);
             if (!availableStudentIds.includes(student_id)) throw new Error('Failed to add vote, student_id is not available');
@@ -42,15 +42,14 @@ module.exports = {
             default:
                 break;
             };
-            console.log(optionArr)
 
             const activity = await Activities.findById(activity_id).lean();
             const options = await Options.find({ _id: { $in: optionArr }, activity_id }).lean();
             const user = await Users.findById(user_id).lean();
             const hasVote = await Activities.exists({ _id: activity_id, users: user_id });
             const now = new Date();
-            const isExpired = await Activities.exists({ _id: activity_id, open_to: {"$lt": now}});
-            const isNotStarted = await Activities.exists({ _id: activity_id, open_from: {"$gte": now}});
+            const isExpired = await Activities.exists({ _id: activity_id, open_to: {'$lt': now}});
+            const isNotStarted = await Activities.exists({ _id: activity_id, open_from: {'$gte': now}});
             if (!activity) throw new Error('Failed to add vote, activity_id not found');
             if (options.length !== optionArr.length) throw new Error('Failed to add vote, given options are not valid');
             if (!user) throw new Error('Failed to add vote, user_id not found');

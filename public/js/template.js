@@ -1,9 +1,8 @@
-const arrNoItemiztion = (arr) => {
-    for (let i = 0; i < arr.length; i++) arr[i] = arr[i].split('. ')[1];
-    return arr;
-};
 const candidateTempl = [];
+const vicePresidentsTempl = [];
+let VPperCandidate = 0; let countCandidate = 0;
 let candidates;
+let vicePresidents;
 // for choose_all
 async function getCandidates(opt, name) {
     chooseType.chooseAll = 1;
@@ -18,14 +17,12 @@ async function getCandidates(opt, name) {
             });
         candidates = resCandidate.data.data;
         // construct remark
-        for (let i = 0; i < candidates.length; i++) {
-            remarks[`remark${i + 1}`] = undefined;
-        }
+        for (let i = 0; i < candidates.length; i++) remarks[`remarkmember${i + 1}`] = undefined;
         // add h1
         document.getElementById('h1').innerHTML = name;
         voteName = name;
         // construct candidates
-        for (let i = 0; i < candidateTempl.data.data.length; i++) {
+        for (let i = 0; i < Object.keys(remarks).length; i++) {
             candidateTempl.push(
                 [{
                     'member': 'member' + (i + 1),
@@ -38,9 +35,18 @@ async function getCandidates(opt, name) {
                     'politicalOpinions': candidates[i].candidate.political_opinions,
                 }]
             );
+            if (voteName === '第29屆學生會正副會長') {
+                for (const [k, v] of Object.entries(candidates[i])) {
+                    if (k.split('')[0] === 'v') {
+                        vicePresidentsTempl.push([v]);
+                        VPperCandidate += 1;
+                    };
+                }
+            }
         }
+        VPperCandidate /= candidates.length;
         Promise.resolve('Success').then(() => {
-            candidatesAppend();
+            candidatesAppend(voteName);
         }, () => {
             console.log('Fail to call chooseAll function');
         });
@@ -87,7 +93,7 @@ async function getCandidate(opt) {
 
 // for choose_one
 const candidateAppend = () => {
-    for (let idx = 0; idx < candidateTempl.length; idx++) {
+    for (idx = 0; idx < candidateTempl.length; idx++) {
         imgIwantThis = 'https://i.imgur.com/ue4ktGb.png';
         members = candidateTempl[idx][0].member;
         cardTitles = candidateTempl[idx][0].cardTitle;
@@ -132,7 +138,7 @@ const candidateAppend = () => {
             </div>
             <div class="col-sm-4">
                <ul class="list-group candidateItems mb-4">
-                  <li class="list-group-item active candidateItemsTitle">${names}</li>
+                  <li class="list-group-item active candidateItemsTitle ">${names}</li>
                   <li class="list-group-item candidateItemsTitle">${departments}</li>
                   <li class="list-group-item candidateItemsTitle">${colleges}</li>
                </ul>
@@ -166,8 +172,8 @@ const candidateAppend = () => {
     };
 };
 
-const candidatesAppend = () => {
-    for (let idx = 0; idx < candidateTempl.length; idx++) {
+const candidatesAppend = (actName) => {
+    for (idx = 0; idx < candidateTempl.length; idx++) {
         imgIwantThis = 'https://i.imgur.com/ue4ktGb.png';
         members = candidateTempl[idx][0].member;
         cardTitles = candidateTempl[idx][0].cardTitle;
@@ -192,50 +198,54 @@ const candidatesAppend = () => {
         votebk2 = members + 'bk2';
         votebk3 = members + 'bk3';
 
-        $.tmpl('<section class=${members}></section>', '').insertBefore('.btn-result');
+        $.tmpl(`<section class=${members}></section>`, '').insertBefore('.btn-result');
         const candidatesMarkup = `
 <div class="container">
 <div class="listBullteinBox">
    <div class="card card-text-center">
       <div class="card-header cardTitle">${cardTitles}</div>
       <div class="card-body">
-         <div class="row memberInfo">
-            <div class="col-sm-4">
-               <div class="candidate-img"><img src="${imgs}"/></div>
-               <div class="col voteBlock mb-4" id="${votebk1}">
-                  <div class="col-md-10 voteTransperencissAnimate">
-                     <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
-                     <h5 id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">我要投給他</h5>
-                     <h5 class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消投給他 </h5>
+         <div class="row memberInfo memberInfo${idx}">
+            <div class="col-sm-8">
+            <div class="row VPContent${idx} ">
+               <div class="col-8 col-sm-6">
+                  <div class="candidate-img"><img src="${imgs}"/></div>
+                  <div class="col voteBlock mb-4" id="${votebk1}">
+                     <div class="col-md-10 voteTransperencissAnimate">
+                        <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
+                        <h5 id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我要投給他</h5>
+                        <h5 class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消投給他 </h5>
+                     </div>
                   </div>
+                  <div class="col voteBlock mb-4" id="${votebk2}">
+                     <div class="col-md-10 voteTransperencissAnimate">
+                        <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive" />
+                        <h5 id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我不投給他</h5>
+                        <h5 class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消不投給他 </h5>
+                     </div>
+                   </div>
+                   <div class="col voteBlock mb-4" id="${votebk3}">
+                      <div class="col-md-10 voteTransperencissAnimate">
+                         <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive" />
+                         <h5 id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我沒有意見</h5>
+                         <h5 class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消我沒意見 </h5>
+                      </div>
+                   </div>
                </div>
-               <div class="col voteBlock mb-4" id="${votebk2}">
-                  <div class="col-md-10 voteTransperencissAnimate">
-                     <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive" />
-                     <h5 id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">我不投給他</h5>
-                     <h5 class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消不投給他 </h5>
-                  </div>
-               </div>
-               <div class="col voteBlock mb-4" id="${votebk3}">
-                  <div class="col-md-10 voteTransperencissAnimate">
-                     <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive" />
-                     <h5 id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">我沒有意見</h5>
-                     <h5 class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消我沒意見 </h5>
-                  </div>
+               <div class="col-4 col-sm-6">
+                  <ul class="list-group candidateItems mb-4">
+                     <li class="list-group-item active candidateItemsTitle ${members}Name">${names}</li>
+                     <li class="list-group-item candidateItemsTitle">${departments}</li>
+                     <li class="list-group-item candidateItemsTitle">${colleges}</li>
+                  </ul>
+                  <ul class="list-group candidateItems mb-4">
+                     <li class="list-group-item active candidateItemsTitle">個人經歷</li>
+                     {{each(i,exps) personalExperiences}}
+                     <li class="list-group-item">\${exps}</li>
+                     {{/each}}
+                  </ul>
                </div>
             </div>
-            <div class="col-sm-4">
-               <ul class="list-group candidateItems mb-4">
-                  <li class="list-group-item active candidateItemsTitle">${names}</li>
-                  <li class="list-group-item candidateItemsTitle">${departments}</li>
-                  <li class="list-group-item candidateItemsTitle">${colleges}</li>
-               </ul>
-               <ul class="list-group candidateItems mb-4">
-                  <li class="list-group-item active candidateItemsTitle">個人經歷</li>
-                  {{each(i,exps) personalExperiences}}
-                  <li class="list-group-item">\${exps}</li>
-                  {{/each}}
-               </ul>
             </div>
             <div class="col-sm-4">
                <ul class="list-group candidateItems">
@@ -245,7 +255,7 @@ const candidatesAppend = () => {
                   {{/each}}
                </ul>
             </div>
-         </div>
+        </div>
       </div>
       <div class="card-footer text-muted"></div>
    </div>
@@ -253,9 +263,78 @@ const candidatesAppend = () => {
 </div>
 </div>
 `;
-        $.template('candidatesTemplate', candidatesMarkup);
+        $.template(`candidatesTemplate`, candidatesMarkup);
+        $.tmpl(`candidatesTemplate`, candidateTempl[idx]).appendTo('.' + members);
 
-        $.tmpl('candidatesTemplate', candidateTempl[idx]).appendTo('.' + members);
+        if (actName === '第29屆學生會正副會長') {
+            for (let j = 0; j < VPperCandidate; j++) {
+                vps = `${members}vp${VPperCandidate - j}`;
+                $.tmpl(`<div class=${vps}></div>`, '').insertAfter(`.VPContent${idx}`);
+            };
+            for (let j = 0; j < VPperCandidate; j++) {
+                vps = `${members}vp${j + 1}`;
+                remarks[`remark${vps}`] = undefined;
+                VPTmpl = vicePresidentsTempl[j+countCandidate][0];
+
+                yesS = `${vps}Yes${idx+1}`;
+                yesUndoS = `${vps}YesUndo${idx+1}`;
+                noS = `${vps}No${idx+1}`;
+                noUndoS = `${vps}NoUndoS${idx+1}`;
+                whateverS = `${vps}WhateverS${idx+1}`;
+                whateverUndoS = `${vps}WhateverUndoS${idx+1}`;
+
+                iWantYes = `${vps}IWantYes${idx+1}`;
+                iWantNo = `${vps}IWantNo${idx+1}`;
+                iWantWhatever = `${vps}IWantWhatever${idx+1}`;
+                votebk1 = `${vps}bk1`;
+                votebk2 = `${vps}bk2`;
+                votebk3 = `${vps}bk3`;
+
+                const VPMarkup = `
+<div class="row VPInfo">
+    <div class="col-sm-6">
+    <div class="candidate-img"><img src="${imgs}"/></div>
+        <div class="col voteBlock mb-4" id="${votebk1}">
+            <div class="col-md-10 voteTransperencissAnimate">
+            <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
+            <h5 id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${VPTmpl.name}')">我要投給他</h5>
+            <h5 class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消投給他 </h5>
+        </div>
+    </div>
+    <div class="col voteBlock mb-4" id="${votebk2}">
+        <div class="col-md-10 voteTransperencissAnimate">
+            <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive" />
+            <h5 id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${VPTmpl.name}')">我不投給他</h5>
+            <h5 class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消不投給他 </h5>
+        </div>
+    </div>
+    <div class="col voteBlock mb-4" id="${votebk3}">
+        <div class="col-md-10 voteTransperencissAnimate">
+            <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive" />
+            <h5 id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${VPTmpl.name}')">我沒有意見</h5>
+            <h5 class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消我沒意見 </h5>
+        </div>
+    </div>
+    </div>
+    <div class="col-sm-6">
+        <ul class="list-group candidateItems mb-4">
+            <li class="list-group-item candidateItemsTitle list-group-item-info ${vps}Name">${VPTmpl.name}</li>
+            <li class="list-group-item candidateItemsTitle">${VPTmpl.department}</li>
+            <li class="list-group-item candidateItemsTitle">${VPTmpl.college}</li>
+        </ul>
+        <ul class="list-group candidateItems mb-4">
+            <li class="list-group-item candidateItemsTitle list-group-item-info">個人經歷</li>
+            {{each(i,exps) VPTmpl.personal_experiences}}
+            <li class="list-group-item">\${exps}</li>
+            {{/each}}
+        </ul>
+    </div>
+</div> `;
+                $.template(`${vicePresidentsTempl}`, VPMarkup);
+                $.tmpl(`${vicePresidentsTempl}`, '').appendTo(`.${vps}`);
+                if (j===(VPperCandidate-1)) countCandidate += VPperCandidate;
+            }
+        }
     };
 };
 

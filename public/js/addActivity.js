@@ -1,11 +1,16 @@
-var options = [];
+const options = [];
 async function addAct() {
+        console.log(jwtToken)
     try {
         await axios.post(
             '/activities/addActivity', {
                 'name': '第28屆學生議會議員補選',
                 'type': 'candidate',
                 'rule': 'choose_all',
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
             });
     } catch (e) {
         console.log(e.response.data);
@@ -67,33 +72,33 @@ async function addImg(src) {
 
 function addPersonalExpField(order) {
     optionsNode = document.getElementById(`option-${order}-exp`);
-    options[order-1].personal_experiences += 1;
-    newOrder = options[order-1].personal_experiences;
+    options[order - 1].personal_experiences += 1;
+    newOrder = options[order - 1].personal_experiences;
     html = [];
     html.push(`
         <label for='option-${order}-exp-${newOrder}'>經歷${newOrder}：</label>
         <input id='option-${order}-exp-${newOrder}' class="form-control" />
-    `)
+    `);
     optionsNode.innerHTML += html.join('');
 }
 
 function addPoliticalField(order) {
     console.log(order);
     optionsNode = document.getElementById(`option-${order}-political`);
-    options[order-1].political_options += 1;
-    newOrder = options[order-1].political_options;
+    options[order - 1].political_options += 1;
+    newOrder = options[order - 1].political_options;
     html = [];
     html.push(`
         <label for='option-${order}-political-${newOrder}'>政見${newOrder}：</label>
         <input id='option-${order}-political-${newOrder}' class="form-control" />
-    `)
+    `);
     optionsNode.innerHTML += html.join('');
 }
 
 function addOptionField() {
-    optionsNode = document.getElementById("options");
+    optionsNode = document.getElementById('options');
     order = options.length + 1;
-    html = []
+    html = [];
     html.push(`
         <br>
         <h4>候選人${order}：</h4>
@@ -118,7 +123,7 @@ function addOptionField() {
         <br>
         <button class="btn btn-primary" onclick="addPersonalExpField(${order})">新增經歷</button>
         <button class="btn btn-primary" onclick="addPoliticalField(${order})">新增政見</button>
-    `)
-    options.push({personal_experiences:0, political_options: 0});
+    `);
+    options.push({ personal_experiences: 0, political_options: 0 });
     optionsNode.innerHTML += html.join('');
 };

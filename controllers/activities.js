@@ -56,8 +56,8 @@ module.exports = {
             const expiredData = await Activities.find({open_to: {"$lt": now}}, null, {limit, skip, sort}).lean();
             // 時候未到
             const notStartedData = await Activities.find({open_from: {"$gte": now}}, null, {limit, skip, sort}).lean();
-            const isExpired = await Activities.exists({ _id: "5ec972e4288736850b57034a", open_to: {"$lt": now}});
-            const isNotStarted = await Activities.exists({ _id: "5ec972e4288736850b57034a", open_from: {"$gte": now}});
+            const isExpired = await Activities.exists({ _id: "5ebe3f5a6e811444932a92f6", open_to: {"$lt": now}});
+            const isNotStarted = await Activities.exists({ _id: "5ebe3f5a6e811444932a92f6", open_from: {"$gte": now}});
             const result = {'available': [], 'unavailable': new Set()};
             availableData.forEach(activity => {result.available.push({_id: activity._id, name: activity.name});});
             votedData.forEach(activity => {result.unavailable.add({_id: activity._id, name: activity.name});});

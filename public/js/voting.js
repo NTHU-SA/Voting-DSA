@@ -16,12 +16,13 @@ const {
 } = votes;
 
 const remarks = {};
-const voteName = '';
+// eslint-disable-next-line prefer-const
+let voteName = '';
 const optionIDs = new Array(Object.keys(remarks).length);
 
 const mongoObjOfObj2ID = (i) => i.data.data[0]._id;
 const mongoObj2ID = (i) => i.data._id;
-const isUndefined = (i) => i === undefined;
+const isDefined = (i) => i !== undefined;
 const getIdAttr = (i) => $(i).attr('id');
 const attr2ID = (i) => $('#' + i);
 
@@ -86,7 +87,7 @@ const chooseOneClick = (
 
 const chooseAllClick = (
     Opt, objYes, yes, yesUndo, objNo, no, noUndo, objWhatever, whatever,
-    whateverUndo, bk1, bk2, bk3) => {
+    whateverUndo, bk1, bk2, bk3, candidateName) => {
     temp = [], params = [];
     temp.push(objYes, yes, yesUndo, objNo, no, noUndo, objWhatever, whatever, whateverUndo, bk1, bk2, bk3);
     temp.forEach((element) => params.push(getIdAttr(element)));
@@ -108,8 +109,8 @@ const chooseAllClick = (
     for (i = 0; i < params.length + 1; i++) paramsList[Object.keys(paramsList)[i]] = params[i];
 
     memberOption = paramsList.bk1.split('bk1')[0];
-    idx = memberOption.split('member')[1];
-    remarkIdx = 'remark' + idx;
+    // idx = memberOption.split('member')[1];
+    remarkIdx = 'remark' + memberOption;
 
     if (Opt === 1) {
         attr2ID(paramsList.objYes).css('max-width', '50%');
@@ -142,6 +143,7 @@ const chooseAllClick = (
         attr2ID(paramsList.yesUndo).css('display', 'none');
         attr2ID(paramsList.bk2).css('display', 'block');
         attr2ID(paramsList.bk3).css('display', 'block');
+        votes[`${memberOption}`] = undefined;
     } else if (Opt == -1) {
         attr2ID(paramsList.objNo).css('max-width', '0%');
         attr2ID(paramsList.objNo).css('opacity', '0%');
@@ -149,6 +151,7 @@ const chooseAllClick = (
         attr2ID(paramsList.noUndo).css('display', 'none');
         attr2ID(paramsList.bk1).css('display', 'block');
         attr2ID(paramsList.bk3).css('display', 'block');
+        votes[`${memberOption}`] = undefined;
     } else if (Opt == 0) {
         attr2ID(paramsList.objWhatever).css('max-width', '0%');
         attr2ID(paramsList.objWhatever).css('opacity', '0%');
@@ -156,8 +159,10 @@ const chooseAllClick = (
         attr2ID(paramsList.whateverUndo).css('display', 'none');
         attr2ID(paramsList.bk1).css('display', 'block');
         attr2ID(paramsList.bk2).css('display', 'block');
+        votes[`${memberOption}`] = undefined;
     }
-    remarks[`${remarkIdx}`] = idx + '號候選人：' + votes[`${memberOption}`];
+    remarks[`${remarkIdx}`] = `${candidateName} :` + votes[`${memberOption}`];
+    if (votes[`${memberOption}`] === undefined) remarks[`${remarkIdx}`] = undefined;
 };
 
 
@@ -172,18 +177,18 @@ async function checkVote() {
             return 0;
         }
         if (chooseType.chooseAll === 1) {
-            if (Object.keys(remarks).every(isUndefined) === true || (Object.keys(remarks).length > Object.keys(votes).length) !== false) {
+            if (Object.values(remarks).every(isDefined) !== true || Object.keys(remarks).length > Object.keys(votes).length !== false) {
                 $('.modalInfo')
                     .html('尚未選擇所有候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
             } else if (Object.keys(votes).length === Object.keys(remarks).length) {
                 $('.modalInfo').html('');
                 votesTemplate = Object.values(remarks);
-                const votesMarkup =
-                    '<p> 您的所選擇的候選人依序爲： </p>' +
-                    '{{each(i,val) votesTemplate}}' +
-                    '<p>' + '${val}' + '</p>' +
-                    '{{/each}}';
+                const votesMarkup = `
+                <p>您的所選擇的候選人爲：</p> 
+                    {{each(i,val) votesTemplate}}
+                    <p>\${val}</p> 
+                    {{/each}}`;
                 $.template('votesTemplate', votesMarkup);
                 $.tmpl('votesTemplate', votesMarkup).appendTo('.modalInfo');
                 $('.btn-modalInfoPrimary').css('display', 'inline');
@@ -195,12 +200,13 @@ async function checkVote() {
                     .html('尚未選擇候選人哦！請您重新返回投票頁面進行投票');
                 $('.btn-modalInfoSecondary').css('display', 'none');
             } else if (Object.keys(votes).length === 1) {
+                $('.modalInfo').html('');
                 votesTemplate = Object.values(votes);
-                const votesMarkup =
-                    '<p> 您的所選擇的候選人爲： </p>' +
-                    '{{each(i,val) votesTemplate}}' +
-                    '<p>' + '${val}' + ' 號候選人' + '</p>' +
-                    '{{/each}}';
+                const votesMarkup = `
+                    <p>您的所選擇的候選人爲：</p> 
+                    {{each(i,val) votesTemplate}}
+                    <p>\${val}</p> 
+                    {{/each}}`;
                 $.template('votesTemplate', votesMarkup);
                 $.tmpl('votesTemplate', votesMarkup).appendTo('.modalInfo');
                 $('.btn-modalInfoPrimary').css('display', 'inline');
@@ -213,38 +219,42 @@ async function checkVote() {
 }
 
 async function getUserResult() {
-    const resUser = await axios.post('/users/getUser', {}, {
-        headers: {
-            Authorization: `Bearer ${jwtToken}`,
-
-        },
-    });
-    userID = mongoObj2ID(resUser);
-    const resActivity = await axios.post(
-        '/activities/getActivities', {
-            'filter': {
-                name: voteName,
-            },
-        }, {
+    try {
+        const resUser = await axios.post('/users/getUser', {}, {
             headers: {
                 Authorization: `Bearer ${jwtToken}`,
             },
         });
-    activityID = mongoObjOfObj2ID(resActivity);
-    let resVote = await axios.post(
-        '/activities/getActivities', {
-            'filter': {
-                _id: activityID,
-                users: userID,
-            },
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
-    if (resVote.data.data.length === 0) resVote = undefined;
-    else resVote = mongoObjOfObj2ID(resVote);
-    return resVote;
+        userID = mongoObj2ID(resUser);
+        const resActivity = await axios.post(
+            '/activities/getActivities', {
+                'filter': {
+                    name: voteName,
+                },
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+        console.log(resActivity);
+        activityID = mongoObjOfObj2ID(resActivity);
+        let resVote = await axios.post(
+            '/activities/getActivities', {
+                'filter': {
+                    _id: activityID,
+                    users: userID,
+                },
+            }, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+        if (resVote.data.data.length === 0) resVote = undefined;
+        else resVote = mongoObjOfObj2ID(resVote);
+        return resVote;
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 async function sendUserResult() {
@@ -276,8 +286,14 @@ async function sendUserResult() {
             for (i = 0; i < candidates.length; i++) {
                 voteContent.push({
                     'option_id': candidates[i]._id,
-                    'remark': votes[`member${i+1}`],
+                    'remark': votes[`member${i + 1}`],
                 });
+                for (j = 0; j < VPperCandidate; j++) {
+                    // voteContent.push({
+                    //     'option_id': candidates[i]._id,
+                    //     'remark': votes[`member${i + 1}`],
+                    // });
+                }
             }
             resp = await axios.post(
                 '/votes/addVote', {
@@ -307,6 +323,6 @@ async function sendUserResult() {
                 });
         }
     } catch (e) {
-        console.log(e);
+        console.log(e.response);
     }
 }

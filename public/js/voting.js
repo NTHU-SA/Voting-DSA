@@ -215,6 +215,8 @@ async function checkVote() {
         }
     } catch (e) {
         console.log(e);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 }
 
@@ -254,6 +256,8 @@ async function getUserResult() {
         return resVote;
     } catch (e) {
         console.log(e);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 };
 
@@ -324,5 +328,7 @@ async function sendUserResult() {
         }
     } catch (e) {
         console.log(e.response);
+        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
+        $('.modalInfo').show();
     }
 }

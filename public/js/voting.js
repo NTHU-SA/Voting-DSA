@@ -238,7 +238,6 @@ async function getUserResult() {
                     Authorization: `Bearer ${jwtToken}`,
                 },
             });
-        console.log(resActivity);
         activityID = mongoObjOfObj2ID(resActivity);
         let resVote = await axios.post(
             '/activities/getActivities', {
@@ -255,9 +254,9 @@ async function getUserResult() {
         else resVote = mongoObjOfObj2ID(resVote);
         return resVote;
     } catch (e) {
-        console.log(e);
         $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
         $('.modalInfo').show();
+        console.log(e);
     }
 };
 
@@ -286,17 +285,17 @@ async function sendUserResult() {
                 },
             });
         if (chooseType.chooseAll === 1) {
+            //TODO: invaild remark format in choose_all for 學生會正副會長
             const voteContent = [];
             for (i = 0; i < candidates.length; i++) {
                 voteContent.push({
                     'option_id': candidates[i]._id,
-                    'remark': votes[`member${i + 1}`],
+                    'remark': [votes[`member${i + 1}`]],
                 });
                 for (j = 0; j < VPperCandidate; j++) {
-                    // voteContent.push({
-                    //     'option_id': candidates[i]._id,
-                    //     'remark': votes[`member${i + 1}`],
-                    // });
+                    voteContent[i].remark.push(
+                        votes[`member${i + 1}vp${j + 1}`],
+                    );
                 }
             }
             resp = await axios.post(

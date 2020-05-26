@@ -49,20 +49,28 @@ module.exports = {
             const {filter, limit, skip, sort} = req.body;
             const { _id: user_id, student_id } = req.user;
             const now = new Date();
-            const availableData = await Activities.find({users: {'$nin': user_id} , open_from: {"$lt": now}, open_to: {"$gte": now}}, null, {limit, skip, sort}).lean();
+            const availableData = await Activities.find({users: {'$nin': user_id}, open_from: {'$lt': now}, open_to: {'$gte': now}}, null, {limit, skip, sort}).lean();
             // 已投過票
             const votedData = await Activities.find({users: user_id}, null, {limit, skip, sort}).lean();
             // 時間已過
-            const expiredData = await Activities.find({open_to: {"$lt": now}}, null, {limit, skip, sort}).lean();
+            const expiredData = await Activities.find({open_to: {'$lt': now}}, null, {limit, skip, sort}).lean();
             // 時候未到
-            const notStartedData = await Activities.find({open_from: {"$gte": now}}, null, {limit, skip, sort}).lean();
-            const isExpired = await Activities.exists({ _id: "5ebe3f5a6e811444932a92f6", open_to: {"$lt": now}});
-            const isNotStarted = await Activities.exists({ _id: "5ebe3f5a6e811444932a92f6", open_from: {"$gte": now}});
+            const notStartedData = await Activities.find({open_from: {'$gte': now}}, null, {limit, skip, sort}).lean();
+            const isExpired = await Activities.exists({ _id: '5ebe3f5a6e811444932a92f6', open_to: {'$lt': now}});
+            const isNotStarted = await Activities.exists({ _id: '5ebe3f5a6e811444932a92f6', open_from: {'$gte': now}});
             const result = {'available': [], 'unavailable': new Set()};
-            availableData.forEach(activity => {result.available.push({_id: activity._id, name: activity.name});});
-            votedData.forEach(activity => {result.unavailable.add({_id: activity._id, name: activity.name});});
-            expiredData.forEach(activity => {result.unavailable.add({_id: activity._id, name: activity.name});});
-            notStartedData.forEach(activity => {result.unavailable.add({_id: activity._id, name: activity.name});});
+            availableData.forEach((activity) => {
+                result.available.push({_id: activity._id, name: activity.name});
+            });
+            votedData.forEach((activity) => {
+                result.unavailable.add({_id: activity._id, name: activity.name});
+            });
+            expiredData.forEach((activity) => {
+                result.unavailable.add({_id: activity._id, name: activity.name});
+            });
+            notStartedData.forEach((activity) => {
+                result.unavailable.add({_id: activity._id, name: activity.name});
+            });
             result.unavailable = Array.from(result.unavailable);
             res.json(result);
         } catch (error) {

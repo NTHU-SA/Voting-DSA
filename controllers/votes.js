@@ -5,7 +5,10 @@ const Options = Mongoose.model('options');
 const Activities = Mongoose.model('activities');
 const Users = Mongoose.model('users');
 const { v4: uuid } = require('uuid');
-const fsPromise = require('fs').promises;
+const fs = require('fs');
+
+// read file at once page has been loaded to avoid loop loading
+const csvData = fs.readFileSync(`./libs/全校在學學生資料.csv`, 'utf8');
 
 module.exports = {
     async addVote(req, res) {
@@ -22,8 +25,7 @@ module.exports = {
                 if (!valid) throw new Error('Failed to add vote, choose_all remark is not valid');
             }
 
-            // Validate student_id
-            const csvData = await fsPromise.readFile('/libs/全校在學學生資料.csv', 'utf8');
+            // Validate student_i
             const availableStudentList = csvData.split(/\r?\n/).slice(1);
             const availableStudentIds = availableStudentList.map((student) => student.split(',')[1]);
             if (!availableStudentIds.includes(student_id)) throw new Error('Failed to add vote, student_id is not available');

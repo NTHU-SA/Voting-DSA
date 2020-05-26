@@ -170,12 +170,6 @@ async function checkVote() {
     try {
         $('.modal-title').html('投票結果');
         $('.modalCheck').html('您確定要將投票結果送出嗎？');
-        const resUserVoteRecord = await getUserResult();
-        if (String(resUserVoteRecord).length === 24 && resUserVoteRecord !== undefined) {
-            $('.modalInfo').html('您已經投過票了哦！');
-            $('.btn-modalInfoSecondary').css('display', 'none');
-            return 0;
-        }
         if (chooseType.chooseAll === 1) {
             if (Object.values(remarks).every(isDefined) !== true || Object.keys(remarks).length > Object.keys(votes).length !== false) {
                 $('.modalInfo')
@@ -215,50 +209,11 @@ async function checkVote() {
         }
     } catch (e) {
         console.log(e);
-        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
-        $('.modalInfo').show();
+        $('#modalTokan-title').innerHTML = "失敗";
+        $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
+        $('#modalToken').modal('show');
     }
 }
-
-async function getUserResult() {
-    try {
-        const resUser = await axios.post('/users/getUser', {}, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        });
-        userID = mongoObj2ID(resUser);
-        const resActivity = await axios.post(
-            '/activities/getActivities', {
-                'filter': {
-                    name: voteName,
-                },
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
-        activityID = mongoObjOfObj2ID(resActivity);
-        let resVote = await axios.post(
-            '/activities/getActivities', {
-                'filter': {
-                    _id: activityID,
-                    users: userID,
-                },
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
-        if (resVote.data.data.length === 0) resVote = undefined;
-        else resVote = mongoObjOfObj2ID(resVote);
-        return resVote;
-    } catch (e) {
-        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
-        $('.modalInfo').show();
-        console.log(e);
-    }
-};
 
 async function sendUserResult() {
     try {
@@ -285,18 +240,12 @@ async function sendUserResult() {
                 },
             });
         if (chooseType.chooseAll === 1) {
-            //TODO: invaild remark format in choose_all for 學生會正副會長
             const voteContent = [];
             for (i = 0; i < candidates.length; i++) {
                 voteContent.push({
                     'option_id': candidates[i]._id,
-                    'remark': [votes[`member${i + 1}`]],
+                    'remark': votes[`member${i + 1}`],
                 });
-                for (j = 0; j < VPperCandidate; j++) {
-                    voteContent[i].remark.push(
-                        votes[`member${i + 1}vp${j + 1}`],
-                    );
-                }
             }
             resp = await axios.post(
                 '/votes/addVote', {
@@ -326,8 +275,9 @@ async function sendUserResult() {
                 });
         }
     } catch (e) {
+        $('#modalTokan-title').innerHTML = "失敗";
+        $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
+        $('#modalToken').modal('show');
         console.log(e.response);
-        $.tmpl(`<p>出錯了&#128563 ${e}</p>`, '').appendTo('.modalInfo');
-        $('.modalInfo').show();
     }
 }

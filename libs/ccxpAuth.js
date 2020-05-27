@@ -54,6 +54,7 @@ module.exports = {
                 grant_type: 'authorization_code',
                 client_id: 'nthusa',
                 client_secret: '***REMOVED***',
+                redirect_uri: 'https%3A%2F%2Fvoting.nthusa.cf%2Fcallback',
                 code,
             });
             return response.data;

@@ -13,6 +13,7 @@ const router = require('express').Router();
 router.get('/callback', authController.authccxpCallback);
 router.get('/auth/ccxp/captcha', authController.getccxpCaptchaImage);
 router.post('/auth/ccxp', authController.authccxp);
+router.get('/logout', authController.logout);
 
 // users
 router.post('/users/addUser', authentication, adminAuthorization, users.addUser);

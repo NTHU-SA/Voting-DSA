@@ -30,17 +30,18 @@ module.exports = {
     async authccxpCallback(req, res) {
         try {
             const tokenInfo = await ccxpAuth.verifyCode(req.query.code);
-            const account = (await ccxpAuth.verifyAccessToken(
+            const userId = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
             let user = await Users.exists({ student_id: userId });
             if (!user) {
                 const newUser = await Users.create({ student_id: userId, created_at: Date.now(), updated_at: Date.now() });
                 user = newUser.toObject();
             }
-            const serviceToken = ccxpAuth.obtainServiceToken(account, user);
+            const serviceToken = ccxpAuth.obtainServiceToken(userId, user);
             res.cookie('service_token', serviceToken);
-            res.redirect(`/`);
+            res.redirect(`/voting.html`);
         } catch (e) {
+		console.log(e);
             res.status(401).send({status: false, error: e.message});
         }
     },
@@ -95,6 +96,11 @@ module.exports = {
             return;
         }
         next();
+    },
+
+    async logout(req, res) {
+        res.cookie('service_token', '');
+        res.redirect('/');
     },
 };
 

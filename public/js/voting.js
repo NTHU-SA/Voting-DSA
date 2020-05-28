@@ -298,6 +298,7 @@ async function sendUserResult() {
                     );
                 }
             }
+            console.log(voteContent)
             resp = await axios.post(
                 '/votes/addVote', {
                     'activity_id': activityID,

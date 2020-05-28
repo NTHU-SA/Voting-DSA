@@ -1,7 +1,7 @@
 function getCookie(cname) {
-    let cookies = document.cookie.split(";");
+    const cookies = document.cookie.split(';');
     let bearer;
-    cookies.forEach(cookie=>{
+    cookies.forEach((cookie)=>{
         [k, v] = cookie.split('=');
         if (k.trim() === cname) bearer = v.trim();
     });
@@ -9,3 +9,16 @@ function getCookie(cname) {
 }
 
 const jwtToken = getCookie('service_token');
+
+
+async function logout() {
+    try {
+        await axios.post('/auth/logout');
+
+    } catch (e) {
+        document.getElementById('modalTokan-title').innerHTML='失敗';
+        $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
+        $('#modalToken').modal('show');
+        console.log(e);
+    }
+}

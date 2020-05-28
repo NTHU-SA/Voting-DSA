@@ -52,7 +52,7 @@ async function getCandidates(opt, name) {
             console.log('Fail to call chooseAll function');
         });
     } catch (e) {
-        $('#modalTokan-title').innerHTML = "失敗";
+        $('#modalTokan-title').innerHTML = '失敗';
         $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
         $('#modalToken').modal('show');
     }
@@ -132,12 +132,16 @@ const candidateAppend = () => {
       <div class="card-body">
          <div class="row memberInfo">
             <div class="col-sm-4">
-               <div class="candidate-img"><img src="${imgs}"/></div>
+               <div class="candidate-img img-yes-no"><img src="${imgs}"/></div>
                <div class="col voteBlock mb-4" id="${votebk1}">
-                  <div class="col-md-10 voteTransperencissAnimate">
+                  <div class="col-md-12 voteTransperencissAnimate">
                      <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
-                     <h5 id="${yesS}" onclick="chooseOneClick(1,${iWantYes},${yesS},${yesUndoS},${votebk1})">我要投給他</h5>
-                     <h5 class="voteUndo" id="${yesUndoS}" onclick="chooseOneClick(0,${iWantYes},${yesS},${yesUndoS},${votebk1})">取消投給他 </h5>
+                     <div id="${yesS}" onclick="chooseOneClick(1,${iWantYes},${yesS},${yesUndoS},${votebk1})">
+                        <p>我要投給他</p>
+                     </div>
+                     <div class="voteUndo" id="${yesUndoS}" onclick="chooseOneClick(0,${iWantYes},${yesS},${yesUndoS},${votebk1})">
+                        <p>取消投給他</p>
+                     </div>
                   </div>
                </div>
             </div>
@@ -180,6 +184,7 @@ const candidateAppend = () => {
 const candidatesAppend = (actName) => {
     for (idx = 0; idx < candidateTempl.length; idx++) {
         imgIwantThis = 'https://i.imgur.com/ue4ktGb.png';
+        imgClickIcon = '/img/click-icon.png';
         members = candidateTempl[idx][0].member;
         cardTitles = candidateTempl[idx][0].cardTitle;
         imgs = candidateTempl[idx][0].img;
@@ -248,25 +253,38 @@ const candidatesAppend = (actName) => {
 </div>
 </div>
 `;
-        let voteMarkup = `<div class="col voteBlock mb-4" id="${votebk1}">
-        <div class="col-md-10 voteTransperencissAnimate">
-           <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
-           <h5 id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我要投給他</h5>
-           <h5 class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消投給他 </h5>
+        const voteMarkup = `<div class="col voteBlock mb-4" id="${votebk1}">
+        <div class="col-md-12 voteTransperencissAnimate">
+           <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive img-yes-no" />
+           <div class="mask flex-center rgba-red-strong" id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
+                <p>我要投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+           </div>
+           <div class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
+                <p>取消投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+           </div>
         </div>
      </div>
      <div class="col voteBlock mb-4" id="${votebk2}">
-        <div class="col-md-10 voteTransperencissAnimate">
-           <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive" />
-           <h5 id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我不投給他</h5>
-           <h5 class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消不投給他 </h5>
+        <div class="col-md-12 voteTransperencissAnimate ">
+           <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive img-yes-no" />
+           <div id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
+                <p>我不投給他 <img class="img-click-icon" src="${imgClickIcon}"/></p>
+                
+           </div>
+           <div class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
+                <p>取消不投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+           </div>
         </div>
       </div>
       <div class="col voteBlock mb-4" id="${votebk3}">
-         <div class="col-md-10 voteTransperencissAnimate">
-            <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive" />
-            <h5 id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">我沒有意見</h5>
-            <h5 class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">取消我沒意見 </h5>
+         <div class="voteTransperencissAnimate">
+            <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive img-yes-no"/>
+            <div id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
+                <p>我沒有意見<img class="img-click-icon" src="${imgClickIcon}"/></p>
+           </div>
+            <div class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
+                <p>取消我沒意見<img class="img-click-icon" src="${imgClickIcon}"/></p>
+           </div>
          </div>
       </div>
         `;
@@ -322,7 +340,7 @@ async function getAvailableActivities() {
         Promise.resolve('Success').then(() => {
             const node = document.getElementById('activityList');
             resActivities.data.available.forEach((activity) => {
-                node.innerHTML += `<button type="button" class="btn btn-link btn-chooseType btn-chooseOne" value="chooseOne" data-dismiss="modal"
+                node.innerHTML += `<button type="button" class="btn btn-link btn-chooseType btn-chooseOne" value="chooseOne" data-dismiss="modal" data-toggle="modal" data-target=".modalVoteInfo"
             onclick="getCandidates('${activity._id}', '${activity.name}');">${activity.name}</button>`;
             });
             resActivities.data.unavailable.forEach((activity) => {
@@ -333,9 +351,9 @@ async function getAvailableActivities() {
             console.log('Fail to call getAvailableActivities function');
         });
     } catch (e) {
-        console.log(e.response.data);
-        $('#modalTokan-title').innerHTML = "失敗";
-        $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
+        document.getElementById('modalTokan-title').innerHTML='伺服器連線失敗&#128563 ';
+        $('.modalToken').html(`<p>${e}</p>`);
         $('#modalToken').modal('show');
+        console.log(e.response.data);
     }
 }

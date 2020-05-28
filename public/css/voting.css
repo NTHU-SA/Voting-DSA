@@ -50,7 +50,7 @@
     text-align: -webkit-center;
 }
 
-.voteTransperencissAnimate > img {
+.voteTransperencissAnimate > .img-yes-no {
     max-width: 0%;
     max-height: 0%;
     transition-property: all;
@@ -58,6 +58,8 @@
     transition-timing-function: ease-in;
     padding-top: 1em;
 }
+
+.img-click-icon {max-width: 12%;}
 
 .candidateItems {
     text-align: left;

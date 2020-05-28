@@ -97,5 +97,10 @@ module.exports = {
         }
         next();
     },
+
+    async logout(req, res) {
+        res.cookie('service_token', '');
+        res.redirect('/');
+    },
 };
 

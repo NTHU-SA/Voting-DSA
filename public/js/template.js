@@ -10,10 +10,6 @@ async function getCandidates(opt, name) {
         const resCandidate = await axios.post(
             '/options/getOptions', {
                 'filter': { 'activity_id': opt },
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
             });
         candidates = resCandidate.data.data;
         // construct remark
@@ -65,10 +61,6 @@ async function getCandidate(opt) {
         const resCandidate = await axios.post(
             '/options/getOptions', {
                 'type': 'candidate',
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
             });
         for (i = 0; i < Object.keys(remarks).length; i++) {
             candidateTempl.push(
@@ -332,11 +324,7 @@ const candidatesAppend = (actName) => {
 async function getAvailableActivities() {
     try {
         const resActivities = await axios.post(
-            '/activities/getAvailableActivities', {}, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            '/activities/getAvailableActivities');
         Promise.resolve('Success').then(() => {
             const node = document.getElementById('activityList');
             resActivities.data.available.forEach((activity) => {

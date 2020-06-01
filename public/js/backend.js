@@ -7,17 +7,12 @@ function showActivity(resp) {
 }
 async function getActivity() {
     try {
-        await axios.post('/activities/getActivities', {}, config).then(showActivity);
+        await axios.post('/activities/getActivities').then(showActivity);
     } catch (error) {
         alert('發生錯誤，請重新整理此頁面😥');
     }
 }
 
-config = {
-    headers: {
-        Authorization: `Bearer ${jwtToken}`,
-    },
-};
 getActivity();
 
 
@@ -30,7 +25,7 @@ function operateFormatter(value, row, index) {
 }
 
 window.operateEvents = {
-    'click .edit': function(e, value, row, index) {
+    'click .edit': function (e, value, row, index) {
         console.log(row._id);
         // TODO: 建立編輯頁面
     },
@@ -50,10 +45,10 @@ function detailFormatter(index, row) {
         headers: { Authorization: `Bearer ${jwtToken}` },
         contentType: 'application/json;charset=utf-8',
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請重新整理此頁面😥');
             return false;
         },
@@ -146,10 +141,10 @@ function getVotes(activityId, candidates) {
         contentType: 'application/json;charset=utf-8',
         headers: { 'Authorization': `Bearer ${jwtToken}` },
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請重新整理此頁面😥');
             return false;
         },
@@ -172,7 +167,7 @@ function getVotes(activityId, candidates) {
                 statics[candidate.option_id][remark] += 1;
             });
         });
-        return {'statics': statics, 'votes': votes};
+        return { 'statics': statics, 'votes': votes };
     }
 }
 

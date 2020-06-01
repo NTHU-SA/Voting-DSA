@@ -124,7 +124,7 @@ const candidateAppend = () => {
       <div class="card-body">
          <div class="row memberInfo">
             <div class="col-sm-4">
-               <div class="candidate-img img-yes-no"><img src="${imgs}"/></div>
+               <div class="candidate-img img-yes-no"><img style="width:100%;" src="${imgs}"/></div>
                <div class="col voteBlock mb-4" id="${votebk1}">
                   <div class="col-md-12 voteTransperencissAnimate">
                      <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive" />
@@ -211,7 +211,7 @@ const candidatesAppend = (actName) => {
             <div class="col-sm-8">
             <div class="row VPContent${idx} ">
                <div class="col-8 col-sm-6">
-                  <div class="candidate-img"><img src="${imgs}"/></div>
+                  <div class="candidate-img"><img style="width:100%;" src="${imgs}"/></div>
                   
                </div>
                <div class="col-4 col-sm-6">
@@ -296,7 +296,7 @@ const candidatesAppend = (actName) => {
                 const VPMarkup = `
 <div class="row VPInfo">
     <div class="col-sm-6">
-    <div class="candidate-img"><img src="${VPTmpl.avatar_url}"/></div>
+    <div class="candidate-img"><img style="width:100%;" src="${VPTmpl.avatar_url}"/></div>
     </div>
     <div class="col-sm-6">
         <ul class="list-group candidateItems mb-4">

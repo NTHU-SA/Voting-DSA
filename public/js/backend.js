@@ -145,7 +145,7 @@ function getVotes(activityId, candidates) {
             return resp;
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            alert('發生錯誤，請重新整理此頁面😥');
+            alert('發生錯誤，請確認您是否擁有管理員權限！');
             return false;
         },
     }).responseJSON;

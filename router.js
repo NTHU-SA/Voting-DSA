@@ -24,8 +24,8 @@ router.post('/users/removeUser', authentication, adminAuthorization, users.remov
 
 // votes
 router.post('/votes/addVote', authentication, votes.addVote);
-router.post('/votes/getVote', authentication, votes.getVote);
-router.post('/votes/getVotes', authentication, votes.getVotes);
+router.post('/votes/getVote', authentication, adminAuthorization, votes.getVote);
+router.post('/votes/getVotes', authentication, adminAuthorization, votes.getVotes);
 // Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);
 // No Need: router.post('/votes/modifyVote', votes.modifyVote);
 router.post('/votes/removeVote', authentication, adminAuthorization, votes.removeVote);

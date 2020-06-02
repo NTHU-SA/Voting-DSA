@@ -1,7 +1,7 @@
 function getCookie(cname) {
     const cookies = document.cookie.split(';');
     let bearer;
-    cookies.forEach((cookie)=>{
+    cookies.forEach((cookie) => {
         [k, v] = cookie.split('=');
         if (k.trim() === cname) bearer = v.trim();
     });
@@ -9,16 +9,21 @@ function getCookie(cname) {
 }
 
 const jwtToken = getCookie('service_token');
-
+axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+axios.defaults.headers.post['Authorization'] = `Bearer ${jwtToken}`;
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        const { status } = error.response;
+        console.log(status);
+        if (status === 401) {
+            alert('驗證失敗，請重新登入');
+            logout();
+        }
+        return Promise.reject(error);
+    }
+);
 
 async function logout() {
-    try {
-        await axios.post('/auth/logout');
-
-    } catch (e) {
-        document.getElementById('modalTokan-title').innerHTML='失敗';
-        $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
-        $('#modalToken').modal('show');
-        console.log(e);
-    }
+    window.location = "/auth/logout";
 }

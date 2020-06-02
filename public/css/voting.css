@@ -59,7 +59,10 @@
     padding-top: 1em;
 }
 
-.img-click-icon {max-width: 12%;}
+.img-click-icon {
+    max-width: 12%;
+    cursor: pointer;
+}
 
 .candidateItems {
     text-align: left;

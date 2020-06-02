@@ -2,7 +2,7 @@ $(document).ready(() => {
     $('#chooseTypeModal').modal('show');
     getAvailableActivities();
     $('.btn-result').hide();
-    $('.btn-voteIndo').click(()=>{
+    $('.btn-voteIndo').click(() => {
         $('.btn-result').show();
     });
 });
@@ -224,7 +224,7 @@ async function checkVote() {
             }
         }
     } catch (e) {
-        document.getElementById('modalTokan-title').innerHTML='失敗';
+        document.getElementById('modalTokan-title').innerHTML = '失敗';
         $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
         $('#modalToken').modal('show');
         console.log(e);
@@ -235,26 +235,18 @@ async function sendUserResult() {
     try {
         const resActivity = await axios.post(
             '/activities/getActivities', {
-                'filter': {
-                    name: voteName,
-                },
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            'filter': {
+                name: voteName,
+            },
+        });
         activityID = mongoObjOfObj2ID(resActivity);
         const resOption = await axios.post(
             '/options/getOptions', {
-                'filter': {
-                    activity_id: activityID,
-                    type: 'candidate',
-                },
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            });
+            'filter': {
+                activity_id: activityID,
+                type: 'candidate',
+            },
+        });
         if (chooseType.chooseAll === 1) {
             const voteContent = [];
             for (i = 0; i < candidates.length; i++) {
@@ -266,34 +258,26 @@ async function sendUserResult() {
             console.log(voteContent);
             resp = await axios.post(
                 '/votes/addVote', {
-                    'activity_id': activityID,
-                    'rule': 'choose_all',
-                    'choose_all': voteContent,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                    },
-                });
+                'activity_id': activityID,
+                'rule': 'choose_all',
+                'choose_all': voteContent,
+            });
             $('#modalTokan-title').innerHTML = '投票成功！';
             $('.modalToken').html(`投票成功！<br>請保存好您的存根權杖，以供驗票使用：<br>${resp.data.token}`);
             $('#modalToken').modal('show');
         } else if (chooseType.chooseAll === 0) {
             await axios.post(
                 '/votes/addVote', {
-                    'activity_id': activityID,
-                    'rule': 'choose_one',
-                    'choose_one': [{
-                        'option_id': mongoObjOfObj2ID(resOption),
-                        'remark': votes,
-                    }],
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                    },
-                });
+                'activity_id': activityID,
+                'rule': 'choose_one',
+                'choose_one': [{
+                    'option_id': mongoObjOfObj2ID(resOption),
+                    'remark': votes,
+                }],
+            });
         }
     } catch (e) {
-        document.getElementById('modalTokan-title').innerHTML='投票成功';
+        document.getElementById('modalTokan-title').innerHTML = '投票成功';
         $('.modalToken').html(`<p>出錯了&#128563 ${e}</p>`);
         $('#modalToken').modal('show');
         console.log(e.response);

@@ -257,10 +257,10 @@ const candidatesAppend = (actName) => {
         <div class="col-md-12 voteTransperencissAnimate">
            <img id="${iWantYes}" src="${imgIwantThis}" class="img-responsive img-yes-no" />
            <div class="mask flex-center rgba-red-strong" id="${yesS}" onclick="chooseAllClick(1,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
-                <p>我要投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>我要投給他<img class="img-click-icon img-click-icon-${members}-yes" src="${imgClickIcon}"/></p>
            </div>
            <div class="voteUndo" id="${yesUndoS}" onclick="chooseAllClick(1-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
-                <p>取消投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>取消投給他<img class="img-click-icon img-click-icon-${members}-no" src="${imgClickIcon}"/></p>
            </div>
         </div>
      </div>
@@ -268,11 +268,11 @@ const candidatesAppend = (actName) => {
         <div class="col-md-12 voteTransperencissAnimate ">
            <img id="${iWantNo}" src="${imgIwantThis}" class="img-responsive img-yes-no" />
            <div id="${noS}" onclick="chooseAllClick(2,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
-                <p>我不投給他 <img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>我不投給他 <img class="img-click-icon img-click-icon-${members}-yes" src="${imgClickIcon}"/></p>
                 
            </div>
            <div class="voteUndo" id="${noUndoS}" onclick="chooseAllClick(2-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
-                <p>取消不投給他<img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>取消不投給他<img class="img-click-icon img-click-icon-${members}-no" src="${imgClickIcon}"/></p>
            </div>
         </div>
       </div>
@@ -280,10 +280,10 @@ const candidatesAppend = (actName) => {
          <div class="voteTransperencissAnimate">
             <img id="${iWantWhatever}" src="${imgIwantThis}" class="img-responsive img-yes-no"/>
             <div id="${whateverS}" onclick="chooseAllClick(3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3},'${names}')">
-                <p>我沒有意見<img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>我沒有意見<img class="img-click-icon img-click-icon-${members}-yes" src="${imgClickIcon}"/></p>
            </div>
             <div class="voteUndo" id="${whateverUndoS}" onclick="chooseAllClick(3-3,${iWantYes},${yesS},${yesUndoS},${iWantNo},${noS},${noUndoS},${iWantWhatever},${whateverS},${whateverUndoS},${votebk1},${votebk2},${votebk3})">
-                <p>取消我沒意見<img class="img-click-icon" src="${imgClickIcon}"/></p>
+                <p>取消我沒意見<img class="img-click-icon img-click-icon-${members}-no" src="${imgClickIcon}"/></p>
            </div>
          </div>
       </div>

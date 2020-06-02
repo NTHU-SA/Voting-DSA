@@ -97,7 +97,7 @@ const chooseAllClick = (
     Opt, objYes, yes, yesUndo, objNo, no, noUndo, objWhatever, whatever,
     whateverUndo, bk1, bk2, bk3, candidateName) => {
     temp = [], params = [];
-    temp.push(objYes, yes, yesUndo, objNo, no, noUndo, objWhatever, whatever, whateverUndo, bk1, bk2, bk3);
+    temp.push(objYes, yes, yesUndo, objNo, no, noUndo, objWhatever, whatever, whateverUndo, bk1, bk2, bk3, candidateName);
     temp.forEach((element) => params.push(getIdAttr(element)));
 
     paramsList = {
@@ -113,12 +113,14 @@ const chooseAllClick = (
         'bk1': '',
         'bk2': '',
         'bk3': '',
+        'candidateName': '',
     };
     for (i = 0; i < params.length + 1; i++) paramsList[Object.keys(paramsList)[i]] = params[i];
 
     memberOption = paramsList.bk1.split('bk1')[0];
     // idx = memberOption.split('member')[1];
     remarkIdx = 'remark' + memberOption;
+    console.log(memberOption);
 
     if (Opt === 1) {
         attr2ID(paramsList.objYes).css('max-width', '15%');
@@ -127,7 +129,7 @@ const chooseAllClick = (
         attr2ID(paramsList.yesUndo).css('display', 'block');
         attr2ID(paramsList.bk2).css('display', 'none');
         attr2ID(paramsList.bk3).css('display', 'none');
-        $('.img-click-icon').css('max-width', '4%');
+        $(`.img-click-icon-${memberOption}-no`).css('max-width', '4%');
         votes[`${memberOption}`] = '我要投給他';
     } else if (Opt === 2) {
         attr2ID(paramsList.objNo).css('max-width', '15%');
@@ -136,7 +138,7 @@ const chooseAllClick = (
         attr2ID(paramsList.noUndo).css('display', 'block');
         attr2ID(paramsList.bk1).css('display', 'none');
         attr2ID(paramsList.bk3).css('display', 'none');
-        $('.img-click-icon').css('max-width', '4%');
+        $(`.img-click-icon-${memberOption}-no`).css('max-width', '4%');
         votes[`${memberOption}`] = '我不投給他';
     } else if (Opt === 3) {
         attr2ID(paramsList.objWhatever).css('max-width', '15%');
@@ -145,7 +147,7 @@ const chooseAllClick = (
         attr2ID(paramsList.whateverUndo).css('display', 'block');
         attr2ID(paramsList.bk1).css('display', 'none');
         attr2ID(paramsList.bk2).css('display', 'none');
-        $('.img-click-icon').css('max-width', '4%');
+        $(`.img-click-icon-${memberOption}-no`).css('max-width', '4%');
         votes[`${memberOption}`] = '我沒有意見';
     } else if (Opt == -2) {
         attr2ID(paramsList.objYes).css('max-width', '0%');
@@ -154,7 +156,7 @@ const chooseAllClick = (
         attr2ID(paramsList.yesUndo).css('display', 'none');
         attr2ID(paramsList.bk2).css('display', 'block');
         attr2ID(paramsList.bk3).css('display', 'block');
-        $('.img-click-icon').css('max-width', '12%');
+        $(`.img-click-icon-${memberOption}-yes`).css('max-width', '12%');
         votes[`${memberOption}`] = undefined;
     } else if (Opt == -1) {
         attr2ID(paramsList.objNo).css('max-width', '0%');
@@ -163,7 +165,7 @@ const chooseAllClick = (
         attr2ID(paramsList.noUndo).css('display', 'none');
         attr2ID(paramsList.bk1).css('display', 'block');
         attr2ID(paramsList.bk3).css('display', 'block');
-        $('.img-click-icon').css('max-width', '12%');
+        $(`.img-click-icon-${memberOption}-yes`).css('max-width', '12%');
         votes[`${memberOption}`] = undefined;
     } else if (Opt == 0) {
         attr2ID(paramsList.objWhatever).css('max-width', '0%');
@@ -172,7 +174,7 @@ const chooseAllClick = (
         attr2ID(paramsList.whateverUndo).css('display', 'none');
         attr2ID(paramsList.bk1).css('display', 'block');
         attr2ID(paramsList.bk2).css('display', 'block');
-        $('.img-click-icon').css('max-width', '12%');
+        $(`.img-click-icon-${memberOption}-yes`).css('max-width', '12%');
         votes[`${memberOption}`] = undefined;
     }
     remarks[`${remarkIdx}`] = `${candidateName} :` + votes[`${memberOption}`];

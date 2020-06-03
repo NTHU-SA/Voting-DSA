@@ -29,6 +29,7 @@ module.exports = {
 
     async authccxpCallback(req, res) {
         try {
+            if (req.query.code === undefined || req.query.error === 'access_denied') throw 'Authentication failed';
             const tokenInfo = await ccxpAuth.verifyCode(req.query.code);
             const userId = (await ccxpAuth.verifyAccessToken(
                 tokenInfo.access_token)).Userid;
@@ -42,7 +43,7 @@ module.exports = {
             res.redirect(`/voting.html`);
         } catch (e) {
             console.log(e);
-            res.status(401).send({ status: false, error: e.message });
+            res.status(401).send('認證失敗，請回上一頁重新嘗試登入');
         }
     },
 

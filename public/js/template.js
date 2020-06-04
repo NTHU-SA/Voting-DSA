@@ -208,13 +208,13 @@ const candidatesAppend = (actName) => {
       <div class="card-header cardTitle">${cardTitles}</div>
       <div class="card-body">
          <div class="row memberInfo memberInfo${idx}">
-            <div class="col-sm-8">
+            <div class="col-md-8 col-sm-12">
             <div class="row VPContent${idx} ">
-               <div class="col-8 col-sm-6">
+               <div class="col-md-6 col-sm-12">
                   <div class="candidate-img"><img style="width:100%;" src="${imgs}"/></div>
                   
                </div>
-               <div class="col-4 col-sm-6">
+               <div class="col-md-6 col-sm-12">
                   <ul class="list-group candidateItems mb-4">
                      <li class="list-group-item active candidateItemsTitle ${members}Name">${names}</li>
                      <li class="list-group-item candidateItemsTitle">${departments}</li>
@@ -229,7 +229,7 @@ const candidatesAppend = (actName) => {
                </div>
             </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4 col-sm-12">
                <ul class="list-group candidateItems">
                   <li class="list-group-item active candidateItemsTitle">個人政見</li>
                   {{each(i,opis) politicalOpinions}}

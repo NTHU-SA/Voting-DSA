@@ -80,3 +80,8 @@
     text-align:center;
     margin-top: 10px;
 }
+
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}

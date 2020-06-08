@@ -5,16 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "docker-compose -f ./docker-compose.dev.yml up -d && env NODE_ENV=dev && node app.js",
-    "start": "node app.js",
-    "init": "npx sequelize init",
-    "create": "npx db:create",
-    "create:prod": "npx sequelize db:create --env production",
-    "migration": "npx sequelize migration:create --name create-examples-table",
-    "migration:prod": "npx sequelize migration:create --name create-examples-table --env production",
-    "migrate": "npx sequelize db:migrate",
-    "migrate:prod": "npx sequelize db:migrate --env production",
-    "seeder": "npx sequelize seed:create --name init-users",
-    "seeder:prod": "npx sequelize seed:create --name init-users --env production"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +17,6 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "jsonwebtoken": "^8.5.1",
-    "mariadb": "^2.3.1",
     "mongoose": "^5.9.10",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
@@ -35,7 +25,6 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0",
-    "sequelize-cli": "^5.5.1"
+    "eslint-config-google": "^0.14.0"
   }
 }

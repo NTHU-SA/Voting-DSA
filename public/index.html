@@ -1,51 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/login.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
     <title>Voting</title>
-</head>
+  </head>
 
-<body>
-    <div class="login-dark" style="height: 100vh">
-        <div>
-            <h2 class="sr-only">Login Form</h2>
-            <div class="illustration">
-                <i class="icon ion-ios-locked-outline"></i>
-            </div>
-            <div class="form-group">
-                <input id="account-input" class="form-control" type="text" name="email" placeholder="校務資訊系統學號" />
-            </div>
-            <div class="form-group">
-                <input id="password-input" class="form-control" type="password" name="password"
-                    placeholder="校務資訊系統密碼" />
-            </div>
-            <div class="form-group">
-                <input id="captcha-input" class="form-control" type="text" name="captcha" placeholder="驗證碼" />
-            </div>
-            <div id="form-prompt" style="text-align: center;">
-                <p> * 資訊輸入錯誤，請再試一次</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="/auth/ccxp/captcha" alt="">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-block"
-                    onclick="signIn($('#account-input')[0].value, $('#password-input')[0].value, $('#captcha-input')[0].value)">
-                    Log In
-                </button>
-            </div>
+  <body>
+    <div class="login-dark" style="height: 100vh;">
+      <div>
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration">
+          <i class="icon ion-ios-locked-outline"></i>
         </div>
+        <div class="form-group">
+          <input
+            id="account-input"
+            class="form-control"
+            type="text"
+            name="email"
+            placeholder="校務資訊系統學號"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            id="password-input"
+            class="form-control"
+            type="password"
+            name="password"
+            placeholder="校務資訊系統密碼"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            id="captcha-input"
+            class="form-control"
+            type="text"
+            name="captcha"
+            placeholder="驗證碼"
+          />
+        </div>
+        <div id="form-prompt" style="text-align: center;">
+          <p>* 資訊輸入錯誤，請再試一次</p>
+        </div>
+        <div style="text-align: center;">
+          <img src="/auth/ccxp/captcha" alt="" />
+        </div>
+        <div class="form-group">
+          <button
+            class="btn btn-primary btn-block"
+            onclick="signIn($('#account-input')[0].value, $('#password-input')[0].value, $('#captcha-input')[0].value)"
+          >
+            Log In
+          </button>
+        </div>
+      </div>
     </div>
-    <script src="./js/signIn.js"></script>
-</body>
-
+    <script src="./js/utils.js"></script>
+    <script>
+      console.log(jwtToken);
+      if (jwtToken === "" || jwtToken === undefined) {
+        alert("即將跳轉到登入頁面");
+        window.location =
+          "https://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=nthusa&response_type=code&redirect_uri=https%3A%2F%2Fvoting.nthusa.cf%2Fcallback&scope=userid&state=SESSION_STATE";
+      } else {
+        window.location = "voting.html";
+      }
+    </script>
+  </body>
 </html>

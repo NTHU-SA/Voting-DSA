@@ -5,17 +5,18 @@ const Activities = Mongoose.model('activities');
 module.exports = {
     async addActivity(req, res) {
         try {
-            const {name, type, rule} = req.body;
+            const {name, type, rule, open_from, open_to} = req.body;
             // Add new activity type here
             const allowTypes = ['candidate'];
             // Add new activity rule here
             const allowRules = ['choose_one', 'choose_all'];
             if (!allowTypes.includes(type)) throw new Error(`Cannot add activity, invalid type=${type}`);
             if (!allowRules.includes(rule)) throw new Error(`Cannot add activity, invalid rule=${rule}`);
-            console.log('Passed');
             const created_at = new Date();
             const updated_at = created_at;
-            const result = await Activities.create({name, type, rule, created_at, updated_at});
+            openFrom = new Date(open_from);
+            openTo = new Date(open_to);
+            const result = await Activities.create({name, type, rule, created_at, updated_at, 'open_from': openFrom, 'open_to': openTo});
             res.json(result);
         } catch (error) {
             res.status(404).json({error});
@@ -39,6 +40,32 @@ module.exports = {
             const data = await Activities.find(filter, null, {limit, skip, sort}).lean();
             res.json({total, data});
         } catch (error) {
+            res.status(404).json({error});
+        }
+    },
+
+    async getAvailableActivities(req, res) {
+        try {
+            const {filter, limit, skip, sort} = req.body;
+            const { _id: user_id, student_id } = req.user;
+            const now = new Date();
+            const availableData = await Activities.find({users: {'$nin': user_id}, open_from: {'$lt': now}, open_to: {'$gte': now}}, null, {limit, skip, sort}).lean();
+            // 已投過票, 時候未到, 時間已過
+            const unavailableData = await Activities.find({$or: [
+                {users: {'$in': user_id}},
+                {open_from: {'$gte': now}},
+                {open_to: {'$lt': now}}]
+            }).lean();
+            const result = {'available': [], 'unavailable': []};
+            availableData.forEach((activity) => {
+                result.available.push({_id: activity._id, name: activity.name});
+            });
+            unavailableData.forEach((activity) => {
+                result.unavailable.push({_id: activity._id, name: activity.name});
+            });
+            res.json(result);
+        } catch (error) {
+            console.log(error);
             res.status(404).json({error});
         }
     },

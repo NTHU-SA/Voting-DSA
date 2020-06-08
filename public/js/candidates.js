@@ -43,29 +43,29 @@ const candidate3PoliticalOpinions = [
     '3. 學餐：就個人觀察，大家對學餐抱著嗤之以鼻之態，因此我認為應參考學生意願，選擇最大公約數，讓攤販進入學校，如此一來，他們才有市場，學生也吃得開心。',
 ];
 
-const candidate1 = {
-    'name': '劉彥均',
-    'department': '人文社會學院',
-    'college': '中國文學學系 21 級',
-    'avatar_url': 'http://test.jpeg',
-    'personal_experiences': candidate1PersonalExperiences,
-    'political_opinions': candidate1PoliticalOpinions,
-};
+const candidates = [
+    {
+        'name': '劉彥均',
+        'department': '人文社會學院',
+        'college': '中國文學學系21級',
+        'avatar_url': 'http://test.jpeg',
+        'personal_experiences': candidate1PersonalExperiences,
+        'political_opinions': candidate1PoliticalOpinions,
+    }, {
+        'name': '陳皆錫',
+        'department': '人文社會學院',
+        'college': '人文社會學院學士班22級',
+        'avatar_url': 'http://test.jpeg',
+        'personal_experiences': candidate2PersonalExperiences,
+        'political_opinions': candidate2PoliticalOpinions,
+    }, {
+        'name': '葉信宏',
+        'department': '電機資訊學院',
+        'college': '電機工程學系23級',
+        'avatar_url': 'http://test.jpeg',
+        'personal_experiences': candidate3PersonalExperiences,
+        'political_opinions': candidate3PoliticalOpinions,
+    }];
 
-const candidate2 = {
-    'name': '陳皆錫',
-    'department': '人文社會學院',
-    'college': '人文社會學院學士班 22 級',
-    'avatar_url': 'http://test.jpeg',
-    'personal_experiences': candidate2PersonalExperiences,
-    'political_opinions': candidate2PoliticalOpinions,
-};
 
-const candidate3 = {
-    'name': '葉信宏',
-    'department': '電機資訊學院',
-    'college': '電機工程學系 23 級',
-    'avatar_url': 'http://test.jpeg',
-    'personal_experiences': candidate3PersonalExperiences,
-    'political_opinions': candidate3PoliticalOpinions,
-};
+

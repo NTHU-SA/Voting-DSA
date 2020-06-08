@@ -54,6 +54,7 @@ module.exports = {
                 grant_type: 'authorization_code',
                 client_id: 'nthusa',
                 client_secret: '***REMOVED***',
+                redirect_uri: 'https%3A%2F%2Fvoting.nthusa.cf%2Fcallback',
                 code,
             });
             return response.data;
@@ -79,12 +80,8 @@ module.exports = {
         }
     },
 
-    /**
-     * @param {string} account student ccxp id
-     * @return {string} service_token
-     */
-    obtainServiceToken(account) {
-        const payload = {account};
+    obtainServiceToken(account, user) {
+        const payload = {account, ...user};
         const options = {
             'algorithm': 'HS256',
             'expiresIn': '1d',

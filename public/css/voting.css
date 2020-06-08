@@ -33,7 +33,7 @@
     margin: 0 auto;
 }
 
-.memberInfo {
+.memberInfo, .VPInfo {
     /* align-items: center; */
 }
 
@@ -50,13 +50,18 @@
     text-align: -webkit-center;
 }
 
-.voteTransperencissAnimate > img {
+.voteTransperencissAnimate > .img-yes-no {
     max-width: 0%;
     max-height: 0%;
     transition-property: all;
     transition-duration: 0.5s;
     transition-timing-function: ease-in;
     padding-top: 1em;
+}
+
+.img-click-icon {
+    max-width: 12%;
+    cursor: pointer;
 }
 
 .candidateItems {
@@ -73,4 +78,10 @@
 
 .btn-result{
     text-align:center;
+    margin-top: 10px;
+}
+
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
 }

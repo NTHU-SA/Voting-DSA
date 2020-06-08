@@ -9,31 +9,36 @@
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
 	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-	<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<title>
-		第 28 屆學生議會議員補選
+		清大投票系統
 	</title>
 </head>
 
 <body>
-	<h1 style="text-align: center; margin-top: 30px;">第 28 屆學生議會議員補選</h1>
+	<h1 id="h1" style="text-align: center; margin-top: 30px;"></h1>
 
-	<div class="test"></div>
-
-	<section class="member1">
-	</section>
-
-	<section class="member2">
-	</section>
-
-	<section class="member3">
-	</section>
-
+	<div class="modal fade modal-activity" id="chooseTypeModal" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+						請選擇您要參與的投票活動
+					</h5>
+					<a href="/auth/logout">登出</a>
+				</div>
+				<div class="modal-body" id="activityList"></div>
+			</div>
+		</div>
+	</div>
+	<!-- <div id="test"></div> -->
 	<div class="btn-result">
-		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult"
-			onclick="checkVote()">
+		<button type="button" class="btn btn-primary btn-check" data-toggle="modal" data-target="#checkResult" 
+			onclick="checkVote();">
 			送出投票結果
 		</button>
 	</div>
@@ -54,6 +59,36 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
 						data-target="#modalInfo">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade modalVoteInfo" id="checkResult" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+						投票說明
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>感謝同學使用線上投票系統！</p>
+					<p>本次投票，每一位候選人有 3 種投票選項，需要對所有候選人分別表示選項意見才能提交選票。選項分別有：</p>
+					<ol>
+						<li>我要投給他（同意）</li>
+						<li>我不投給他（不同意）</li>
+						<li>我沒有意見（廢票）</li>
+					</ol>
+						<p>貼心小提醒：點選時，請將滑鼠移到 <img src="./img/click-icon.png" style="max-width:8%; cursor: pointer;" class="img-responsive"/> 圖標上進行選取哦！</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-voteIndo" data-dismiss="modal"
+						>確定</button>
 				</div>
 			</div>
 		</div>
@@ -82,9 +117,30 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalToken" data-backdrop="static" tabindex="-1" role="dialog"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalTokan-title">
+						<!-- 投票成功 -->
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modalToken">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-modalTokenSecondary" data-dismiss="modal" onClick="window.location.reload();">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/utils.js"></script>
 	<script src="./js/voting.js"> </script>
 	<script src="./js/addActivity.js"></script>
-	<script src="./js/candidates.js"></script>
 	<script src="./js/template.js"></script>
 </body>
 

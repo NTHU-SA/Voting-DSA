@@ -50,28 +50,22 @@ module.exports = {
             const { _id: user_id, student_id } = req.user;
             const now = new Date();
             const availableData = await Activities.find({users: {'$nin': user_id}, open_from: {'$lt': now}, open_to: {'$gte': now}}, null, {limit, skip, sort}).lean();
-            // 已投過票
-            const votedData = await Activities.find({users: user_id}, null, {limit, skip, sort}).lean();
-            // 時間已過
-            const expiredData = await Activities.find({open_to: {'$lt': now}}, null, {limit, skip, sort}).lean();
-            // 時候未到
-            const notStartedData = await Activities.find({open_from: {'$gte': now}}, null, {limit, skip, sort}).lean();
-            const result = {'available': [], 'unavailable': new Set()};
+            // 已投過票, 時候未到, 時間已過
+            const unavailableData = await Activities.find({$or: [
+                {users: {'$in': user_id}},
+                {open_from: {'$gte': now}},
+                {open_to: {'$lt': now}}]
+            }).lean();
+            const result = {'available': [], 'unavailable': []};
             availableData.forEach((activity) => {
                 result.available.push({_id: activity._id, name: activity.name});
             });
-            votedData.forEach((activity) => {
-                result.unavailable.add({_id: activity._id, name: activity.name});
+            unavailableData.forEach((activity) => {
+                result.unavailable.push({_id: activity._id, name: activity.name});
             });
-            expiredData.forEach((activity) => {
-                result.unavailable.add({_id: activity._id, name: activity.name});
-            });
-            notStartedData.forEach((activity) => {
-                result.unavailable.add({_id: activity._id, name: activity.name});
-            });
-            result.unavailable = Array.from(result.unavailable);
             res.json(result);
         } catch (error) {
+            console.log(error);
             res.status(404).json({error});
         }
     },

@@ -2,13 +2,15 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const rp = require('request-promise');
 const config = require('../config.js');
+require('dotenv').config({ path: '.env' });
+const {OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUTHORIZE, OAUTH_TOKEN_URL, OAUTH_RESOURCE_URL} = process.env;
 
 module.exports = {
 
     async obtainCode(account, passwd, captcha, phpsessid) {
         const options = {
             method: 'POST',
-            url: 'https://oauth.ccxp.nthu.edu.tw/v1/authorize.php',
+            url: OAUTH_AUTHORIZE,
             qs: {
                 client_id: 'nthusa',
                 response_type: 'code',
@@ -50,10 +52,10 @@ module.exports = {
      */
     async verifyCode(code) {
         try {
-            const response = await axios.post(`https://oauth.ccxp.nthu.edu.tw/v1/token.php`, {
+            const response = await axios.post(OAUTH_TOKEN_URL, {
                 grant_type: 'authorization_code',
-                client_id: 'nthusa',
-                client_secret: '***REMOVED***',
+                client_id: OAUTH_CLIENT_ID,
+                client_secret: OAUTH_CLIENT_SECRET,
                 redirect_uri: 'https%3A%2F%2Fvoting.nthusa.cf%2Fcallback',
                 code,
             });
@@ -70,7 +72,7 @@ module.exports = {
      */
     async verifyAccessToken(accessToken) {
         try {
-            const response = await axios.post(`https://oauth.ccxp.nthu.edu.tw/v1/resource.php`, {}, {
+            const response = await axios.post(OAUTH_RESOURCE_URL, {}, {
                 headers: {Authorization: `Bearer ${accessToken}`},
             });
             return response.data;

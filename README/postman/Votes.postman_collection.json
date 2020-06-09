@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "70121be7-f3ec-4cdd-9176-b74f32de988d",
+		"name": "Votes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addVote",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "ccxp_sessid=q047fi0ova6iecbpqusnijbgcu; service_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWViNmViOGJjNzY3MDA0NGJiODk0YmRlIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTA5VDE3OjQyOjM1LjM3MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0wOVQxNzo0MjozNS4zNzFaIiwiX192IjowLCJpYXQiOjE1ODk4MDQxMzgsImV4cCI6MTU4OTg5MDUzOH0.c5ag6Leeaa7p-6qOyarpDBmVk1Jv7R6rBRGPkAOEfqc",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWViNmViOGJjNzY3MDA0NGJiODk0YmRlIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTA5VDE3OjQyOjM1LjM3MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0wOVQxNzo0MjozNS4zNzFaIiwiX192IjowLCJpYXQiOjE1ODk4MDQxMzgsImV4cCI6MTU4OTg5MDUzOH0.c5ag6Leeaa7p-6qOyarpDBmVk1Jv7R6rBRGPkAOEfqc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity_id\": \"5ec96080895b4078f6414c52\",\n\t\"rule\": \"choose_all\",\n\t\"choose_all\": [\n\t\t{\n\t\t\t\"option_id\": \"5ec960bf895b4078f6414c53\",\n\t\t\t\"remark\": \"我要投給他\"\n\t\t},\n\t\t{\n\t\t\t\"option_id\": \"5ec960c1895b4078f6414c54\",\n\t\t\t\"remark\": \"我不投給他\"\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/votes/addVote",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"votes",
+						"addVote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWViNmViOGJjNzY3MDA0NGJiODk0YmRlIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTA5VDE3OjQyOjM1LjM3MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0wOVQxNzo0MjozNS4zNzFaIiwiX192IjowLCJpYXQiOjE1OTAyNTE0NDIsImV4cCI6MTU5MDMzNzg0Mn0.Er6zPRh2lQCRbhptpSbUXsGLPbiEqHZzFnz9NaDpJwc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea8485f1fa49e71327ccae6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/votes/getVote",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"votes",
+						"getVote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVotes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"filter\": {\n\t\t\"activity_id\": \"5eb3cc6a1d62cd2d71231c14\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/votes/getVotes",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"votes",
+						"getVotes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyVote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea8485f1fa49e71327ccae6\",\n\t\"student_id\": \"107062130\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/votes/modifyVote",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"votes",
+						"modifyVote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeVote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea86b29723c74bc3ab6c257\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/votes/removeVote",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"votes",
+						"removeVote"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

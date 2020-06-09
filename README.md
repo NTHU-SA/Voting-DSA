@@ -6,17 +6,33 @@
 
 此專案歡迎各界高手幫忙開發貢獻，也歡迎其他學生自治組織使用這套投票系統，如果有好點子、改善建議也都相當歡迎提出 issue。
 
-## Install & Run
+## 操作畫面
+
+![](README/img/voting.jpg)
+
+![](README/img/activity.png)
+
+![](README/img/verification.jpg)
+
+[![YouTube demo](https://img.youtube.com/vi/SN2JP758dFA/0.jpg)](https://www.youtube.com/watch?v=SN2JP758dFA&feature=youtu.be)
+
+## 安裝、執行
 
 1. `npm install`
 2. `npm run dev`
 
-## import sample data
+## 匯入測試檔案
 
 - `mongorestore --drop --host localhost --port 27017 -uroot -ppassword --db voting_sa README/dump`
 
-## 操作畫面
+## 開發
 
-![](README/voting.jpg)
+- 在 [README/postman](README/postman) 中有 API 測試範本
 
-![](README/activity.png)
+## TODO
+
+- [ ] 加入登入跳轉到原先頁面
+- [ ] 加入 debug、log
+- [ ] 加入自動化測試
+- [ ] 修正投票按鈕點選範圍
+- [ ] 重構前端程式碼

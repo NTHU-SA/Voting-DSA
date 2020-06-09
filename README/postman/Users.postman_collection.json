@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "eb4f1d3a-e684-4215-b42a-f8244435ebb5",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"student_id\": \"107062131\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/addUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"addUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea8485f1fa49e71327ccae6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/getUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"getUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/getUsers",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"getUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea8485f1fa49e71327ccae6\",\n\t\"student_id\": \"107062130\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/modifyUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"modifyUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea8485f1fa49e71327ccae6\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/removeUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"removeUser"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

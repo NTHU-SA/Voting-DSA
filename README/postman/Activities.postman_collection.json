@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "60967ac9-87c9-4076-8e1b-708046bd47df",
+		"name": "Activities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addActivity",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"第29屆學生會正副會長\",\n\t\"type\": \"candidate\",\n\t\"rule\": \"choose_all\",\n\t\"open_from\": \"2020/06/04 12:00:00\",\n\t\"open_to\": \"2020/06/06 12:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/addActivity",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"addActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getActivity",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ec9a1db70fd959df442664b\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/getActivity",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"getActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getActivities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjYTc3N2I3MGZkOTU5ZGY0NDI2NjUxIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTI0VDEzOjMyOjQzLjc1MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yNFQxMzozMjo0My43NTFaIiwiX192IjowLCJpYXQiOjE1OTAzMjcxNjMsImV4cCI6MTU5MDQxMzU2M30.aDKB13EppxgVmJhGoeI2pJWtOMEUO0YKHP5I2S1p6wo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWViNmViOGJjNzY3MDA0NGJiODk0YmRlIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTA5VDE3OjQyOjM1LjM3MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0wOVQxNzo0MjozNS4zNzFaIiwiX192IjowLCJpYXQiOjE1OTAyNTMwMzQsImV4cCI6MTU5MDMzOTQzNH0.A1-5PbkvNylkv6eOjP8RGb-Zzhz2ITzFgsHXcleERkQ",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/getActivities",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"getActivities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAvailableActivities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/getAvailableActivities",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"getAvailableActivities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyActivity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea850b60969e973ef7ac673\",\n\t\"name\": \"測試投票～\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/modifyActivity",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"modifyActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeActivity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_id\": \"5ea9ab8e64ab10ebf9578093\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/activities/removeActivity",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"activities",
+						"removeActivity"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

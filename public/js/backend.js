@@ -1,3 +1,7 @@
+chartQueue = [];
+// 改善 chart.js 解析度
+window.devicePixelRatio = 3;
+
 function showActivity(resp) {
     const data = resp.data.data;
     const $table = $('#table');
@@ -14,7 +18,7 @@ async function getActivity() {
 }
 
 getActivity();
-
+setInterval(drawChart, 500);
 
 function operateFormatter(value, row, index) {
     return [
@@ -25,8 +29,7 @@ function operateFormatter(value, row, index) {
 }
 
 window.operateEvents = {
-    'click .edit': function (e, value, row, index) {
-        console.log(row._id);
+    'click .edit': function(e, value, row, index) {
         // TODO: 建立編輯頁面
     },
 };
@@ -45,10 +48,10 @@ function detailFormatter(index, row) {
         headers: { Authorization: `Bearer ${jwtToken}` },
         contentType: 'application/json;charset=utf-8',
         async: false,
-        success: function (resp) {
+        success: function(resp) {
             return resp;
         },
-        error: function (xhr, ajaxOptions, thrownError) {
+        error: function(xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請重新整理此頁面😥');
             return false;
         },
@@ -80,6 +83,9 @@ function detailFormatter(index, row) {
                     html.push(`<li>${k}: ${v}</li>`);
                 });
                 html.push('</ul>');
+                const chartId = `chart-${makeId(10)}`;
+                html.push(`<div class="col-md-7"><canvas id="${chartId}"></canvas></div>`);
+                chartQueue.push({ name: candidate.name, chartId, vote });
             }
             html.push('</li>');
         });
@@ -141,10 +147,10 @@ function getVotes(activityId, candidates) {
         contentType: 'application/json;charset=utf-8',
         headers: { 'Authorization': `Bearer ${jwtToken}` },
         async: false,
-        success: function (resp) {
+        success: function(resp) {
             return resp;
         },
-        error: function (xhr, ajaxOptions, thrownError) {
+        error: function(xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請確認您是否擁有管理員權限！');
             return false;
         },
@@ -171,3 +177,79 @@ function getVotes(activityId, candidates) {
     }
 }
 
+function makeId(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function drawChart() {
+    for (let i = 0; i < chartQueue.length; i++) {
+        const element = chartQueue[i];
+        if (element.drawn == true) continue;
+        const ctx = document.getElementById(element.chartId);
+        if (ctx == undefined) continue;
+        const label = Object.keys(element.vote);
+        const data = Object.values(element.vote);
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#4d72bd',
+                        '#dd8143',
+                        '#a3a3a3',
+                        '#42f57e',
+                    ],
+                    label: element.name,
+                }],
+                labels: label,
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 500,
+                    easing: 'easeOutQuart',
+                    onComplete: function() {
+                        const ctx = this.chart.ctx;
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        this.data.datasets.forEach(function(dataset) {
+                            for (let i = 0; i < dataset.data.length; i++) {
+                                const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                                const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+                                const mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+                                const start_angle = model.startAngle;
+                                const end_angle = model.endAngle;
+                                const mid_angle = start_angle + (end_angle - start_angle) / 2;
+
+                                const x = mid_radius * Math.cos(mid_angle);
+                                const y = mid_radius * Math.sin(mid_angle);
+
+                                ctx.fillStyle = '#fff';
+                                if (i == 3) { // Darker text color for lighter background
+                                    ctx.fillStyle = '#444';
+                                }
+                                const percent = String(Math.round(dataset.data[i] / total * 100)) + '%';
+                                // Don't Display If Legend is hide or value is 0
+                                // if (dataset.data[i] != 0 && dataset._meta[0].data[i].hidden != true) {
+                                ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+                                // Display percent in another line, line break doesn't work for fillText
+                                ctx.fillText(percent, model.x + x, model.y + y + 15);
+                                // }
+                            }
+                        });
+                    },
+                },
+            },
+        });
+        element['drawn'] = true;
+    }
+}

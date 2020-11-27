@@ -1,6 +1,7 @@
 chartQueue = [];
 // 改善 chart.js 解析度
 window.devicePixelRatio = 3;
+errorReloadText = '發生錯誤，請重新整理此頁面😥';
 
 getActivity();
 setInterval(drawChart, 500);
@@ -16,7 +17,7 @@ async function getActivity() {
     try {
         await axios.post('/activities/getActivities').then(showActivity);
     } catch (error) {
-        alert('發生錯誤，請重新整理此頁面😥');
+        alert(errorReloadText);
     }
 }
 
@@ -63,13 +64,86 @@ async function editActivity(id) {
             // save button
             save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateActivity(id) });
             modal.find(`#modalBody-${id}`).append($(save_btn));
+            // add edit candidate data
+            edit_candidates = $('<button />', { class: 'btn btn-link pull-right', text: '編輯候選人' }).click(() => { editCandidate(id, modal) });
+            modal.find(`#modalBody-${id}`).append(edit_candidates);
+
 
             // trigger modal
             $(`#modal-${id}`).modal();
         });
     } catch (error) {
-        alert('發生錯誤，請重新整理此頁面😥');
+        alert(errorReloadText);
         console.log(error);
+    }
+}
+
+async function editCandidate(activity_id, previous_modal) {
+    let id = `candidate-${activity_id}`;
+    // close previous modal
+    previous_modal.modal('toggle');
+    console.log(activity_id);
+    try {
+        await axios.post('/options/getOptions', { filter: { activity_id } }).then((resp) => {
+            data = resp.data.data;
+            console.log(data);
+            if ($(`#modal-${id}`)[0] != undefined) {
+                modal = $(`#modal-${id}`).remove();
+            }
+            // pre-config
+            modal = $('#modal').clone();
+            modal[0].id = `modal-${id}`;
+            modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+            modal.find(`#modalTitle-${id}`)[0].innerHTML = `編輯候選人`;
+            modal.find('#modalBody')[0].innerHTML = "";
+            modal.find('#modalBody')[0].id = `modalBody-${id}`;
+            modal.insertAfter($('#modal'));
+
+            accordion = $('<div />', { class: 'accordion', id: `accordion-${id}` });
+            modal.find(`#modalBody-${id}`).append(accordion);
+
+            data.forEach((candidate, index) => {
+                candidate_info = candidate.candidate;
+                card = $('<div />', { class: 'card' });
+                accordion.append(card);
+
+                cardHeader = $('<div />', { class: 'card-header', id: `${id}-heading-${index}` });
+                card.append(cardHeader);
+                headerBtn = $('<button />', { class: 'btn btn-link btn-block', text: candidate_info.name });
+                headerBtn.attr('data-toggle', 'collapse');
+                headerBtn.attr('data-target', `#${id}-collapse-${index}`);
+                headerBtn.attr('aria-expanded', 'false');
+                headerBtn.attr('aria-controls', `${id}-collapse-${index}`);
+                cardHeader.append(headerBtn);
+
+                cardCollapse = $('<div />', { class: 'collapse', id: `${id}-collapse-${index}` });
+                cardCollapse.attr('aria-labelledby', `${id}-heading-${index}`);
+                cardCollapse.attr('data-parent', `#accordion-${id}`);
+                card.append(cardCollapse);
+
+                cardBody = $('<div />', { class: 'card-body' });
+                cardCollapse.append(cardBody);
+
+                console.log(candidate);
+                // 姓名
+                cardBody.append($('<p>', { text: `候選人：${candidate_info.name}` }));
+                // 系級
+                dept = $('<label>', { text: '系級：' });
+                cardBody.append(dept);
+                $('<input>', { value: candidate_info.department }).appendTo(dept);
+                cardBody.append($('<br />'));
+                // 學院
+                college = $('<label>', { text: '學院' });
+                cardBody.append(college);
+                $('<input>', { value: candidate_info.college }).appendTo(college);
+                cardBody.append($('<br />'));
+            })
+
+            // trigger modal
+            $(`#modal-${id}`).modal();
+        });
+    } catch (error) {
+        alert(errorReloadText);
     }
 }
 
@@ -80,15 +154,14 @@ async function updateActivity(id) {
         open_from = $(`#${id}-open-from`)[0].value;
         open_to = $(`#${id}-open-to`)[0].value;
         await axios.post('/activities/modifyActivity', { _id, name, open_from, open_to }).then((resp) => {
-            console.log(resp);
+            if (resp.data.success) {
+                $('#table').bootstrapTable('destroy');
+                getActivity();
+            }
         });
     } catch (error) {
-        alert('發生錯誤，請重新整理此頁面😥');
+        alert(errorReloadText);
     }
-}
-
-async function addActivity(id) {
-
 }
 
 function newActivity() {
@@ -170,7 +243,7 @@ function detailFormatter(index, row) {
             return resp;
         },
         error: function(xhr, ajaxOptions, thrownError) {
-            alert('發生錯誤，請重新整理此頁面😥');
+            alert(errorReloadText);
             return false;
         },
     }).responseJSON;

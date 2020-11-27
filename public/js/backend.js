@@ -2,6 +2,9 @@ chartQueue = [];
 // 改善 chart.js 解析度
 window.devicePixelRatio = 3;
 
+getActivity();
+setInterval(drawChart, 500);
+
 function showActivity(resp) {
     const data = resp.data.data;
     const $table = $('#table');
@@ -17,12 +20,127 @@ async function getActivity() {
     }
 }
 
-getActivity();
-setInterval(drawChart, 500);
+async function editActivity(id) {
+    try {
+        await axios.post('/activities/getActivity', { _id: id }).then((resp) => {
+            data = resp.data;
+            console.log(data);
+            if ($(`#modal-${id}`)[0] != undefined) {
+                modal = $(`#modal-${id}`).remove();
+            }
+            // pre-config
+            modal = $('#modal').clone();
+            modal[0].id = `modal-${id}`;
+            modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+            modal.find(`#modalTitle-${id}`)[0].innerHTML = `編輯：${data.name}`;
+            modal.find('#modalBody')[0].innerHTML = "";
+            modal.find('#modalBody')[0].id = `modalBody-${id}`;
+            modal.insertAfter($('#modal'));
+
+            // edit name
+            $('<input />', { value: data.name });
+            name_input = $('<input />', { id: `${id}-name`, value: data.name });
+            name_label = $('<label>').text('活動名稱: ');
+            name_input.appendTo(name_label);
+            modal.find(`#modalBody-${id}`).append(name_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+
+            // time format info
+            info = $('<p>', { text: '時間格式範例：2020-06-04T04:00:00.000Z，需注意這是 GMT+0 時間，也就是台灣時間 2020/06/04 中午 12 點整，請自行換算。' });
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+            modal.find(`#modalBody-${id}`).append(info);
+
+            // edit time
+            open_from_label = $('<label>').text('開放時間: ');
+            $('<input />', { id: `${id}-open-from`, value: data.open_from }).appendTo(open_from_label);
+            modal.find(`#modalBody-${id}`).append(open_from_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+            open_to_label = $('<label>').text('結束時間: ');
+            $('<input />', { id: `${id}-open-to`, value: data.open_to }).appendTo(open_to_label);
+            modal.find(`#modalBody-${id}`).append(open_to_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+
+            // save button
+            save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateActivity(id) });
+            modal.find(`#modalBody-${id}`).append($(save_btn));
+
+            // trigger modal
+            $(`#modal-${id}`).modal();
+        });
+    } catch (error) {
+        alert('發生錯誤，請重新整理此頁面😥');
+        console.log(error);
+    }
+}
+
+async function updateActivity(id) {
+    try {
+        _id = id;
+        name = $(`#${id}-name`)[0].value;
+        open_from = $(`#${id}-open-from`)[0].value;
+        open_to = $(`#${id}-open-to`)[0].value;
+        await axios.post('/activities/modifyActivity', { _id, name, open_from, open_to }).then((resp) => {
+            console.log(resp);
+        });
+    } catch (error) {
+        alert('發生錯誤，請重新整理此頁面😥');
+    }
+}
+
+async function addActivity(id) {
+
+}
+
+function newActivity() {
+    id = 'addActivity';
+
+    if ($(`#modal-${id}`)[0] != undefined) {
+        modal = $(`#modal-${id}`).remove();
+    }
+
+    // pre-config
+    modal = $('#modal').clone();
+    modal[0].id = `modal-${id}`;
+    modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+    modal.find(`#modalTitle-${id}`)[0].innerHTML = `新增活動`;
+    modal.find('#modalBody')[0].innerHTML = "";
+    modal.find('#modalBody')[0].id = `modalBody-${id}`;
+    modal.insertAfter($('#modal'));
+
+    // edit name
+    $('<input />');
+    name_input = $('<input />', { id: `${id}-name` });
+    name_label = $('<label>').text('活動名稱: ');
+    name_input.appendTo(name_label);
+    modal.find(`#modalBody-${id}`).append(name_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+
+    // time format info
+    info = $('<p>', { text: '時間格式範例：2020-06-04T04:00:00.000Z，需注意這是 GMT+0 時間，也就是台灣時間 2020/06/04 中午 12 點整，請自行換算。' });
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+    modal.find(`#modalBody-${id}`).append(info);
+
+    // edit time
+    open_from_label = $('<label>').text('開放時間: ');
+    $('<input />', { id: `${id}-open-from` }).appendTo(open_from_label);
+    modal.find(`#modalBody-${id}`).append(open_from_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+    open_to_label = $('<label>').text('結束時間: ');
+    $('<input />', { id: `${id}-open-to` }).appendTo(open_to_label);
+    modal.find(`#modalBody-${id}`).append(open_to_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+
+    // save button
+    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { addActivity(id) });
+    modal.find(`#modalBody-${id}`).append($(save_btn));
+
+    // trigger modal
+    $(`#modal-${id}`).modal();
+}
 
 function operateFormatter(value, row, index) {
     return [
-        '<a class="edit" href="javascript:void(0)" title="edit">',
+        `<a class="edit" href="#" title="edit">`,
         '<i class="fas fa-edit"></i>',
         '</a>  ',
     ].join('');
@@ -30,7 +148,7 @@ function operateFormatter(value, row, index) {
 
 window.operateEvents = {
     'click .edit': function(e, value, row, index) {
-        // TODO: 建立編輯頁面
+        editActivity(row._id);
     },
 };
 

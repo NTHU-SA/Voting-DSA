@@ -4,12 +4,14 @@ const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
 const files = require('./controllers/files');
+const mock = require('./controllers/mock');
 const authentication = require('./middlewares/authentication');
 const adminAuthorization = require('./middlewares/adminAuthorization');
 
 // eslint-disable-next-line new-cap
 const router = require('express').Router();
 
+router.get('/auth_url', authController.authURL);
 router.get('/callback', authController.authccxpCallback);
 router.get('/auth/ccxp/captcha', authController.getccxpCaptchaImage);
 router.post('/auth/ccxp', authController.authccxp);
@@ -47,5 +49,10 @@ router.post('/options/removeOption', authentication, adminAuthorization, options
 
 // files
 router.post('/files/uploadFile', authentication, files.uploadFile);
+
+// mock
+router.get('/mock/auth', mock.auth);
+router.post('/mock/token', mock.token);
+router.post('/mock/resource', mock.resource);
 
 module.exports = router;

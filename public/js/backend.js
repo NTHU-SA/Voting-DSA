@@ -1,3 +1,11 @@
+chartQueue = [];
+// 改善 chart.js 解析度
+window.devicePixelRatio = 3;
+errorReloadText = '發生錯誤，請重新整理此頁面😥';
+
+getActivity();
+setInterval(drawChart, 500);
+
 function showActivity(resp) {
     const data = resp.data.data;
     const $table = $('#table');
@@ -9,25 +17,211 @@ async function getActivity() {
     try {
         await axios.post('/activities/getActivities').then(showActivity);
     } catch (error) {
-        alert('發生錯誤，請重新整理此頁面😥');
+        alert(errorReloadText);
     }
 }
 
-getActivity();
+async function editActivity(id) {
+    try {
+        await axios.post('/activities/getActivity', { _id: id }).then((resp) => {
+            data = resp.data;
+            console.log(data);
+            if ($(`#modal-${id}`)[0] != undefined) {
+                modal = $(`#modal-${id}`).remove();
+            }
+            // pre-config
+            modal = $('#modal').clone();
+            modal[0].id = `modal-${id}`;
+            modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+            modal.find(`#modalTitle-${id}`)[0].innerHTML = `編輯：${data.name}`;
+            modal.find('#modalBody')[0].innerHTML = "";
+            modal.find('#modalBody')[0].id = `modalBody-${id}`;
+            modal.insertAfter($('#modal'));
 
+            // edit name
+            $('<input />', { value: data.name });
+            name_input = $('<input />', { id: `${id}-name`, value: data.name });
+            name_label = $('<label>').text('活動名稱: ');
+            name_input.appendTo(name_label);
+            modal.find(`#modalBody-${id}`).append(name_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+
+            // time format info
+            info = $('<p>', { text: '時間格式範例：2020-06-04T04:00:00.000Z，需注意這是 GMT+0 時間，也就是台灣時間 2020/06/04 中午 12 點整，請自行換算。' });
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+            modal.find(`#modalBody-${id}`).append(info);
+
+            // edit time
+            open_from_label = $('<label>').text('開放時間: ');
+            $('<input />', { id: `${id}-open-from`, value: data.open_from }).appendTo(open_from_label);
+            modal.find(`#modalBody-${id}`).append(open_from_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+            open_to_label = $('<label>').text('結束時間: ');
+            $('<input />', { id: `${id}-open-to`, value: data.open_to }).appendTo(open_to_label);
+            modal.find(`#modalBody-${id}`).append(open_to_label);
+            modal.find(`#modalBody-${id}`).append($('<br />'));
+
+            // save button
+            save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateActivity(id) });
+            modal.find(`#modalBody-${id}`).append($(save_btn));
+            // add edit candidate data
+            edit_candidates = $('<button />', { class: 'btn btn-link pull-right', text: '編輯候選人' }).click(() => { editCandidate(id, modal) });
+            modal.find(`#modalBody-${id}`).append(edit_candidates);
+
+
+            // trigger modal
+            $(`#modal-${id}`).modal();
+        });
+    } catch (error) {
+        alert(errorReloadText);
+        console.log(error);
+    }
+}
+
+async function editCandidate(activity_id, previous_modal) {
+    let id = `candidate-${activity_id}`;
+    // close previous modal
+    previous_modal.modal('toggle');
+    console.log(activity_id);
+    try {
+        await axios.post('/options/getOptions', { filter: { activity_id } }).then((resp) => {
+            data = resp.data.data;
+            console.log(data);
+            if ($(`#modal-${id}`)[0] != undefined) {
+                modal = $(`#modal-${id}`).remove();
+            }
+            // pre-config
+            modal = $('#modal').clone();
+            modal[0].id = `modal-${id}`;
+            modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+            modal.find(`#modalTitle-${id}`)[0].innerHTML = `編輯候選人`;
+            modal.find('#modalBody')[0].innerHTML = "";
+            modal.find('#modalBody')[0].id = `modalBody-${id}`;
+            modal.insertAfter($('#modal'));
+
+            accordion = $('<div />', { class: 'accordion', id: `accordion-${id}` });
+            modal.find(`#modalBody-${id}`).append(accordion);
+
+            data.forEach((candidate, index) => {
+                candidate_info = candidate.candidate;
+                card = $('<div />', { class: 'card' });
+                accordion.append(card);
+
+                cardHeader = $('<div />', { class: 'card-header', id: `${id}-heading-${index}` });
+                card.append(cardHeader);
+                headerBtn = $('<button />', { class: 'btn btn-link btn-block', text: candidate_info.name });
+                headerBtn.attr('data-toggle', 'collapse');
+                headerBtn.attr('data-target', `#${id}-collapse-${index}`);
+                headerBtn.attr('aria-expanded', 'false');
+                headerBtn.attr('aria-controls', `${id}-collapse-${index}`);
+                cardHeader.append(headerBtn);
+
+                cardCollapse = $('<div />', { class: 'collapse', id: `${id}-collapse-${index}` });
+                cardCollapse.attr('aria-labelledby', `${id}-heading-${index}`);
+                cardCollapse.attr('data-parent', `#accordion-${id}`);
+                card.append(cardCollapse);
+
+                cardBody = $('<div />', { class: 'card-body' });
+                cardCollapse.append(cardBody);
+
+                console.log(candidate);
+                // 姓名
+                cardBody.append($('<p>', { text: `候選人：${candidate_info.name}` }));
+                // 系級
+                dept = $('<label>', { text: '系級：' });
+                cardBody.append(dept);
+                $('<input>', { value: candidate_info.department }).appendTo(dept);
+                cardBody.append($('<br />'));
+                // 學院
+                college = $('<label>', { text: '學院' });
+                cardBody.append(college);
+                $('<input>', { value: candidate_info.college }).appendTo(college);
+                cardBody.append($('<br />'));
+            })
+
+            // trigger modal
+            $(`#modal-${id}`).modal();
+        });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
+async function updateActivity(id) {
+    try {
+        _id = id;
+        name = $(`#${id}-name`)[0].value;
+        open_from = $(`#${id}-open-from`)[0].value;
+        open_to = $(`#${id}-open-to`)[0].value;
+        await axios.post('/activities/modifyActivity', { _id, name, open_from, open_to }).then((resp) => {
+            if (resp.data.success) {
+                $('#table').bootstrapTable('destroy');
+                getActivity();
+            }
+        });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
+function newActivity() {
+    id = 'addActivity';
+
+    if ($(`#modal-${id}`)[0] != undefined) {
+        modal = $(`#modal-${id}`).remove();
+    }
+
+    // pre-config
+    modal = $('#modal').clone();
+    modal[0].id = `modal-${id}`;
+    modal.find('#modalTitle')[0].id = `modalTitle-${id}`;
+    modal.find(`#modalTitle-${id}`)[0].innerHTML = `新增活動`;
+    modal.find('#modalBody')[0].innerHTML = "";
+    modal.find('#modalBody')[0].id = `modalBody-${id}`;
+    modal.insertAfter($('#modal'));
+
+    // edit name
+    $('<input />');
+    name_input = $('<input />', { id: `${id}-name` });
+    name_label = $('<label>').text('活動名稱: ');
+    name_input.appendTo(name_label);
+    modal.find(`#modalBody-${id}`).append(name_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+
+    // time format info
+    info = $('<p>', { text: '時間格式範例：2020-06-04T04:00:00.000Z，需注意這是 GMT+0 時間，也就是台灣時間 2020/06/04 中午 12 點整，請自行換算。' });
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+    modal.find(`#modalBody-${id}`).append(info);
+
+    // edit time
+    open_from_label = $('<label>').text('開放時間: ');
+    $('<input />', { id: `${id}-open-from` }).appendTo(open_from_label);
+    modal.find(`#modalBody-${id}`).append(open_from_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+    open_to_label = $('<label>').text('結束時間: ');
+    $('<input />', { id: `${id}-open-to` }).appendTo(open_to_label);
+    modal.find(`#modalBody-${id}`).append(open_to_label);
+    modal.find(`#modalBody-${id}`).append($('<br />'));
+
+    // save button
+    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { addActivity(id) });
+    modal.find(`#modalBody-${id}`).append($(save_btn));
+
+    // trigger modal
+    $(`#modal-${id}`).modal();
+}
 
 function operateFormatter(value, row, index) {
     return [
-        '<a class="edit" href="javascript:void(0)" title="edit">',
+        `<a class="edit" href="#" title="edit">`,
         '<i class="fas fa-edit"></i>',
         '</a>  ',
     ].join('');
 }
 
 window.operateEvents = {
-    'click .edit': function (e, value, row, index) {
-        console.log(row._id);
-        // TODO: 建立編輯頁面
+    'click .edit': function(e, value, row, index) {
+        editActivity(row._id);
     },
 };
 
@@ -45,11 +239,11 @@ function detailFormatter(index, row) {
         headers: { Authorization: `Bearer ${jwtToken}` },
         contentType: 'application/json;charset=utf-8',
         async: false,
-        success: function (resp) {
+        success: function(resp) {
             return resp;
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert('發生錯誤，請重新整理此頁面😥');
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(errorReloadText);
             return false;
         },
     }).responseJSON;
@@ -80,6 +274,9 @@ function detailFormatter(index, row) {
                     html.push(`<li>${k}: ${v}</li>`);
                 });
                 html.push('</ul>');
+                const chartId = `chart-${makeId(10)}`;
+                html.push(`<div class="col-md-7"><canvas id="${chartId}"></canvas></div>`);
+                chartQueue.push({ name: candidate.name, chartId, vote });
             }
             html.push('</li>');
         });
@@ -141,10 +338,10 @@ function getVotes(activityId, candidates) {
         contentType: 'application/json;charset=utf-8',
         headers: { 'Authorization': `Bearer ${jwtToken}` },
         async: false,
-        success: function (resp) {
+        success: function(resp) {
             return resp;
         },
-        error: function (xhr, ajaxOptions, thrownError) {
+        error: function(xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請確認您是否擁有管理員權限！');
             return false;
         },
@@ -171,3 +368,79 @@ function getVotes(activityId, candidates) {
     }
 }
 
+function makeId(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function drawChart() {
+    for (let i = 0; i < chartQueue.length; i++) {
+        const element = chartQueue[i];
+        if (element.drawn == true) continue;
+        const ctx = document.getElementById(element.chartId);
+        if (ctx == undefined) continue;
+        const label = Object.keys(element.vote);
+        const data = Object.values(element.vote);
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#4d72bd',
+                        '#dd8143',
+                        '#a3a3a3',
+                        '#42f57e',
+                    ],
+                    label: element.name,
+                }],
+                labels: label,
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 500,
+                    easing: 'easeOutQuart',
+                    onComplete: function() {
+                        const ctx = this.chart.ctx;
+                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        this.data.datasets.forEach(function(dataset) {
+                            for (let i = 0; i < dataset.data.length; i++) {
+                                const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                                const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+                                const mid_radius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+                                const start_angle = model.startAngle;
+                                const end_angle = model.endAngle;
+                                const mid_angle = start_angle + (end_angle - start_angle) / 2;
+
+                                const x = mid_radius * Math.cos(mid_angle);
+                                const y = mid_radius * Math.sin(mid_angle);
+
+                                ctx.fillStyle = '#fff';
+                                if (i == 3) { // Darker text color for lighter background
+                                    ctx.fillStyle = '#444';
+                                }
+                                const percent = String(Math.round(dataset.data[i] / total * 100)) + '%';
+                                // Don't Display If Legend is hide or value is 0
+                                // if (dataset.data[i] != 0 && dataset._meta[0].data[i].hidden != true) {
+                                ctx.fillText(dataset.data[i], model.x + x, model.y + y);
+                                // Display percent in another line, line break doesn't work for fillText
+                                ctx.fillText(percent, model.x + x, model.y + y + 15);
+                                // }
+                            }
+                        });
+                    },
+                },
+            },
+        });
+        element['drawn'] = true;
+    }
+}

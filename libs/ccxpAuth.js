@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const rp = require('request-promise');
 const config = require('../config.js');
 require('dotenv').config({ path: '.env' });
-const {OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUTHORIZE, OAUTH_TOKEN_URL, OAUTH_RESOURCE_URL} = process.env;
+const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUTHORIZE, OAUTH_TOKEN_URL, OAUTH_RESOURCE_URL } = process.env;
 
 module.exports = {
 
@@ -27,7 +27,8 @@ module.exports = {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             form: {
-                account, passwd,
+                account,
+                passwd,
                 oauth_captcha: captcha,
                 undefined: undefined,
             },
@@ -73,7 +74,7 @@ module.exports = {
     async verifyAccessToken(accessToken) {
         try {
             const response = await axios.post(OAUTH_RESOURCE_URL, {}, {
-                headers: {Authorization: `Bearer ${accessToken}`},
+                headers: { Authorization: `Bearer ${accessToken}` },
             });
             return response.data;
         } catch (e) {
@@ -83,7 +84,7 @@ module.exports = {
     },
 
     obtainServiceToken(account, user) {
-        const payload = {account, ...user};
+        const payload = { account, ...user };
         const options = {
             'algorithm': 'HS256',
             'expiresIn': '1d',

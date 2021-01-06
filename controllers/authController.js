@@ -7,6 +7,14 @@ const Users = Mongoose.model('users');
 
 module.exports = {
 
+    async authURL(req, res) {
+        let { OAUTH_LOGIN } = process.env;
+        if (OAUTH_LOGIN == undefined) {
+            OAUTH_LOGIN = 'https://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=nthusa&response_type=code&redirect_uri=https%3A%2F%2Fvoting.nthusa.cf%2Fcallback&scope=userid&state=SESSION_STATE';
+        }
+        res.redirect(OAUTH_LOGIN);
+    },
+
     async authccxp(req, res) {
         try {
             const { account, passwd, captcha, ccxp_sessid } = req.body;
@@ -104,4 +112,3 @@ module.exports = {
         res.redirect('/');
     },
 };
-

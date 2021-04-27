@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const rp = require('request-promise');
 const config = require('../config.js');
 require('dotenv').config({ path: '.env' });
-const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUTHORIZE, OAUTH_TOKEN_URL, OAUTH_RESOURCE_URL } = process.env;
+const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_AUTHORIZE, OAUTH_TOKEN_URL, OAUTH_RESOURCE_URL, OAUTH_CALLBACK_URL } = process.env;
 
 module.exports = {
 
@@ -57,7 +57,7 @@ module.exports = {
                 grant_type: 'authorization_code',
                 client_id: OAUTH_CLIENT_ID,
                 client_secret: OAUTH_CLIENT_SECRET,
-                redirect_uri: 'https%3A%2F%2Fvoting.nthusa.cf%2Fcallback',
+                redirect_uri: encodeURIComponent(OAUTH_CALLBACK_URL),
                 code,
             });
             return response.data;

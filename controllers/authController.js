@@ -4,15 +4,15 @@ const ccxpAuth = require('../libs/ccxpAuth.js');
 const config = require('../config.js');
 const Mongoose = require('mongoose');
 const Users = Mongoose.model('users');
+const { OAUTH_CLIENT_ID, OAUTH_AUTHORIZE, OAUTH_CALLBACK_URL, OAUTH_SCOPE, OAUTH_LOGIN } = process.env;
 
 module.exports = {
 
     async authURL(req, res) {
-        let { OAUTH_LOGIN } = process.env;
-        if (OAUTH_LOGIN == undefined) {
-            OAUTH_LOGIN = 'https://oauth.ccxp.nthu.edu.tw/v1/authorize.php?client_id=nthusa&response_type=code&redirect_uri=https%3A%2F%2Fvoting.nthusa.cf%2Fcallback&scope=userid&state=SESSION_STATE';
-        }
-        res.redirect(OAUTH_LOGIN);
+	// if OAUTH_LOGIN == undefined: stub login
+        res.redirect(OAUTH_LOGIN == undefined ?
+		`${OAUTH_AUTHORIZE}?client_id=${OAUTH_CLIENT_ID}&response_type=code&redirect_uri=${OAUTH_CALLBACK_URL}&scope=${OAUTH_SCOPE}`
+		: OAUTH_LOGIN);
     },
 
     async authccxp(req, res) {

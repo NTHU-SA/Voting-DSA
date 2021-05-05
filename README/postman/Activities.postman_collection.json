@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "60967ac9-87c9-4076-8e1b-708046bd47df",
+		"_postman_id": "94fb0195-b066-475d-ab29-75550f1cf2c9",
 		"name": "Activities",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -30,11 +30,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/addActivity",
+					"raw": "{{base_url}}/activities/addActivity",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"addActivity"
@@ -51,7 +50,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -68,11 +67,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/getActivity",
+					"raw": "{{base_url}}/activities/getActivity",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"getActivity"
@@ -89,7 +87,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjYTc3N2I3MGZkOTU5ZGY0NDI2NjUxIiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTI0VDEzOjMyOjQzLjc1MVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yNFQxMzozMjo0My43NTFaIiwiX192IjowLCJpYXQiOjE1OTAzMjcxNjMsImV4cCI6MTU5MDQxMzU2M30.aDKB13EppxgVmJhGoeI2pJWtOMEUO0YKHP5I2S1p6wo",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -113,11 +111,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/getActivities",
+					"raw": "{{base_url}}/activities/getActivities",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"getActivities"
@@ -134,7 +131,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -151,11 +148,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/getAvailableActivities",
+					"raw": "{{base_url}}/activities/getAvailableActivities",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"getAvailableActivities"
@@ -167,6 +163,16 @@
 		{
 			"name": "modifyActivity",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -179,11 +185,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/modifyActivity",
+					"raw": "{{base_url}}/activities/modifyActivity",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"modifyActivity"
@@ -195,6 +200,16 @@
 		{
 			"name": "removeActivity",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -207,11 +222,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/activities/removeActivity",
+					"raw": "{{base_url}}/activities/removeActivity",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"activities",
 						"removeActivity"
@@ -220,6 +234,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

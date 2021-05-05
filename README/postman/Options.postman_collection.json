@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bd2cd444-51e2-469c-8da3-397b4fe2bb2d",
+		"_postman_id": "006acc2d-ba9e-4375-a87d-680d1b14e458",
 		"name": "Options",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,6 +8,16 @@
 		{
 			"name": "addOption",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -20,11 +30,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/options/addOption",
+					"raw": "{{base_url}}/options/addOption",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"options",
 						"addOption"
@@ -36,6 +45,16 @@
 		{
 			"name": "getOption",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -48,11 +67,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/options/getOption",
+					"raw": "{{base_url}}/options/getOption",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"options",
 						"getOption"
@@ -69,7 +87,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -86,11 +104,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/options/getOptions",
+					"raw": "{{base_url}}/options/getOptions",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"options",
 						"getOptions"
@@ -102,6 +119,16 @@
 		{
 			"name": "modifyOption",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -114,11 +141,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/options/modifyOption",
+					"raw": "{{base_url}}/options/modifyOption",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"options",
 						"modifyOption"
@@ -130,6 +156,16 @@
 		{
 			"name": "removeOption",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -142,11 +178,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/options/removeOption",
+					"raw": "{{base_url}}/options/removeOption",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"options",
 						"removeOption"
@@ -155,6 +190,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

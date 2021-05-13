@@ -1,10 +1,12 @@
-chartQueue = [];
+const chartQueue = [];
+const timeChartQueue = [];
 // 改善 chart.js 解析度
 window.devicePixelRatio = 3;
 errorReloadText = '發生錯誤，請重新整理此頁面😥';
 
 getActivity();
 setInterval(drawChart, 500);
+setInterval(drawTimeChart, 500);
 
 function showActivity(resp) {
     const data = resp.data.data;
@@ -281,6 +283,10 @@ function detailFormatter(index, row) {
             html.push('</li>');
         });
         html.push('</ol>');
+        html.push('<b>投票時間統計：</b>');
+        const timeChartId = `chart-${makeId(10)}`;
+        html.push(`<div class="col-md-11"><canvas id="${timeChartId}"></canvas></div>`);
+        timeChartQueue.push({ time: result.vote_time, chartId: timeChartId });
         // 驗票
         let verificationBody = '';
         verificationBody += '<ol>';
@@ -349,6 +355,7 @@ function getVotes(activityId, candidates) {
     if (resp) {
         const votes = resp.data;
         const statics = {};
+        const vote_time = [];
         candidates.forEach((item) => {
             // 加入該候選人
             statics[item._id] = {
@@ -363,8 +370,9 @@ function getVotes(activityId, candidates) {
                 // 加入該投票選項
                 statics[candidate.option_id][remark] += 1;
             });
+            vote_time.push(moment(vote.created_at).startOf('hour').toDate());
         });
-        return { 'statics': statics, 'votes': votes };
+        return { statics, votes, vote_time };
     }
 }
 
@@ -440,6 +448,72 @@ function drawChart() {
                     },
                 },
             },
+        });
+        element['drawn'] = true;
+    }
+}
+
+function drawTimeChart() {
+    for (let i = 0; i < timeChartQueue.length; i++) {
+        const element = timeChartQueue[i];
+        if (element.drawn == true) continue;
+        const ctx = document.getElementById(element.chartId);
+        if (ctx == undefined) continue;
+        // process datetime
+        const data = [];
+        const sortedArray = element.time.sort((a, b) => a.getTime() - b.getTime());
+        sortedArray.forEach(t => {
+            let saved = false;
+            for (i = 0; i < data.length; i++) {
+                if (data[i].x.getTime() == t.getTime()) {
+                    data[i].y += 1
+                    saved = true;
+                    break;
+                }
+            }
+            if (!saved) {
+                data.push({ x: t, y: 1 });
+            }
+        })
+        const bgColor = ['#4d72bd', '#dd8143', '#a3a3a3', '#42f57e', '#ff0000']
+        backgroundColor = () => {
+            let tmp = [];
+            for (i = 0; i < data.length; i++) {
+                tmp.push(bgColor[i % bgColor.length]);
+            }
+            return tmp;
+        }
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColor,
+                }],
+            },
+
+            options: {
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'hour',
+
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
+                        }
+                    }]
+                },
+
+            }
         });
         element['drawn'] = true;
     }

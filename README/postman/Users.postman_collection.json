@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "eb4f1d3a-e684-4215-b42a-f8244435ebb5",
+		"_postman_id": "a2c9318a-2dab-4173-8772-74002951e8b4",
 		"name": "Users",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,6 +8,16 @@
 		{
 			"name": "addUser",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -20,11 +30,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/addUser",
+					"raw": "{{base_url}}/users/addUser",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"addUser"
@@ -41,7 +50,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -58,11 +67,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/getUser",
+					"raw": "{{base_url}}/users/getUser",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"getUser"
@@ -79,7 +87,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiMTA4MDYyNTE4IiwiX2lkIjoiNWVjOTU2ZjQ5ZGM5YjY3NDM2MTRmN2U4Iiwic3R1ZGVudF9pZCI6IjEwODA2MjUxOCIsImNyZWF0ZWRfYXQiOiIyMDIwLTA1LTIzVDE3OjAxOjQwLjA5NFoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0wNS0yM1QxNzowMTo0MC4wOTRaIiwiX192IjowLCJpYXQiOjE1OTAyNTMzMDAsImV4cCI6MTU5MDMzOTcwMH0.TagvBAv6pSCY2eI50BD80WYKemXxsIx2C30ns2XDPRA",
+							"value": "{{service_token}}",
 							"type": "string"
 						}
 					]
@@ -96,11 +104,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/getUsers",
+					"raw": "{{base_url}}/users/getUsers",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"getUsers"
@@ -112,6 +119,16 @@
 		{
 			"name": "modifyUser",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -124,11 +141,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/modifyUser",
+					"raw": "{{base_url}}/users/modifyUser",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"modifyUser"
@@ -140,6 +156,16 @@
 		{
 			"name": "removeUser",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{service_token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -152,11 +178,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/removeUser",
+					"raw": "{{base_url}}/users/removeUser",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"removeUser"
@@ -165,6 +190,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

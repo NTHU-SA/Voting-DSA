@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 
 <head>
     <meta charset="UTF-8" />
@@ -33,7 +33,7 @@
                 <p>* 資訊輸入錯誤，請再試一次</p>
             </div>
             <div style="text-align: center;">
-                <img src="/auth/ccxp/captcha" alt="" />
+                <!--img src="/auth/ccxp/captcha" alt="" /-->
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block" onclick="signIn($('#account-input')[0].value, $('#password-input')[0].value, $('#captcha-input')[0].value)">
@@ -46,7 +46,7 @@
     <script>
         console.log(jwtToken);
         if (jwtToken === "" || jwtToken === undefined) {
-            alert("即將跳轉到登入頁面");
+            alert("此平台使用清大計中 OAuth 2 登入驗證，將協助您重新導向\n請放心，投票系統不會取得您的帳密");
             window.location =
                 "/auth_url";
         } else {

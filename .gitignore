@@ -7,3 +7,4 @@ db_files/
 .DS_Store
 uploads/
 wget*
+db/

@@ -189,6 +189,8 @@ auth.obtainServiceToken('108060001', user);
 1. 到後台檢查名稱、日期（UTC+0）是否正確
    - http://127.0.0.1:3000/activity.html
 
+1. 修改 `libs/全校在學學生資料.csv`，這是可以投票的學生名單
+
 ## TODO
 
 - [ ] 加入登入跳轉到原先頁面

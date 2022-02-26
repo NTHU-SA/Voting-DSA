@@ -13,5 +13,10 @@
 
 # [START gae_quickstart_yaml]
 runtime: custom
-env: flex
+env: flexible
+
+automatic_scaling:
+  cool_down_period: 120s
+  min_num_instances: 1
+  max_num_instances: 8
 # [END gae_quickstart_yaml]

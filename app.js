@@ -32,6 +32,7 @@ app.use(fileUpload());
 app.use(require('./router'));
 app.use(express.static('./public'));
 
+const port = process.env.PORT || 3000
 app.listen(
-    config.serverPort,
-    () => console.log(`Server is listening on port ${config.serverPort}.`));
+    port,
+    () => console.log(`Server is listening on port ${port}.`));

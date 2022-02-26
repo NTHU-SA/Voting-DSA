@@ -16,6 +16,8 @@ Mongoose.connect(url, {
     useUnifiedTopology: true,
     useCreateIndex: true,
 });
+
+//? Always set to true?
 Mongoose.set('debug', true);
 
 require('./models/users');

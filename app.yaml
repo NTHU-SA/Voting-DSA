@@ -12,5 +12,6 @@
 # limitations under the License.
 
 # [START gae_quickstart_yaml]
-runtime: nodejs14
+runtime: custom
+env: flex
 # [END gae_quickstart_yaml]

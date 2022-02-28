@@ -6,8 +6,11 @@
 </head>
 
 <body>
-    <label for="avatar">上傳選舉人名單:</label>
-    <input type="file" id="voterList" name="voterList" accept=".csv">
+    <form method="post" enctype="multipart/form-data" action="/files/uploadFile">
+        <label for="avatar">上傳選舉人名單:</label>
+        <input type="file" id="voterList" name="voterList" accept=".csv">
+        <input type="submit" value="Upload">
+    </form>
 </body>
 
 </html>

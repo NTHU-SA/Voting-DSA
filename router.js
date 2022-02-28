@@ -48,8 +48,8 @@ router.post('/options/modifyOption', authentication, adminAuthorization, options
 router.post('/options/removeOption', authentication, adminAuthorization, options.removeOption);
 
 // files
-// router.post('/files/uploadFile', authentication, files.uploadFile);
-router.post('/files/uploadFile', files.uploadFile);
+router.post('/files/uploadFile', authentication, files.uploadFile);
+//router.post('/files/uploadFile', files.uploadFile);
 
 // mock
 router.get('/mock/auth', mock.auth);

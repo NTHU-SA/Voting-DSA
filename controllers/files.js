@@ -9,10 +9,10 @@ if (!fs.existsSync(uploadDir)) {
 
 module.exports = {
     async uploadFile(req, res) {
-        if (req.files === null || !req.files.voterList) {
+        if (req.files === null || !req.files.file) {
             res.send(400).json({error: 'no file upload'});
         }
-        const file = req.files.voterList;
+        const file = req.files.file;
         
         // I didn't handle chinese file name,
         // upload chinese file name fill be successful but the file name will be wierd

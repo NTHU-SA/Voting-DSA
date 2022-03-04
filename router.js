@@ -49,11 +49,11 @@ router.post('/options/modifyOption', authentication, adminAuthorization, options
 router.post('/options/removeOption', authentication, adminAuthorization, options.removeOption);
 
 // files
-router.post('/files/uploadFile', authentication, files.uploadFile);
+router.post('/files/uploadFile', authentication, adminAuthorization, files.uploadFile);
 //router.post('/files/uploadFile', files.uploadFile);
 
 // voter
-router.post('/voter/uploadList', authentication, voter.uploadList);
+router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
 
 // mock
 router.get('/mock/auth', mock.auth);

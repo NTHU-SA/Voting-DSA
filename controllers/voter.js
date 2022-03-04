@@ -8,9 +8,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 module.exports = {
-    //TODO: How to get return filename
+    //TODO: Change filename from 全校在學學生資料.csv to voterList.csv
     async uploadList(req, res,) {
-        createBackup();
+        createBackup(); //Create backup for old version.
 
         if (req.files === null || !req.files.file) {
             res.send(400).json({ error: 'no file upload' });
@@ -29,8 +29,6 @@ module.exports = {
             res.status(400).send(error);
         }
     },
-
-    //TODO: MOVE FILE
 };
 function moveFile(oriPath, destPath){
 

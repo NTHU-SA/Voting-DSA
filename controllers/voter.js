@@ -30,45 +30,52 @@ module.exports = {
         }
     },
     //Reverse of createBackup
+    //TODO: check if file exsit
     async restoreBackup() {
-        fileName = path.join(__dirname, "../libs/voterList.csv");
-
-        fs.unlink(fileName, (err) => {
-            if (err) {
-                // File deletion failed 
-                console.error(err.message);
-            }
-            console.log("Restore backup successfully");
-        })
-
+        RemoveFile("../libs/voterList.csv");
         moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv");
     },
 };
+
+function createBackup() {
+    RemoveFile("../libs/voterList.csv.backup");
+    moveFile("../libs/voterList.csv", "../libs/voterList.csv.backup");
+}
+
 function moveFile(oriPath, destPath) {
 
     oriPath = path.join(__dirname, oriPath);
     destPath = path.join(__dirname, destPath);
 
-    fs.rename(oriPath, destPath, function (err) {
+    fs.access(oriPath, fs.F_OK, (err) => {
         if (err) {
-            throw err
-        } else {
-            console.log("New backup created!");
+            console.error(err)
+            return
         }
-    });
+        fs.rename(oriPath, destPath, function (err) {
+            if (err) {
+                throw err
+            } else {
+                console.log("New backup created!");
+            }
+        });
+    })
 }
 
-function createBackup() {
+function RemoveFile(fileName) {
+    fileName = path.join(__dirname, fileName);
 
-    fileName = path.join(__dirname, "../libs/voterList.csv.backup");
-
-    fs.unlink(fileName, (err) => {
+    fs.access(fileName, fs.F_OK, (err) => {
         if (err) {
-            // File deletion failed 
-            console.error(err.message);
+            console.error(err)
+            return
         }
-        console.log("Old backup deleted successfully");
+        fs.unlink(fileName, (err) => {
+            if (err) {
+                // File deletion failed 
+                console.error(err.message);
+            }
+            console.log("File is deleted successfully");
+        });
     })
-
-    moveFile("../libs/voterList.csv", "../libs/voterList.csv.backup");
 }

@@ -1,4 +1,4 @@
-function uploadFile() {
+function uploadList() {
     var formData = new FormData();
     var imagefile = document.querySelector('#voterList');
     formData.append("file", imagefile.files[0]);
@@ -7,4 +7,8 @@ function uploadFile() {
             'Content-Type': 'multipart/form-data'
         }
     })
+}
+
+function restore() {
+    var res = axios.post('/voter/restore');
 }

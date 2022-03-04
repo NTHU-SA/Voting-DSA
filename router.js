@@ -54,7 +54,7 @@ router.post('/files/uploadFile', authentication, adminAuthorization, files.uploa
 
 // voter
 router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
-
+router.post('/voter/restore', authentication, adminAuthorization, voter.restoreBackup);
 // mock
 router.get('/mock/auth', mock.auth);
 router.post('/mock/token', mock.token);

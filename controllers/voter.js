@@ -29,8 +29,22 @@ module.exports = {
             res.status(400).send(error);
         }
     },
+    //Reverse of createBackup
+    async restoreBackup() {
+        fileName = path.join(__dirname, "../libs/voterList.csv");
+
+        fs.unlink(fileName, (err) => {
+            if (err) {
+                // File deletion failed 
+                console.error(err.message);
+            }
+            console.log("Restore backup successfully");
+        })
+
+        moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv");
+    },
 };
-function moveFile(oriPath, destPath){
+function moveFile(oriPath, destPath) {
 
     oriPath = path.join(__dirname, oriPath);
     destPath = path.join(__dirname, destPath);
@@ -44,18 +58,17 @@ function moveFile(oriPath, destPath){
     });
 }
 
-function createBackup(){
+function createBackup() {
 
     fileName = path.join(__dirname, "../libs/voterList.csv.backup");
 
-    fs.unlink(fileName, (err) => { 
-        if(err){ 
+    fs.unlink(fileName, (err) => {
+        if (err) {
             // File deletion failed 
-            console.error(err.message); 
-        } 
-        console.log("Old backup deleted successfully"); 
-    }) 
+            console.error(err.message);
+        }
+        console.log("Old backup deleted successfully");
+    })
 
     moveFile("../libs/voterList.csv", "../libs/voterList.csv.backup");
 }
-

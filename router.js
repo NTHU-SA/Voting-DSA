@@ -50,11 +50,11 @@ router.post('/options/removeOption', authentication, adminAuthorization, options
 
 // files
 router.post('/files/uploadFile', authentication, adminAuthorization, files.uploadFile);
-//router.post('/files/uploadFile', files.uploadFile);
 
 // voter
 router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
 router.post('/voter/restore', authentication, adminAuthorization, voter.restoreBackup);
+
 // mock
 router.get('/mock/auth', mock.auth);
 router.post('/mock/token', mock.token);

@@ -28,7 +28,5 @@ module.exports = {
             res.status(400).send(error);
         }
     },
-
-    //TODO: MOVE FILE
 };
 

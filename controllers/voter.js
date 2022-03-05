@@ -1,7 +1,6 @@
-const res = require('express/lib/response');
 const fs = require('fs');
 const path = require('path');
-const CSVFileValidator = require('csv-file-validator');
+const votes = require('./votes');
 
 const uploadDir = path.join(__dirname, '../libs');
 if (!fs.existsSync(uploadDir)) {
@@ -9,7 +8,6 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 module.exports = {
-    //TODO: Validate CSV file
     async uploadList(req, res,) {
         //RemoveFile("../libs/voterList.csv.backup");
         moveFile("../libs/voterList.csv", "../libs/voterList.csv.backup");
@@ -26,7 +24,6 @@ module.exports = {
         const fileUrl = `/${path.relative(path.join(__dirname, '../libs'), fileDir)}`;
         try {
             await file.mv(fileDir);
-            console.log("Upload");
 
             //CSV檢查不過
             if (!checkCSV(fileDir)) {
@@ -35,12 +32,12 @@ module.exports = {
             }
 
             res.send("上傳成功");
+            votes.fileReload();
         } catch (error) {
             res.status(400).send(error);
         }
     },
     //Reverse of createBackup
-    //TODO: check if file exsit
     async restoreBackup(req, res,) {
 
         try {

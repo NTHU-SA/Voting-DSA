@@ -27,10 +27,16 @@ module.exports = {
         try {
             await file.mv(fileDir);
             console.log("Upload");
-            res.json({ fileName, fileUrl });
+
+            //CSV檢查不過
+            if (!checkCSV(fileDir)) {
+                moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv")
+                res.send("上傳失敗：檔案格式不符");
+            }
+
+            res.send("上傳成功");
         } catch (error) {
             res.status(400).send(error);
-
         }
     },
     //Reverse of createBackup
@@ -40,7 +46,7 @@ module.exports = {
         try {
             if (!moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv")) {
                 res.send("還原失敗：伺服器中沒有先前版本");
-            }else{
+            } else {
                 res.send("還原成功");
             }
         } catch (err) {
@@ -67,4 +73,10 @@ function moveFile(oriPath, destPath) {
         return falsel
     }
     return true;
+}
+
+function checkCSV(filePath) {
+    var fileContent = fs.readFileSync(filePath, 'utf8');
+    //https://stackoverflow.com/questions/1779013/check-if-string-contains-only-digits
+    return /^\d+$/.test(fileContent);
 }

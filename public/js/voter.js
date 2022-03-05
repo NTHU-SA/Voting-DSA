@@ -11,7 +11,7 @@ function uploadList() {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    }).then((response) => alert("上傳成功"))
+    }).then((response) => alert(response.data))
         .catch((error) => alert("上傳失敗 status=" + error.response.status));
 
 }

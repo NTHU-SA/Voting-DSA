@@ -1,6 +1,7 @@
 const res = require('express/lib/response');
 const fs = require('fs');
 const path = require('path');
+const CSVFileValidator = require('csv-file-validator');
 
 const uploadDir = path.join(__dirname, '../libs');
 if (!fs.existsSync(uploadDir)) {
@@ -8,7 +9,6 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 module.exports = {
-    //TODO: Change filename from 全校在學學生資料.csv to voterList.csv
     //TODO: Validate CSV file
     async uploadList(req, res,) {
         //RemoveFile("../libs/voterList.csv.backup");
@@ -30,14 +30,20 @@ module.exports = {
             res.json({ fileName, fileUrl });
         } catch (error) {
             res.status(400).send(error);
+
         }
     },
     //Reverse of createBackup
     //TODO: check if file exsit
-    async restoreBackup() {
-        try{
-            moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv");
-        }catch(err){
+    async restoreBackup(req, res,) {
+
+        try {
+            if (!moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv")) {
+                res.send("還原失敗：伺服器中沒有先前版本");
+            }else{
+                res.send("還原成功");
+            }
+        } catch (err) {
             res.status(400).send(err);
         }
     },
@@ -52,10 +58,13 @@ function moveFile(oriPath, destPath) {
         fs.accessSync(oriPath, fs.constants.F_OK);
     } catch (err) {
         console.error('File does not exist');
+        return false;
     }
-    try{
+    try {
         fs.renameSync(oriPath, destPath);
-    }catch(err){
+    } catch (err) {
         console.log(err);
+        return falsel
     }
+    return true;
 }

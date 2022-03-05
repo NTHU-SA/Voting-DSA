@@ -6,11 +6,12 @@ function uploadList() {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    }).then( (response) => alert("上傳成功"))
-    .catch( (error) => alert("上傳失敗 status=" + error.response.status));
-    
+    }).then((response) => alert("上傳成功"))
+        .catch((error) => alert("上傳失敗 status=" + error.response.status));
+
 }
 
 function restore() {
-    var res = axios.post('/voter/restore');
-}
+    axios.post('/voter/restore').then((response) => alert(response.data))
+        .catch((error) => alert("還原失敗 status=" + error.response.status))
+    }

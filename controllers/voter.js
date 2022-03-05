@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const fs = require('fs');
 const path = require('path');
 
@@ -34,7 +35,11 @@ module.exports = {
     //Reverse of createBackup
     //TODO: check if file exsit
     async restoreBackup() {
-        moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv");
+        try{
+            moveFile("../libs/voterList.csv.backup", "../libs/voterList.csv");
+        }catch(err){
+            res.status(400).send(err);
+        }
     },
 };
 
@@ -53,23 +58,4 @@ function moveFile(oriPath, destPath) {
     }catch(err){
         console.log(err);
     }
-}
-
-let RemoveFile = async (fileName) => {
-    fileName = path.join(__dirname, fileName);
-
-    fs.access(fileName, fs.F_OK, (err) => {
-        if (err) {
-            console.log("rm err");
-            console.error(err)
-            return
-        }
-        fs.unlinkSync(fileName, (err) => {
-            if (err) {
-                // File deletion failed 
-                console.error(err.message);
-            }
-            console.log("File is deleted successfully");
-        });
-    })
 }

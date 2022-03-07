@@ -8,3 +8,4 @@ db_files/
 uploads/
 wget*
 db/
+package-lock.json

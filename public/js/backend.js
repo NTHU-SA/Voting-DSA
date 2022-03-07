@@ -149,7 +149,7 @@ async function editCandidate(activity_id, previous_modal) {
                 $('<input>', { value: candidate_info.department, id: `${candidate._id}-department` }).appendTo(dept);
                 cardBody.append($('<br />'));
                 // 學院
-                college = $('<label>', { text: '學院' });
+                college = $('<label>', { text: '學院：' });
                 cardBody.append(college);
                 $('<input>', { value: candidate_info.college, id: `${candidate._id}-college` }).appendTo(college);
                 cardBody.append($('<br />'));

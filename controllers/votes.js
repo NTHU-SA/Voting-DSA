@@ -8,7 +8,7 @@ const { v4: uuid } = require('uuid');
 const fs = require('fs');
 
 // read file at once page has been loaded to avoid loop loading
-const csvData = fs.readFileSync(`./libs/全校在學學生資料.csv`, 'utf8');
+let csvData = fs.readFileSync(`./libs/voterList.csv`, 'utf8');
 
 module.exports = {
     async addVote(req, res) {
@@ -162,4 +162,10 @@ module.exports = {
             res.status(404).send(error.message || error);
         }
     },
+
+    async fileReload(){
+        csvData = fs.readFileSync(`./libs/voterList.csv`, 'utf8');
+        console.log(csvData);
+    }
 };
+

@@ -4,6 +4,7 @@ const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
 const files = require('./controllers/files');
+const voter = require('./controllers/voter');
 const mock = require('./controllers/mock');
 const authentication = require('./middlewares/authentication');
 const adminAuthorization = require('./middlewares/adminAuthorization');
@@ -48,7 +49,11 @@ router.post('/options/modifyOption', authentication, adminAuthorization, options
 router.post('/options/removeOption', authentication, adminAuthorization, options.removeOption);
 
 // files
-router.post('/files/uploadFile', authentication, files.uploadFile);
+router.post('/files/uploadFile', authentication, adminAuthorization, files.uploadFile);
+
+// voter
+router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
+router.post('/voter/restore', authentication, adminAuthorization, voter.restoreBackup);
 
 // mock
 router.get('/mock/auth', mock.auth);

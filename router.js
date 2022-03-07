@@ -29,8 +29,6 @@ router.post('/users/removeUser', authentication, adminAuthorization, users.remov
 router.post('/votes/addVote', authentication, votes.addVote);
 router.post('/votes/getVote', authentication, adminAuthorization, votes.getVote);
 router.post('/votes/getVotes', authentication, adminAuthorization, votes.getVotes);
-// Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);
-// No Need: router.post('/votes/modifyVote', votes.modifyVote);
 router.post('/votes/removeVote', authentication, adminAuthorization, votes.removeVote);
 
 // activities
@@ -54,6 +52,8 @@ router.post('/files/uploadFile', authentication, adminAuthorization, files.uploa
 // voter
 router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
 router.post('/voter/restore', authentication, adminAuthorization, voter.restoreBackup);
+
+//admin
 
 // mock
 router.get('/mock/auth', mock.auth);

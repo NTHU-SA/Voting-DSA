@@ -4,6 +4,7 @@ const config = require('../config');
 
 module.exports = async (req, res, next) => {
     const auth = req.headers.authorization;
+    console.log(auth);
     if (auth && auth.startsWith('Bearer')) {
         const token = auth.slice(7);
         try {

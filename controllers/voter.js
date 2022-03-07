@@ -75,5 +75,5 @@ function moveFile(oriPath, destPath) {
 function checkCSV(filePath) {
     var fileContent = fs.readFileSync(filePath, 'utf8');
     //https://stackoverflow.com/questions/1779013/check-if-string-contains-only-digits
-    return /^\d+$/.test(fileContent);
+    return /^[\d\s]+$/.test(fileContent);
 }

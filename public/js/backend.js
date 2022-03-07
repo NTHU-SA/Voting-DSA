@@ -106,18 +106,32 @@ async function editCandidate(activity_id, previous_modal) {
 
             data.forEach((candidate, index) => {
                 candidate_info = candidate.candidate;
-                card = $('<div />', { class: 'card' });
+                card = $('<div />', { class: 'card', id:`${candidate._id}-card`});
                 accordion.append(card);
-
-                cardHeader = $('<div />', { class: 'card-header', id: `${id}-heading-${index}` });
+                
+                cardHeader = $('<div />', { class: 'card-header row', id: `${id}-heading-${index}` });
                 card.append(cardHeader);
+
+                // Add Feature: Remove Option (2022.3)
+                col_1 = $('<div />', { class: 'col-10' });
                 headerBtn = $('<button />', { class: 'btn btn-link btn-block', text: candidate_info.name });
                 headerBtn.attr('data-toggle', 'collapse');
                 headerBtn.attr('data-target', `#${id}-collapse-${index}`);
                 headerBtn.attr('aria-expanded', 'false');
                 headerBtn.attr('aria-controls', `${id}-collapse-${index}`);
-                cardHeader.append(headerBtn);
-
+                col_1.append(headerBtn);
+                
+                col_2 = $('<div />', { class: 'col-2' });
+                closeBtn = $('<button />',{class: 'btn btn-light', type:'button'});
+                closeBtn.attr('aria-label','Close');
+                x = $('<span />', {class:'text-danger',text:'×'}).click(() => { removeOption(candidate._id) });
+                x.attr('aria-hidden',true);
+                closeBtn.append(x);
+                col_2.append(closeBtn);
+                
+                cardHeader.append(col_1);
+                cardHeader.append(col_2);
+            
                 cardCollapse = $('<div />', { class: 'collapse', id: `${id}-collapse-${index}` });
                 cardCollapse.attr('aria-labelledby', `${id}-heading-${index}`);
                 cardCollapse.attr('data-parent', `#accordion-${id}`);
@@ -128,19 +142,21 @@ async function editCandidate(activity_id, previous_modal) {
 
                 console.log(candidate);
                 // 姓名
-                cardBody.append($('<p>', { text: `候選人：${candidate_info.name}` }));
+                cardBody.append($('<p>', { text: `候選人：${candidate_info.name}`, id: `${candidate._id}-name`}));
                 // 系級
                 dept = $('<label>', { text: '系級：' });
                 cardBody.append(dept);
-                $('<input>', { value: candidate_info.department }).appendTo(dept);
+                $('<input>', { value: candidate_info.department, id: `${candidate._id}-department` }).appendTo(dept);
                 cardBody.append($('<br />'));
                 // 學院
                 college = $('<label>', { text: '學院' });
                 cardBody.append(college);
-                $('<input>', { value: candidate_info.college }).appendTo(college);
+                $('<input>', { value: candidate_info.college, id: `${candidate._id}-college` }).appendTo(college);
                 cardBody.append($('<br />'));
+                save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateOption(candidate._id,candidate_info.name) });
+                cardBody.append(save_btn);
             })
-
+            
             // trigger modal
             $(`#modal-${id}`).modal();
         });
@@ -156,6 +172,21 @@ async function updateActivity(id) {
         open_from = $(`#${id}-open-from`)[0].value;
         open_to = $(`#${id}-open-to`)[0].value;
         await axios.post('/activities/modifyActivity', { _id, name, open_from, open_to }).then((resp) => {
+            if (resp.data.success) {
+                $('#table').bootstrapTable('destroy');
+                getActivity();
+            }
+        });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
+async function removeActivity(id) {
+    try {
+        
+        _id = id;
+        await axios.post('/activities/removeActivity', {_id}).then((resp) => {
             if (resp.data.success) {
                 $('#table').bootstrapTable('destroy');
                 getActivity();
@@ -213,6 +244,34 @@ function newActivity() {
     $(`#modal-${id}`).modal();
 }
 
+async function updateOption(id, name) {
+    try {
+        _id = id;
+        department = $(`#${id}-department`)[0].value;
+        college = $(`#${id}-college`)[0].value;
+        await axios.post('/options/modifyOption', { _id, "candidate":{name,department, college}}).then((resp) => {
+            if (resp.data.success) {
+               console.log('update option');
+            }
+        });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
+async function removeOption(id) {
+    try {
+        _id = id;
+        await axios.post('/options/removeOption', {_id}).then((resp) => {
+            if (resp.data.success) {
+                $(`#${id}-card`).remove();
+            }
+        });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
 function operateFormatter(value, row, index) {
     return [
         `<a class="edit" href="#" title="edit">`,
@@ -224,6 +283,20 @@ function operateFormatter(value, row, index) {
 window.operateEvents = {
     'click .edit': function(e, value, row, index) {
         editActivity(row._id);
+    },
+};
+
+function removeFormatter(value, row, index) {
+    return [
+        '<a class="remove" style="color:#AAAAAA" href="javascript:void(0)" title="Remove">',
+        '<i class="fa fa-trash"></i>',
+        '</a>',
+    ].join('');
+}
+
+window.removeEvents = {
+    'click .remove': function(e, value, row, index) {
+        removeActivity(row._id);
     },
 };
 

@@ -51,7 +51,7 @@ auth.obtainServiceToken('108060001', user);
 
     use DATABASE_NAME
     
-    db.TABLE_NAME.update({student_id:YOUR_STUDENTID}, {$set: {"remark":"admin"}})
+    db.TABLE_NAME.update({student_id:'{YOUR_STUDENTID}'}, {$set: {"remark":"admin"}})
 
   ```
 

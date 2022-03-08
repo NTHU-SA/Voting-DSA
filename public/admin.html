@@ -1,35 +1,40 @@
 <html>
 
 <head>
-    <title>Admin panel</title>
-    <link rel="shortcut icon" href=/img/nthusa.ico>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <script src="./js/utils.js"></script>
-    <script src="./js/admin.js"></script>
+  <title>Admin panel</title>
+  <link rel="shortcut icon" href=/img/nthusa.ico>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <script src="./js/utils.js"></script>
+  <script src="./js/admin.js"></script>
 </head>
 
 <body onload="getAdmin()">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>管理員設定</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                學號：<input type="text" id="stuId">
-            </div>
-            <div class="col">
-                <button onclick="setAdmin(true)">Add</button>
-                <button onclick="renderTable()">DEV TEST</button>
-            </div>
-        </div>
-        <br />
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>管理員設定</h1>
+      </div>
     </div>
-    <table class="table" id="adminTable">
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">#</span>
+          </div>
+          <input type="text" class="form-control" placeholder="學號" aria-label="Username" aria-describedby="basic-addon1"
+            id="stuId">
+        </div>
+      </div>
+      <div class="col">
+        <button class="btn btn-info" onclick="setAdmin(true)">Add</button>
+        <button class="btn btn-danger" onclick="setAdmin(false)">DEV TEST</button>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table" id="adminTable">
         <thead>
           <tr>
             <th scope="col">DB id</th>
@@ -41,8 +46,13 @@
           <tr>
             <td>Mark</td>
             <td>Otto</td>
-            <td><input type='button' value='Delete'/></td>
+            <td><input type='button' value='Delete' /></td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <br />
+  </div>
+
+
 </html>

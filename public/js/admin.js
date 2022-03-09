@@ -39,7 +39,6 @@ async function getAdmin() {
     try {
         await axios.post('/users/getUsers', { filter: { "remark": "admin" } }).then((resp) => {
             adminList = resp.data;
-            console.log(resp.data);
         });
     } catch (error) {
         alert(error);
@@ -48,7 +47,6 @@ async function getAdmin() {
 
 function renderTable() {
     for (var i in adminList["data"]) {
-        console.log(adminList["data"][i]["_id"]);
         $('#adminTable').append(`<tr> \
         <td>${adminList["data"][i]["student_id"]}</td> \
         <td>${adminList["data"][i]["updated_at"]}</td> \

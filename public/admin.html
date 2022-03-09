@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="col-4">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="學號" aria-label="username" aria-describedby="basic-addon2"
             id="stuId">
@@ -30,17 +30,14 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <button class="btn btn-danger" onclick="renderTable()">DEV TEST</button>
-      </div>
     </div>
     <div class="row">
-      <table class="table" id="adminTable">
+      <table class="table table-hover" id="adminTable">
         <thead>
           <tr>
-            <th scope="col">DB id</th>
-            <th scope="col">student Id</th>
-            <th scope="col"></th>
+            <th scope="col">學號</th>
+            <th scope="col">上次編輯</th>
+            <th scope="col">刪除</th>
           </tr>
         </thead>
         <tbody>

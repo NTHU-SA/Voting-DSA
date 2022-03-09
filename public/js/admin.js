@@ -23,9 +23,12 @@ async function setAdmin(stuId, toAdmin) {
             "remark": remark,
             "byStuId": true //指定以 student_id 為 key update，ref: pullrequest #4
         }).then((resp) => {
-            if (resp.data["success"]);
-            alert(msg);
-            document.getElementById("stuId").value = ""; //清空Input
+            if (resp.data["success"]) {
+                alert(msg);
+                document.getElementById("stuId").value = ""; //清空Input
+            } else {
+                alert(`無法新增 ${stuId}，可能此帳號不存在`);
+            }
         });
     } catch (error) {
         alert("ERROR" + error);
@@ -48,17 +51,13 @@ function renderTable() {
         console.log(adminList["data"][i]["_id"]);
         $('#adminTable').append(`<tr> \
         <td>${adminList["data"][i]["student_id"]}</td> \
-        <td>${adminList["data"][i]["student_id"]}</td> \
+        <td>${adminList["data"][i]["updated_at"]}</td> \
         <td><div style="cursor: pointer;" onclick="removeAdmin('${adminList["data"][i]["student_id"]}')"> \
         <ion-icon name="remove-circle-outline" size="large"> \
         </ion-icon></div></td> \
         </tr >`);
     }
 
-}
-
-function clearTable() {
-    $('#adminTable > tbody').empty();
 }
 
 function addAdmin() {

@@ -67,5 +67,41 @@ const candidates = [
         'political_opinions': candidate3PoliticalOpinions,
     }];
 
+// 完整範例
+
+//const candidates =[
+//  {
+//     "candidate": {
+//       "name": "王小明",
+//       "department": "人文社會學院學士班 20 級",
+//       "college": "人文社會學院",
+//       "avatar_url": "https://imgur.com/xxxxx.jpg",
+//       "personal_experiences": [
+//         "國立清華大學105學年度下學期-書卷獎"
+//       ],
+//       "political_opinions": [
+//         "1. 履行會長之職責。",
+//         "2. 持續關注學生感興趣的校內議題。"
+//       ]
+//     },
+//     "vice1": {
+//       "personal_experiences": [
+//         "國立清華大學轉學生聯誼會-活動"
+//       ],
+//       "name": "陳小明",
+//       "department": "科技管理學院學士班 22 級",
+//       "college": "科技管理學院",
+//       "avatar_url": "https://imgur.com/xxxxx.jpg"
+//     },
+//     "vice2": {
+//       "personal_experiences": [
+//         "國立清華大學學生會第29屆秘書部-部員"
+//       ],
+//       "name": "劉曉明",
+//       "department": "教育與學習科技學系 24 級",
+//       "college": "教育學院",
+//       "avatar_url": "https://imgur.com/xxxxx.jpg"
+//     }
+//     }]
 
 

@@ -39,9 +39,20 @@ module.exports = {
 
     async modifyUser(req, res) {
         try {
-            const { _id, student_id } = req.body;
+            const { _id, student_id, remark, byStuId } = req.body;
+            
+            const key = byStuId ? {"student_id": student_id}:{"_id": _id};
+
             const updated_at = new Date();
-            const result = await Users.updateOne({ _id }, { student_id, updated_at }).lean();
+            var result = "";
+            //如果沒有傳入 remark 那就不更新 remark，維持原狀
+            if(remark == null){
+                result = await Users.updateOne(key, { student_id, updated_at }).lean();
+            }else{
+                //如果有傳入{remark:"admin"}就指定為管理員，{remark:""} 就移除管理員
+                result = await Users.updateOne(key, { student_id, remark, updated_at }).lean();
+            }         
+
             res.json(result.n > 0 ? { success: true } : {});
         } catch (error) {
             res.status(404).json({ error });

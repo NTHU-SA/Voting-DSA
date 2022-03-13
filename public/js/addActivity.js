@@ -1,35 +1,69 @@
 const options = [];
 async function addAct() {
-        console.log(jwtToken)
+    const NAME = document.getElementById("name").value;
+    const RULE = document.getElementById("rule").value;
+    const OPEN_FROM = '2022/03/01 12:00:00';
+    const OPEN_TO = '2022/06/30 12:00:00';
+    console.log(jwtToken);
     try {
         await axios.post(
             '/activities/addActivity', {
-                'name': '第28屆學生議會議員補選',
+                'name': NAME,
                 'type': 'candidate',
-                'rule': 'choose_all',
+                'rule': RULE,
+                'open_from': OPEN_FROM,
+                'open_to': OPEN_TO,
             }, {
                 headers: {
                     Authorization: `Bearer ${jwtToken}`,
                 },
+            }).then(res => {
+                console.log(res.data);
+                const { name, _id } = res.data;
+                addOption(name);
+            }).catch(err => {
+                console.log(err);
             });
     } catch (e) {
         console.log(e.response.data);
     }
 }
 
-async function addOption() {
+async function addOption(name) {
+    console.log(name);
+    candidates = [];
+    for (i = 1; i <= options.length; i++) {
+        let candidateName = document.getElementById(`option-${i}-name`).value;
+        let candidateDepartment = document.getElementById(`option-${i}-department`).value;
+        let candidateCollege = document.getElementById(`option-${i}-college`).value;
+        let candidateAvatar_url = document.getElementById(`option-${order}-avatar_url`).value;
+        let candidatePersonalExperiences = "";
+        let candidatePoliticalOpinions = "";
+
+        candidates.push({
+            "name": candidateName,
+            "department": candidateDepartment,
+            "college": candidateCollege,
+            "avatar_url": candidateAvatar_url,
+            "personal_experiences": candidatePersonalExperiences,
+            "political_opinions": candidatePoliticalOpinions,
+        }
+        )
+    }
     try {
         const resActivity = await axios.post(
             '/activities/getActivities', {
-                'filter': { name: '第28屆學生議會議員補選' },
+                'filter': { name: name },
             }, {
                 headers: {
                     Authentication:
                     `Bearer ${document.cookie.split('service_token=')[1]} `,
                 },
             });
-        activityID = mongoObjOfObj2ID(resActivity);
-        for (i = 0; i < Object.keys(remarks).length; i++) {
+        activityID = resActivity.data.data[0]._id;
+        // activityID = mongoObjOfObj2ID(resActivity);
+        // for (i = 0; i < Object.keys(remarks).length; i++) {
+        for (i = 0; i < options.length; i++) {
             axios.post('/options/addOption', {
                 'activity_id': activityID,
                 'type': 'candidate',
@@ -41,8 +75,9 @@ async function addOption() {
                 },
             });
         }
+        console.log("Add option success");
     } catch (e) {
-        console.log(e.response.data);
+        console.log(e);
     }
 }
 
@@ -97,6 +132,7 @@ function addPoliticalField(order) {
 
 function addOptionField() {
     optionsNode = document.getElementById('options');
+    // optionsNode = document.querySelector('#options');
     order = options.length + 1;
     html = [];
     html.push(`
@@ -121,9 +157,10 @@ function addOptionField() {
         <div id='option-${order}-exp'></div>
         <div id='option-${order}-political'></div>
         <br>
-        <button class="btn btn-primary" onclick="addPersonalExpField(${order})">新增經歷</button>
-        <button class="btn btn-primary" onclick="addPoliticalField(${order})">新增政見</button>
+        <button type="button" class="btn btn-primary" onclick="addPersonalExpField(${order})">新增經歷</button>
+        <button type="button" class="btn btn-primary" onclick="addPoliticalField(${order})">新增政見</button>
     `);
     options.push({ personal_experiences: 0, political_options: 0 });
     optionsNode.innerHTML += html.join('');
+    // optionsNode.appendChild(html.join(''));
 };

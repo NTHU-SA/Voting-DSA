@@ -9,7 +9,7 @@ const fs = require('fs');
 
 // read file at once page has been loaded to avoid loop loading
 let csvData = fs.readFileSync(`./libs/voterList.csv`, 'utf8');
-console.log(csvData);
+//console.log(csvData);
 
 module.exports = {
     async addVote(req, res) {
@@ -166,7 +166,7 @@ module.exports = {
 
     async fileReload(){
         csvData = fs.readFileSync(`./libs/voterList.csv`, 'utf8');
-        console.log(csvData);
+        //console.log(csvData);
     }
 };
 

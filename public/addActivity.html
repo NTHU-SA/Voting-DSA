@@ -31,9 +31,9 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <form>
+                <form autocomplete="off">
                     <div class="form-group">
-                        <label for="name">名稱</label><input id="name" class="form-control" />
+                        <label for="name">名稱</label><input id="name" class="form-control" required="required"/>
                     </div>
                     <div class="form-group">
                         <label for="rule">規則</label>
@@ -42,17 +42,22 @@
                             <option id="rule" value="choose_all">多選</option>
                         </select>
                     </div>
+                    <div class="date-group">
+                        <label for="open_from">開始時間</label><input type="datetime-local" id="open_from" min="2022-01-01" max="2122-12-31" required="required">
+                        <br></br>
+                        <label for="open_to">結束時間</label><input type="datetime-local" id="open_to" min="2022-01-01" max="2122-12-31" required="required">
+                    </div>
                     <div id="options"></div>
                 </form>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button type="button" class="btn btn-info" onclick="addOptionField()">新增候選人</button>
+                <button type="button" class="btn btn-warning" onclick="addOptionField()">新增候選人</button>
             </div>
         </div>
         <div class="center">
-            <button onclick="addAct()">確認送出</button>
+            <button class="btn btn-danger" onclick="addAct()">確認送出</button>
         </div>
     </div>
 </body>

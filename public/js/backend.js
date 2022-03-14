@@ -84,11 +84,10 @@ async function editCandidate(activity_id, previous_modal) {
     let id = `candidate-${activity_id}`;
     // close previous modal
     previous_modal.modal('toggle');
-    console.log(activity_id);
+    //console.log(activity_id);
     try {
         await axios.post('/options/getOptions', { filter: { activity_id } }).then((resp) => {
             data = resp.data.data;
-            console.log(data);
             if ($(`#modal-${id}`)[0] != undefined) {
                 modal = $(`#modal-${id}`).remove();
             }
@@ -106,6 +105,17 @@ async function editCandidate(activity_id, previous_modal) {
 
             data.forEach((candidate, index) => {
                 candidate_info = candidate.candidate;
+                vice1_info = null;
+                if(candidate.vice1){
+                    vice1_info = candidate.vice1;
+                    console.log("vice1_info",vice1_info);
+                }
+                vice2_info = null;
+                if(candidate.vice1){
+                    vice2_info = candidate.vice2;
+                    console.log("vice2_info",vice2_info);
+                }
+
                 card = $('<div />', { class: 'card', id:`${candidate._id}-card`});
                 accordion.append(card);
                 
@@ -140,21 +150,100 @@ async function editCandidate(activity_id, previous_modal) {
                 cardBody = $('<div />', { class: 'card-body' });
                 cardCollapse.append(cardBody);
 
-                console.log(candidate);
-                // 姓名
-                cardBody.append($('<p>', { text: `候選人：${candidate_info.name}`, id: `${candidate._id}-name`}));
+                // 候選人
+                Name = $('<label>', { text: '候選人：'});
+                cardBody.append(Name);
+                $('<input>', { value: candidate_info.name, id: `${candidate._id}-name`}).appendTo(Name);
+                cardBody.append($('<br />'));
                 // 系級
                 dept = $('<label>', { text: '系級：' });
                 cardBody.append(dept);
                 $('<input>', { value: candidate_info.department, id: `${candidate._id}-department` }).appendTo(dept);
                 cardBody.append($('<br />'));
                 // 學院
-                college = $('<label>', { text: '學院' });
+                college = $('<label>', { text: '學院：' });
                 cardBody.append(college);
                 $('<input>', { value: candidate_info.college, id: `${candidate._id}-college` }).appendTo(college);
                 cardBody.append($('<br />'));
-                save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateOption(candidate._id,candidate_info.name) });
+                // 經歷
+                candidate_info.personal_experiences.forEach((exp, idx) => {
+                    experiences = $('<div>', { class:'input-group'});
+                    $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
+                    $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-experience` }).appendTo(experiences);
+                    cardBody.append(experiences);
+                    cardBody.append($('<br />'));
+                });
+                
+                // 政見
+                candidate_info.political_opinions.forEach((opinion, idx) => {
+                    experiences = $('<div>', { class:'input-group'});
+                    $('<span>', { text: '政見'+(idx+1), class:"input-group-text bg-secondary text-white"}).appendTo(experiences);
+                    $('<textarea>', { text: opinion, class:'form-control input-sm', id: `${candidate._id}-opinion` }).appendTo(experiences);
+                    cardBody.append(experiences);
+                    cardBody.append($('<br />'));
+                });
+                
+                save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateOption(candidate._id) });
                 cardBody.append(save_btn);
+                cardBody.append($('<br />'));cardBody.append($('<br />'));
+
+                // 副候選人1
+                if(vice1_info){
+                    Name = $('<label>', { text: '副候選人一：'});
+                    cardBody.append(Name);
+                    $('<input>', { value: vice1_info.name, id: `${candidate._id}-vice1name`}).appendTo(Name);
+                    cardBody.append($('<br />'));
+                    // 系級
+                    dept = $('<label>', { text: '系級：' });
+                    cardBody.append(dept);
+                    $('<input>', { value: vice1_info.department, id: `${candidate._id}-vice1department` }).appendTo(dept);
+                    cardBody.append($('<br />'));
+                    // 學院
+                    college = $('<label>', { text: '學院：' });
+                    cardBody.append(college);
+                    $('<input>', { value: vice1_info.college, id: `${candidate._id}-vice1college` }).appendTo(college);
+                    cardBody.append($('<br />'));
+                    // 經歷
+                    vice1_info.personal_experiences.forEach((exp, idx) => {
+                        experiences = $('<div>', { class:'input-group'});
+                        $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
+                        $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-vice1experience` }).appendTo(experiences);
+                        cardBody.append(experiences);
+                        cardBody.append($('<br />'));
+                    });
+                    
+                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => {updateVice(candidate._id, 1)});
+                    cardBody.append(save_btn);
+                    cardBody.append($('<br />'));cardBody.append($('<br />'));
+                }
+                // 副候選人2
+                if(vice2_info){
+                    Name = $('<label>', { text: '副候選人二：'});
+                    cardBody.append(Name);
+                    $('<input>', { value: vice2_info.name, id: `${candidate._id}-vice2name`}).appendTo(Name);
+                    cardBody.append($('<br />'));
+                    // 系級
+                    dept = $('<label>', { text: '系級：' });
+                    cardBody.append(dept);
+                    $('<input>', { value: vice2_info.department, id: `${candidate._id}-vice2department` }).appendTo(dept);
+                    cardBody.append($('<br />'));
+                    // 學院
+                    college = $('<label>', { text: '學院：' });
+                    cardBody.append(college);
+                    $('<input>', { value: vice2_info.college, id: `${candidate._id}-vice2college` }).appendTo(college);
+                    cardBody.append($('<br />'));
+                    // 經歷
+                    vice2_info.personal_experiences.forEach((exp, idx) => {
+                        experiences = $('<div>', { class:'input-group'});
+                        $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
+                        $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-vice2experience` }).appendTo(experiences);
+                        cardBody.append(experiences);
+                        cardBody.append($('<br />'));
+                    });
+                    
+                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => {updateVice(candidate._id, 2)});
+                    cardBody.append(save_btn);
+                }
             })
             
             // trigger modal
@@ -244,16 +333,73 @@ function newActivity() {
     $(`#modal-${id}`).modal();
 }
 
-async function updateOption(id, name) {
+async function updateOption(id) {
     try {
         _id = id;
+        Name = $(`#${id}-name`)[0].value;
         department = $(`#${id}-department`)[0].value;
         college = $(`#${id}-college`)[0].value;
-        await axios.post('/options/modifyOption', { _id, "candidate":{name,department, college}}).then((resp) => {
+
+        var experience_input = $(`[id=${id}-experience]`);
+        var personal_experiences = [];
+        var i = 0;
+        for(i=0; i < experience_input.length; i++){
+            if(experience_input[i].value != ""){
+                personal_experiences.push(experience_input[i].value);
+            }
+        }
+
+        var opinion_input = $(`[id=${id}-opinion]`);
+        var political_opinions = [];
+        i = 0;
+        for(i=0; i < opinion_input.length; i++){
+            if(opinion_input[i].value != ""){
+                political_opinions.push(opinion_input[i].value);
+            }
+        }
+        
+        await axios.post('/options/modifyOption', { _id, "candidate":{name:Name, department, college, personal_experiences, political_opinions}}).then((resp) => {
             if (resp.data.success) {
-               console.log('update option');
+               console.log('update candidate');
             }
         });
+    } catch (error) {
+        alert(errorReloadText);
+    }
+}
+
+async function updateVice(id, viceNum) {
+    try {
+        _id = id;
+        Name = $(`#${id}-vice${viceNum}name`)[0].value;
+        department = $(`#${id}-vice${viceNum}department`)[0].value;
+        college = $(`#${id}-vice${viceNum}college`)[0].value;
+
+        var experience_input = $(`[id=${id}-vice${viceNum}experience]`);
+        var personal_experiences = [];
+        var i = 0;
+        for(i=0; i < experience_input.length; i++){
+            if(experience_input[i].value != ""){
+                personal_experiences.push(experience_input[i].value);
+            }
+        }
+
+        if(viceNum === 1){
+            await axios.post('/options/modifyOption', { _id,"vice1":{name:Name, department, college, personal_experiences}}).then((resp) => {
+                if (resp.data.success) {
+                   console.log('update vice1');
+                }
+            });
+        }
+
+        if(viceNum === 2){
+            await axios.post('/options/modifyOption', { _id,"vice2":{name:Name, department, college, personal_experiences}}).then((resp) => {
+                if (resp.data.success) {
+                   console.log('update vice2');
+                }
+            });
+        }
+        
     } catch (error) {
         alert(errorReloadText);
     }

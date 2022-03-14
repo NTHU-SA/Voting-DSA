@@ -1,7 +1,6 @@
 <html>
-
 <head>
-    <title>Upload voter file</title>
+    <title>上傳選舉人名單</title>
     <link rel="shortcut icon" href=/img/nthusa.ico>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -18,25 +17,25 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>上傳選舉人名單</h1>
+                <h1 style="margin: 10px 3px 20px 5px;"">上傳選舉人名單</h1>
             </div>
         </div>
         <br />
-        <div class="row">
-            <div class="col">
-                <input class="form-control-file" type="file" id="voterList" name="voterList" accept=".csv">
+        <div class=" row">
+                    <div class="col">
+                        <input class="form-control-file" type="file" id="voterList" name="voterList" accept=".csv">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-info" type="button" onclick="uploadList()" id="uploadBtn"> 上傳 </button>
+                    </div>
             </div>
-            <div class="col">
-                <button class="btn btn-info" type="button" onclick="uploadList()" id="uploadBtn"> 上傳 </button>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-danger" type="button" onclick="restore()"> 還原版本 </button>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-danger" type="button" onclick="restore()"> 還原版本 </button>
-            </div>
-        </div>
 
-    </div>
+        </div>
 </body>
 
 </html>

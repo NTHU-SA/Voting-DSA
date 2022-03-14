@@ -42,7 +42,7 @@ module.exports = {
             const { _id, student_id, remark, byStuId } = req.body;
             
             const key = byStuId ? {"student_id": student_id}:{"_id": _id};
-
+            
             const updated_at = new Date();
             var result = "";
             //如果沒有傳入 remark 那就不更新 remark，維持原狀

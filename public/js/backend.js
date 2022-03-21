@@ -105,15 +105,16 @@ async function editCandidate(activity_id, previous_modal) {
 
             data.forEach((candidate, index) => {
                 candidate_info = candidate.candidate;
+                //console.log("candidate_info",candidate_info);
                 vice1_info = null;
                 if(candidate.vice1){
                     vice1_info = candidate.vice1;
-                    console.log("vice1_info",vice1_info);
+                    //console.log("vice1_info",vice1_info);
                 }
                 vice2_info = null;
                 if(candidate.vice1){
                     vice2_info = candidate.vice2;
-                    console.log("vice2_info",vice2_info);
+                    //console.log("vice2_info",vice2_info);
                 }
 
                 card = $('<div />', { class: 'card', id:`${candidate._id}-card`});
@@ -151,20 +152,42 @@ async function editCandidate(activity_id, previous_modal) {
                 cardCollapse.append(cardBody);
 
                 // 候選人
+                
+                //照片
+                information = $('<div>',{class: 'container'});
+                row = $('<div>', {class:'row'});
+                col1 = $('<div>', {class:'col custom-file'});
+                col2 = $('<div>', {class:'col'});
+                if(candidate_info.avatar_url)
+                    $('<img>',{src:`${candidate_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                else
+                    $('<img>',{src:"https://picsum.photos/100", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                
+                // 姓名
                 Name = $('<label>', { text: '候選人：'});
-                cardBody.append(Name);
+                col2.append(Name);
                 $('<input>', { value: candidate_info.name, id: `${candidate._id}-name`}).appendTo(Name);
-                cardBody.append($('<br />'));
+                col2.append($('<br />'));
                 // 系級
                 dept = $('<label>', { text: '系級：' });
-                cardBody.append(dept);
+                col2.append(dept);
                 $('<input>', { value: candidate_info.department, id: `${candidate._id}-department` }).appendTo(dept);
-                cardBody.append($('<br />'));
+                col2.append($('<br />'));
                 // 學院
                 college = $('<label>', { text: '學院：' });
-                cardBody.append(college);
+                col2.append(college);
                 $('<input>', { value: candidate_info.college, id: `${candidate._id}-college` }).appendTo(college);
+
+                // URL
+                avatar = $('<label>', { text: '照片URL：' });
+                $('<input>', { value: candidate_info.avatar_url, id: `${candidate._id}-avatar` }).appendTo(avatar);
+                col2.append(avatar);
+                
+                row.append(col1); row.append(col2);
+                information.append(row);
+                cardBody.append(information);
                 cardBody.append($('<br />'));
+
                 // 經歷
                 candidate_info.personal_experiences.forEach((exp, idx) => {
                     experiences = $('<div>', { class:'input-group'});
@@ -189,19 +212,39 @@ async function editCandidate(activity_id, previous_modal) {
 
                 // 副候選人1
                 if(vice1_info){
+                    // 照片
+                    information = $('<div>',{class: 'container'});
+                    row = $('<div>', {class:'row'});
+                    col1 = $('<div>', {class:'col custom-file'});
+                    col2 = $('<div>', {class:'col'});
+                    if(candidate_info.avatar_url)
+                        $('<img>',{src:`${vice1_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                    else
+                        $('<img>',{src:"https://picsum.photos/200", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                    
+                    // 姓名
                     Name = $('<label>', { text: '副候選人一：'});
-                    cardBody.append(Name);
+                    col2.append(Name);
                     $('<input>', { value: vice1_info.name, id: `${candidate._id}-vice1name`}).appendTo(Name);
-                    cardBody.append($('<br />'));
+                    col2.append($('<br />'));
                     // 系級
                     dept = $('<label>', { text: '系級：' });
-                    cardBody.append(dept);
+                    col2.append(dept);
                     $('<input>', { value: vice1_info.department, id: `${candidate._id}-vice1department` }).appendTo(dept);
-                    cardBody.append($('<br />'));
+                    col2.append($('<br />'));
                     // 學院
                     college = $('<label>', { text: '學院：' });
-                    cardBody.append(college);
+                    col2.append(college);
                     $('<input>', { value: vice1_info.college, id: `${candidate._id}-vice1college` }).appendTo(college);
+
+                    // URL
+                    avatar = $('<label>', { text: '照片URL：' });
+                    $('<input>', { value: vice1_info.avatar_url, id: `${candidate._id}-vice1avatar` }).appendTo(avatar);
+                    col2.append(avatar);
+                
+                    row.append(col1); row.append(col2);
+                    information.append(row);
+                    cardBody.append(information);
                     cardBody.append($('<br />'));
                     // 經歷
                     vice1_info.personal_experiences.forEach((exp, idx) => {
@@ -218,20 +261,40 @@ async function editCandidate(activity_id, previous_modal) {
                 }
                 // 副候選人2
                 if(vice2_info){
+                    // 照片
+                    information = $('<div>',{class: 'container'});
+                    row = $('<div>', {class:'row'});
+                    col1 = $('<div>', {class:'col custom-file'});
+                    col2 = $('<div>', {class:'col'});
+                    if(candidate_info.avatar_url)
+                        $('<img>',{src:`${vice2_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                    else
+                        $('<img>',{src:"https://picsum.photos/200", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+
                     Name = $('<label>', { text: '副候選人二：'});
-                    cardBody.append(Name);
+                    col2.append(Name);
                     $('<input>', { value: vice2_info.name, id: `${candidate._id}-vice2name`}).appendTo(Name);
-                    cardBody.append($('<br />'));
+                    col2.append($('<br />'));
                     // 系級
                     dept = $('<label>', { text: '系級：' });
-                    cardBody.append(dept);
+                    col2.append(dept);
                     $('<input>', { value: vice2_info.department, id: `${candidate._id}-vice2department` }).appendTo(dept);
-                    cardBody.append($('<br />'));
+                    col2.append($('<br />'));
                     // 學院
                     college = $('<label>', { text: '學院：' });
-                    cardBody.append(college);
+                    col2.append(college);
                     $('<input>', { value: vice2_info.college, id: `${candidate._id}-vice2college` }).appendTo(college);
+                    col2.append($('<br />'));
+                    
+                    avatar = $('<label>', { text: '照片URL：' });
+                    $('<input>', { value: vice2_info.avatar_url, id: `${candidate._id}-vice2avatar` }).appendTo(avatar);
+                    col2.append(avatar);
+                
+                    row.append(col1); row.append(col2);
+                    information.append(row);
+                    cardBody.append(information);
                     cardBody.append($('<br />'));
+
                     // 經歷
                     vice2_info.personal_experiences.forEach((exp, idx) => {
                         experiences = $('<div>', { class:'input-group'});
@@ -335,34 +398,40 @@ function newActivity() {
 
 async function updateOption(id) {
     try {
-        _id = id;
-        Name = $(`#${id}-name`)[0].value;
-        department = $(`#${id}-department`)[0].value;
-        college = $(`#${id}-college`)[0].value;
+        if(confirm("確定更新候選人？")){
+            _id = id;
+            Name = $(`#${id}-name`)[0].value;
+            department = $(`#${id}-department`)[0].value;
+            college = $(`#${id}-college`)[0].value;
+            url = $(`#${id}-avatar`)[0].value;
 
-        var experience_input = $(`[id=${id}-experience]`);
-        var personal_experiences = [];
-        var i = 0;
-        for(i=0; i < experience_input.length; i++){
-            if(experience_input[i].value != ""){
-                personal_experiences.push(experience_input[i].value);
+            var experience_input = $(`[id=${id}-experience]`);
+            var personal_experiences = [];
+            var i = 0;
+            for(i=0; i < experience_input.length; i++){
+                if(experience_input[i].value != ""){
+                    personal_experiences.push(experience_input[i].value);
+                }
             }
-        }
 
-        var opinion_input = $(`[id=${id}-opinion]`);
-        var political_opinions = [];
-        i = 0;
-        for(i=0; i < opinion_input.length; i++){
-            if(opinion_input[i].value != ""){
-                political_opinions.push(opinion_input[i].value);
+            var opinion_input = $(`[id=${id}-opinion]`);
+            var political_opinions = [];
+            i = 0;
+            for(i=0; i < opinion_input.length; i++){
+                if(opinion_input[i].value != ""){
+                    political_opinions.push(opinion_input[i].value);
+                }
             }
+            
+            await axios.post('/options/modifyOption', { _id, "candidate":{name:Name, department, college, personal_experiences, political_opinions, avatar_url:url}}).then((resp) => {
+                if (resp.data.success) {
+                console.log('update candidate');
+                }
+            });
+        }else{
+            return
         }
         
-        await axios.post('/options/modifyOption', { _id, "candidate":{name:Name, department, college, personal_experiences, political_opinions}}).then((resp) => {
-            if (resp.data.success) {
-               console.log('update candidate');
-            }
-        });
     } catch (error) {
         alert(errorReloadText);
     }
@@ -370,35 +439,41 @@ async function updateOption(id) {
 
 async function updateVice(id, viceNum) {
     try {
-        _id = id;
-        Name = $(`#${id}-vice${viceNum}name`)[0].value;
-        department = $(`#${id}-vice${viceNum}department`)[0].value;
-        college = $(`#${id}-vice${viceNum}college`)[0].value;
+        if(confirm("確定更新候選人"+viceNum)){
+            _id = id;
+            Name = $(`#${id}-vice${viceNum}name`)[0].value;
+            department = $(`#${id}-vice${viceNum}department`)[0].value;
+            college = $(`#${id}-vice${viceNum}college`)[0].value;
+            url = $(`#${id}-vice${viceNum}avatar`)[0].value;
 
-        var experience_input = $(`[id=${id}-vice${viceNum}experience]`);
-        var personal_experiences = [];
-        var i = 0;
-        for(i=0; i < experience_input.length; i++){
-            if(experience_input[i].value != ""){
-                personal_experiences.push(experience_input[i].value);
+            var experience_input = $(`[id=${id}-vice${viceNum}experience]`);
+            var personal_experiences = [];
+            var i = 0;
+            for(i=0; i < experience_input.length; i++){
+                if(experience_input[i].value != ""){
+                    personal_experiences.push(experience_input[i].value);
+                }
             }
-        }
 
-        if(viceNum === 1){
-            await axios.post('/options/modifyOption', { _id,"vice1":{name:Name, department, college, personal_experiences}}).then((resp) => {
-                if (resp.data.success) {
-                   console.log('update vice1');
-                }
-            });
-        }
+            if(viceNum === 1){
+                await axios.post('/options/modifyOption', { _id,"vice1":{name:Name, department, college, personal_experiences, avatar_url:url}}).then((resp) => {
+                    if (resp.data.success) {
+                    console.log('update vice1');
+                    }
+                });
+            }
 
-        if(viceNum === 2){
-            await axios.post('/options/modifyOption', { _id,"vice2":{name:Name, department, college, personal_experiences}}).then((resp) => {
-                if (resp.data.success) {
-                   console.log('update vice2');
-                }
-            });
+            if(viceNum === 2){
+                await axios.post('/options/modifyOption', { _id,"vice2":{name:Name, department, college, personal_experiences, avatar_url:url}}).then((resp) => {
+                    if (resp.data.success) {
+                    console.log('update vice2');
+                    }
+                });
+            }
+        }else{
+            return;
         }
+        
         
     } catch (error) {
         alert(errorReloadText);

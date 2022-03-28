@@ -152,7 +152,7 @@ async function editCandidate(activity_id, previous_modal) {
                 cardCollapse.append(cardBody);
 
                 // 候選人
-                
+
                 //照片
                 information = $('<div>',{class: 'container'});
                 row = $('<div>', {class:'row'});

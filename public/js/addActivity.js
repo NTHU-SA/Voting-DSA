@@ -19,8 +19,8 @@ async function addAct() {
         } else if(OPEN_FROM == "" || OPEN_TO == "") {
             alert("請將開始及結束時間填寫完整");
             return;
-        } else if(OPEN_FROM > OPEN_TO) {
-            alert("結束時間小於開始時間，請填入正確的開始及結束時間");
+        } else if(OPEN_FROM >= OPEN_TO) {
+            alert("結束時間小於等於開始時間，請填入正確的開始及結束時間");
             return;
         }
 
@@ -36,10 +36,10 @@ async function addAct() {
                 });
             // console.log(resActivity);
             if(resActivity.data.total > 0) {
-                console.log("exist");
+                console.log("Activity Exist");
                 addOption(resActivity.data.data[0]._id);
             } else {
-                console.log("not exist");
+                console.log("Activity Not Exist");
                 await axios.post(
                     '/activities/addActivity', {
                         'name': NAME,
@@ -68,18 +68,23 @@ async function addAct() {
 }
 
 async function addOption(activityID) {
-    const candidates = [];
-    const vices = [];
+    const CANDIDATES = [];
+    const VICES = [];
     // TODO: pass valid
-    const valid = await getFieldValue(candidates, vices);
-    console.log(candidates);
+    const valid = await getFieldValue(CANDIDATES, VICES);
+    console.log(CANDIDATES);
+    console.log(options);
+    console.log(VICES);
+    console.log(viceExp);
     console.log(valid);
     try {
         if(options.length == 0) {
-            alert("請填寫候選人");
+            alert("新增活動成功，請填寫候選人表格");
             return;
         } else if(!valid) {
             alert("請將表格填寫完整");
+            CANDIDATES.length = 0;
+            VICES.length = 0;
             return;
         }
         for (i = 1; i <= options.length; i++) {
@@ -87,9 +92,9 @@ async function addOption(activityID) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': candidates[i-1],
-                    'vice1': vices[i][0],
-                    'vice2': vices[i][1],
+                    'candidate': CANDIDATES[i-1],
+                    'vice1': VICES[i][0],
+                    'vice2': VICES[i][1],
                 }, {
                     headers: {
                         Authentication:
@@ -100,7 +105,7 @@ async function addOption(activityID) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': candidates[i-1],
+                    'candidate': CANDIDATES[i-1],
                 }, {
                     headers: {
                         Authentication:
@@ -110,7 +115,7 @@ async function addOption(activityID) {
             }
         }
         alert("送出成功!將回到上一頁");
-        // window.location = "/activity.html";
+        window.location = "/activity.html";
     } catch (e) {
         console.log(e);
     }
@@ -140,20 +145,22 @@ async function addImg(src) {
     }
 }
 
-async function getFieldValue(candidates, vices) {
+async function getFieldValue(CANDIDATES, VICES) {
     let valid = true;
     for (i = 1; i <= options.length; i++) {
         let candidateName = document.getElementById(`option-${i}-name`).value;
         let candidateDepartment = document.getElementById(`option-${i}-department`).value;
         let candidateCollege = document.getElementById(`option-${i}-college`).value;
         let candidateAvatarUrl = document.getElementById(`option-${i}-avatar_url`).value;
-        // check valid
-        if(candidateName == "" || candidateDepartment == "" || candidateCollege == "" || candidateAvatarUrl == "") valid = false;
-
+        // check valid : candidate's field
+        if(candidateName == "" || candidateDepartment == "" || candidateCollege == "" || candidateAvatarUrl == "") {
+            valid = false;
+            return;
+        }
         let candidatePersonalExperiences = [];
         for(j = 1; j <= options[i-1].personal_experiences; j++) {
             let ex = document.getElementById(`option-exp-${i}-${j}`).value;
-            // check valid
+            // check valid : candidate's exp
             if(ex == "") {
                 valid = false;
                 return;
@@ -163,13 +170,14 @@ async function getFieldValue(candidates, vices) {
         let candidatePoliticalOptions = [];
         for(k = 1; k <= options[i-1].political_options; k++) {
             let op = document.getElementById(`option-political-${i}-${k}`).value;
-            // check valid
+            // check valid : candidate's opt
             if(op == "") {
                 valid = false;
                 return;
             }
             candidatePoliticalOptions.push(`${k}. `+ op);
         }
+        console.log(options[i-1].vice_options);
         if(options[i-1].vice_options > 0) {
             vice = [];
             for(l = 1; l <= 2; l++) {
@@ -177,13 +185,17 @@ async function getFieldValue(candidates, vices) {
                 let viceDepartment = document.getElementById(`option-vice-${i}-${l}-department`).value;
                 let viceCollege = document.getElementById(`option-vice-${i}-${l}-college`).value;
                 let viceAvatarUrl = document.getElementById(`option-vice-${i}-${l}-avatar_url`).value;
-                // check valid
-                if(viceName == "" || viceDepartment == "" || viceCollege == "" || viceAvatarUrl == "") valid = false;
+                // check valid : vice candidate's field
+                if(viceName == "" || viceDepartment == "" || viceCollege == "" || viceAvatarUrl == "") {
+                    valid = false;
+                    return;
+                }
+
                 let vicePersonalExperiences = [];
                 if(l == 1) {
                     for(m = 1; m <= viceExp[i].vice1; m++) {
                         let vex = document.getElementById(`option-vice-exp-${i}-${l}-${m}`).value;
-                        // check valid
+                        // check valid : vice candidate's exp
                         if(vex == "") {
                             valid = false;
                             return;
@@ -193,7 +205,7 @@ async function getFieldValue(candidates, vices) {
                 } else {
                     for(m = 1; m <= viceExp[i].vice2; m++) {
                         let vex = document.getElementById(`option-vice-exp-${i}-${l}-${m}`).value;
-                        // check valid
+                        // check valid : vice candidate's opt
                         if(vex == "") {
                             valid = false;
                             return;
@@ -201,7 +213,9 @@ async function getFieldValue(candidates, vices) {
                         vicePersonalExperiences.push(vex);
                     }
                 }
+                // if not valid
                 if(!valid) return;
+                // if valid
                 vice.push({
                     "name": viceName,
                     "department": viceDepartment,
@@ -210,13 +224,14 @@ async function getFieldValue(candidates, vices) {
                     "personal_experiences": vicePersonalExperiences,
                 });
             };
-            // not valid
+            // if not valid
             if(!valid) return;
-            vices[`${i}`] = vice;
+            VICES[`${i}`] = vice;
         }
-        // check valid
+        // if not valid
         if(!valid) return;
-        candidates.push({
+        // if valid
+        CANDIDATES.push({
             "name": candidateName,
             "department": candidateDepartment,
             "college": candidateCollege,
@@ -224,9 +239,11 @@ async function getFieldValue(candidates, vices) {
             "personal_experiences": candidatePersonalExperiences,
             "political_opinions": candidatePoliticalOptions,
         })
-        // valid
-        return true;
     }
+    // not valid
+    if(!valid) return false;
+    // valid
+    return true;
 }
 
 // <div class="exp-{candidate_index}-{exp_index}">
@@ -251,7 +268,7 @@ function addPersonalExpField(order) {
     html.setAttribute("id", `exp-${order}-${newOrder}`);
     html.innerHTML = `
         <label for='option-exp-${order}-${newOrder}'>經歷${newOrder}：</label>
-        <input id='option-exp-${order}-${newOrder}' class="form-control" required="required"/>
+        <input id='option-exp-${order}-${newOrder}' class="form-control" required/>
     `;
     optionsNode.appendChild(html);
 }
@@ -278,7 +295,7 @@ function addPoliticalField(order) {
     html.setAttribute("id", `political-${order}-${newOrder}`);
     html.innerHTML = `
         <label for='option-political-${order}-${newOrder}'>政見${newOrder}：</label>
-        <input id='option-political-${order}-${newOrder}' class="form-control" required="required"/>
+        <input id='option-political-${order}-${newOrder}' class="form-control" required/>
     `;
     optionsNode.appendChild(html);
 }
@@ -316,7 +333,7 @@ function addVicePersonalExpField(order, newOrder) {
     html.setAttribute("id", `exp-vice-${order}-${newOrder}-${idx}`); // class for delete
     html.innerHTML = `
         <label for='option-vice-exp-${order}-${newOrder}-${idx}'>經歷${idx}：</label>
-        <input id='option-vice-exp-${order}-${newOrder}-${idx}' class="form-control" required="required"/>
+        <input id='option-vice-exp-${order}-${newOrder}-${idx}' class="form-control" required />
     `;
     optionsNode.appendChild(html);
 }
@@ -341,13 +358,13 @@ function addViceField(order) {
         <br>
         <h4>${order}號副候選人之一：</h4>
         <label for='option-vice-${order}-1-name'>姓名：</label>
-        <input id='option-vice-${order}-1-name' class="form-control" required="required"/>
+        <input id='option-vice-${order}-1-name' class="form-control" required />
         <label for='option-vice-${order}-1-department'>科系：</label>
-        <input id='option-vice-${order}-1-department' class="form-control" required="required"/>
+        <input id='option-vice-${order}-1-department' class="form-control" required />
         <label for='option-vice-${order}-1-college'>院所：</label>
-        <input id='option-vice-${order}-1-college' class="form-control" required="required"/>
+        <input id='option-vice-${order}-1-college' class="form-control" required />
         <label for='option-vice-${order}-1-avatar_url'>頭像：</label>
-        <input id='option-vice-${order}-1-avatar_url' class="form-control" required="required"/>
+        <input id='option-vice-${order}-1-avatar_url' class="form-control" required />
         <div id='option-vice-${order}-1-exp'></div>
         <br>
         <div class="center">
@@ -356,13 +373,13 @@ function addViceField(order) {
         <br>
         <h4>${order}號副候選人之二：</h4>
         <label for='option-vice-${order}-2-name'>姓名：</label>
-        <input id='option-vice-${order}-2-name' class="form-control" required="required"/>
+        <input id='option-vice-${order}-2-name' class="form-control" required />
         <label for='option-vice-${order}-2-department'>科系：</label>
-        <input id='option-vice-${order}-2-department' class="form-control" required="required"/>
+        <input id='option-vice-${order}-2-department' class="form-control" required />
         <label for='option-vice-${order}-2-college'>院所：</label>
-        <input id='option-vice-${order}-2-college' class="form-control" required="required"/>
+        <input id='option-vice-${order}-2-college' class="form-control" required />
         <label for='option-vice-${order}-2-avatar_url'>頭像：</label>
-        <input id='option-vice-${order}-2-avatar_url' class="form-control" required="required"/>
+        <input id='option-vice-${order}-2-avatar_url' class="form-control" required />
         <div id='option-vice-${order}-2-exp'></div>
         <br>
         <div class="center">
@@ -417,13 +434,13 @@ function addOptionField() {
         <br>
         <h4>${order}號候選人：</h4>
         <label for='option-${order}-name'>姓名：</label>
-        <input id='option-${order}-name' class="form-control" required="required"/>
+        <input id='option-${order}-name' class="form-control" required />
         <label for='option-${order}-department'>科系：</label>
-        <input id='option-${order}-department' class="form-control" required="required"/>
+        <input id='option-${order}-department' class="form-control" required />
         <label for='option-${order}-college'>院所：</label>
-        <input id='option-${order}-college' class="form-control" required="required"/>
+        <input id='option-${order}-college' class="form-control" required />
         <label for='option-${order}-avatar_url'>頭像：</label>
-        <input id='option-${order}-avatar_url' class="form-control" required="required"/>
+        <input id='option-${order}-avatar_url' class="form-control" required />
         <div id='option-${order}-exp'></div>
         <div id='option-${order}-political'></div>
         <br>

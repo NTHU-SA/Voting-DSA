@@ -5,6 +5,7 @@ const viceExp = {};
 //      2:{vice1: 0, vice2: 0},
 //      ...
 // }
+
 async function addAct() {
     if(confirm('確定送出嗎?')) {
         const NAME = document.getElementById("name").value;
@@ -34,12 +35,21 @@ async function addAct() {
                         `Bearer ${document.cookie.split('service_token=')[1]} `,
                     },
                 });
-            // console.log(resActivity);
             if(resActivity.data.total > 0) {
-                console.log("Activity Exist");
-                addOption(resActivity.data.data[0]._id);
+                _id = resActivity.data.data[0]._id;
+                axios.post(
+                    '/activities/modifyActivity', {
+                        '_id': _id,
+                        'open_from': OPEN_FROM + ":00",
+                        'open_to': OPEN_TO + ":00",
+                    }, {
+                        headers: {
+                            Authentication:
+                            `Bearer ${document.cookie.split('service_token=')[1]} `,
+                        },
+                    });
+                addOption(_id);
             } else {
-                console.log("Activity Not Exist");
                 await axios.post(
                     '/activities/addActivity', {
                         'name': NAME,
@@ -52,7 +62,6 @@ async function addAct() {
                             Authorization: `Bearer ${jwtToken}`,
                         },
                     }).then(res => {
-                        console.log(res.data);
                         const { _id } = res.data;
                         addOption(_id);
                     }).catch(err => {
@@ -70,31 +79,26 @@ async function addAct() {
 async function addOption(activityID) {
     const CANDIDATES = [];
     const VICES = [];
-    // TODO: pass valid
-    const valid = await getFieldValue(CANDIDATES, VICES);
-    console.log(CANDIDATES);
-    console.log(options);
-    console.log(VICES);
-    console.log(viceExp);
-    console.log(valid);
+    let valid = await getFieldValue(CANDIDATES, VICES);
     try {
         if(options.length == 0) {
             alert("新增活動成功，請填寫候選人表格");
             return;
-        } else if(!valid) {
+        }
+        if(!valid) {
             alert("請將表格填寫完整");
             CANDIDATES.length = 0;
             VICES.length = 0;
             return;
         }
-        for (i = 1; i <= options.length; i++) {
-            if(options[i-1].vice_options > 0) {
+        for (options_idx = 1; options_idx <= options.length; options_idx++) {
+            if(options[options_idx-1].vice_options > 0) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': CANDIDATES[i-1],
-                    'vice1': VICES[i][0],
-                    'vice2': VICES[i][1],
+                    'candidate': CANDIDATES[options_idx-1],
+                    'vice1': VICES[options_idx][0],
+                    'vice2': VICES[options_idx][1],
                 }, {
                     headers: {
                         Authentication:
@@ -105,7 +109,7 @@ async function addOption(activityID) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': CANDIDATES[i-1],
+                    'candidate': CANDIDATES[options_idx-1],
                 }, {
                     headers: {
                         Authentication:
@@ -146,76 +150,66 @@ async function addImg(src) {
 }
 
 async function getFieldValue(CANDIDATES, VICES) {
-    let valid = true;
-    for (i = 1; i <= options.length; i++) {
-        let candidateName = document.getElementById(`option-${i}-name`).value;
-        let candidateDepartment = document.getElementById(`option-${i}-department`).value;
-        let candidateCollege = document.getElementById(`option-${i}-college`).value;
-        let candidateAvatarUrl = document.getElementById(`option-${i}-avatar_url`).value;
+    if(options.length == 0) return false;
+    for (options_idx = 1; options_idx <= options.length; options_idx++) {
+        let candidateName = document.getElementById(`option-${options_idx}-name`).value;
+        let candidateDepartment = document.getElementById(`option-${options_idx}-department`).value;
+        let candidateCollege = document.getElementById(`option-${options_idx}-college`).value;
+        let candidateAvatarUrl = document.getElementById(`option-${options_idx}-avatar_url`).value;
         // check valid : candidate's field
         if(candidateName == "" || candidateDepartment == "" || candidateCollege == "" || candidateAvatarUrl == "") {
-            valid = false;
-            return;
+            return false;
         }
         let candidatePersonalExperiences = [];
-        for(j = 1; j <= options[i-1].personal_experiences; j++) {
-            let ex = document.getElementById(`option-exp-${i}-${j}`).value;
+        for(exp_idx = 1; exp_idx <= options[options_idx-1].personal_experiences; exp_idx++) {
+            let ex = document.getElementById(`option-exp-${options_idx}-${exp_idx}`).value;
             // check valid : candidate's exp
             if(ex == "") {
-                valid = false;
-                return;
+                return false;
             }
             candidatePersonalExperiences.push(ex);
         }
         let candidatePoliticalOptions = [];
-        for(k = 1; k <= options[i-1].political_options; k++) {
-            let op = document.getElementById(`option-political-${i}-${k}`).value;
+        for(political_idx = 1; political_idx <= options[options_idx-1].political_options; political_idx++) {
+            let op = document.getElementById(`option-political-${options_idx}-${political_idx}`).value;
             // check valid : candidate's opt
             if(op == "") {
-                valid = false;
-                return;
+                return false;
             }
-            candidatePoliticalOptions.push(`${k}. `+ op);
+            candidatePoliticalOptions.push(`${political_idx}. `+ op);
         }
-        console.log(options[i-1].vice_options);
-        if(options[i-1].vice_options > 0) {
+        if(options[options_idx-1].vice_options > 0) {
             vice = [];
-            for(l = 1; l <= 2; l++) {
-                let viceName = document.getElementById(`option-vice-${i}-${l}-name`).value;
-                let viceDepartment = document.getElementById(`option-vice-${i}-${l}-department`).value;
-                let viceCollege = document.getElementById(`option-vice-${i}-${l}-college`).value;
-                let viceAvatarUrl = document.getElementById(`option-vice-${i}-${l}-avatar_url`).value;
+            for(vice_idx = 1; vice_idx <= 2; vice_idx++) {
+                let viceName = document.getElementById(`option-vice-${options_idx}-${vice_idx}-name`).value;
+                let viceDepartment = document.getElementById(`option-vice-${options_idx}-${vice_idx}-department`).value;
+                let viceCollege = document.getElementById(`option-vice-${options_idx}-${vice_idx}-college`).value;
+                let viceAvatarUrl = document.getElementById(`option-vice-${options_idx}-${vice_idx}-avatar_url`).value;
                 // check valid : vice candidate's field
                 if(viceName == "" || viceDepartment == "" || viceCollege == "" || viceAvatarUrl == "") {
-                    valid = false;
-                    return;
+                    return false;
                 }
 
                 let vicePersonalExperiences = [];
-                if(l == 1) {
-                    for(m = 1; m <= viceExp[i].vice1; m++) {
-                        let vex = document.getElementById(`option-vice-exp-${i}-${l}-${m}`).value;
+                if(vice_idx == 1) {
+                    for(idx = 1; idx <= viceExp[options_idx].vice1; idx++) {
+                        let vex = document.getElementById(`option-vice-exp-${options_idx}-${vice_idx}-${idx}`).value;
                         // check valid : vice candidate's exp
                         if(vex == "") {
-                            valid = false;
-                            return;
+                            return false;
                         }
                         vicePersonalExperiences.push(vex);
                     }
                 } else {
-                    for(m = 1; m <= viceExp[i].vice2; m++) {
-                        let vex = document.getElementById(`option-vice-exp-${i}-${l}-${m}`).value;
+                    for(idx = 1; idx <= viceExp[options_idx].vice2; idx++) {
+                        let vex = document.getElementById(`option-vice-exp-${options_idx}-${vice_idx}-${idx}`).value;
                         // check valid : vice candidate's opt
                         if(vex == "") {
-                            valid = false;
-                            return;
+                            return false;
                         }
                         vicePersonalExperiences.push(vex);
                     }
                 }
-                // if not valid
-                if(!valid) return;
-                // if valid
                 vice.push({
                     "name": viceName,
                     "department": viceDepartment,
@@ -224,13 +218,8 @@ async function getFieldValue(CANDIDATES, VICES) {
                     "personal_experiences": vicePersonalExperiences,
                 });
             };
-            // if not valid
-            if(!valid) return;
-            VICES[`${i}`] = vice;
+            VICES[`${options_idx}`] = vice;
         }
-        // if not valid
-        if(!valid) return;
-        // if valid
         CANDIDATES.push({
             "name": candidateName,
             "department": candidateDepartment,
@@ -240,9 +229,6 @@ async function getFieldValue(CANDIDATES, VICES) {
             "political_opinions": candidatePoliticalOptions,
         })
     }
-    // not valid
-    if(!valid) return false;
-    // valid
     return true;
 }
 

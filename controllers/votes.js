@@ -27,9 +27,8 @@ module.exports = {
             }
 
             // Validate student_i
-            const availableStudentList = csvData.split(/\r?\n/).slice(1);
-            const availableStudentIds = availableStudentList.map((student) => student.split(',')[1]);
-            if (!availableStudentIds.includes(student_id)) throw new Error('Failed to add vote, student_id is not available');
+            const availableStudentIds = csvData.split(/\r?\n/).slice(1);
+            if (!availableStudentIds.includes(student_id.toString())) throw new Error('Failed to add vote, student_id is not available');
 
             // Get all options
             const optionArr = [];

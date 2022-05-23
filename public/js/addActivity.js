@@ -176,7 +176,8 @@ async function getFieldValue(CANDIDATES, VICES) {
             if(op == "") {
                 return false;
             }
-            candidatePoliticalOptions.push(`${political_idx}. `+ op);
+//            candidatePoliticalOptions.push(`${political_idx}. `+ op);
+	      candidatePoliticalOptions.push(op);
         }
         if(options[options_idx-1].vice_options > 0) {
             vice = [];

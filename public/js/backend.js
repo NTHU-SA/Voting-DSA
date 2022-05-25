@@ -189,22 +189,50 @@ async function editCandidate(activity_id, previous_modal) {
                 cardBody.append($('<br />'));
 
                 // 經歷
+                experiences = $('<div>', {id: `${candidate._id}-experiences-block`});
                 candidate_info.personal_experiences.forEach((exp, idx) => {
-                    experiences = $('<div>', { class:'input-group'});
-                    $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
-                    $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-experience` }).appendTo(experiences);
-                    cardBody.append(experiences);
-                    cardBody.append($('<br />'));
+                    experience = $('<div>', { class:'input-group'});
+                    $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experience);
+                    $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-experience` }).appendTo(experience);
+                    experiences.append(experience);
                 });
+                cardBody.append(experiences);
                 
-                // 政見
-                candidate_info.political_opinions.forEach((opinion, idx) => {
-                    experiences = $('<div>', { class:'input-group'});
-                    $('<span>', { text: '政見'+(idx+1), class:"input-group-text bg-secondary text-white"}).appendTo(experiences);
-                    $('<textarea>', { text: opinion, class:'form-control input-sm', id: `${candidate._id}-opinion` }).appendTo(experiences);
-                    cardBody.append(experiences);
-                    cardBody.append($('<br />'));
+                add_exp_btn = $('<button />', { class: 'btn btn-sm btn-info', text: '+' }).click(() => {
+                    experiences = document.getElementById(`${candidate._id}-experiences-block`);
+                    exp_new_idx = experiences.childElementCount;
+                    exp = document.createElement('div');
+                    exp.setAttribute("class", `input-group`);
+                    exp.innerHTML = `
+                        <span class=input-group-text>經歷${exp_new_idx+1}</span>
+                        <textarea class='form-control input-sm' id='${candidate._id}-experience'></textarea>
+                    `;
+                    experiences.appendChild(exp);
                 });
+                cardBody.append(add_exp_btn);
+                cardBody.append($('<br />'));
+                // 政見
+                opinions = $('<div>', {id: `${candidate._id}-opinions-block`});
+                candidate_info.political_opinions.forEach((op, idx) => {
+                    opinion = $('<div>', { class:'input-group'});
+                    $('<span>', { text: '政見'+(idx+1), class:"input-group-text bg-secondary text-white"}).appendTo(opinion);
+                    $('<textarea>', { text: op, class:'form-control input-sm', id: `${candidate._id}-opinion` }).appendTo(opinion);
+                    opinions.append(opinion);
+                });
+                cardBody.append(opinions);
+                add_op_btn = $('<button />', { class: 'btn btn-sm btn-info', text: '+' }).click(() => {
+                    opinions = document.getElementById(`${candidate._id}-opinions-block`);
+                    op_new_idx = opinions.childElementCount;
+                    opinion = document.createElement('div');
+                    opinion.setAttribute("class", `input-group`);
+                    opinion.innerHTML = `
+                        <span class='input-group-text bg-secondary text-white'>政見${op_new_idx+1}</span>
+                        <textarea class='form-control input-sm' id='${candidate._id}-opinion'></textarea>
+                    `;
+                    opinions.appendChild(opinion);
+                });
+                cardBody.append(add_op_btn);
+                cardBody.append($('<br />'));
                 
                 save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateOption(candidate._id) });
                 cardBody.append(save_btn);

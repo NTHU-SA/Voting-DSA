@@ -10,6 +10,7 @@ async function getCandidates(opt, name) {
         const resCandidate = await axios.post(
             '/options/getOptions', {
                 'filter': { 'activity_id': opt },
+                "sort": { "created_at": 1 }
             });
         candidates = resCandidate.data.data;
         // construct remark

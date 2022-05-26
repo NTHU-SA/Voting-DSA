@@ -86,7 +86,7 @@ async function editCandidate(activity_id, previous_modal) {
     previous_modal.modal('toggle');
     //console.log(activity_id);
     try {
-        await axios.post('/options/getOptions', { filter: { activity_id } }).then((resp) => {
+        await axios.post('/options/getOptions', { filter: { activity_id }, sort: {created_at: 1} }).then((resp) => {
             data = resp.data.data;
             if ($(`#modal-${id}`)[0] != undefined) {
                 modal = $(`#modal-${id}`).remove();
@@ -557,6 +557,9 @@ function detailFormatter(index, row) {
             filter: {
                 activity_id: row._id,
             },
+            sort: {
+                create_at:1
+            }
         }),
         type: 'POST',
         dataType: 'json',

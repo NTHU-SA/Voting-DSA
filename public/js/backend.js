@@ -558,7 +558,7 @@ function detailFormatter(index, row) {
                 activity_id: row._id,
             },
             sort: {
-                create_at:1
+                created_at:1
             }
         }),
         type: 'POST',

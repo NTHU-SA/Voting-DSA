@@ -9,3 +9,5 @@ uploads/
 wget*
 db/
 package-lock.json
+voting
+backups/

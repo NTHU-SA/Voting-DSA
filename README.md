@@ -201,7 +201,17 @@ auth.obtainServiceToken('108060001', user);
 
 1. 修改 `libs/全校在學學生資料.csv`，這是可以投票的學生名單
 
-## TODO 111-2
+
+# Development
+
+## Backup
+`mongodump -h 127.0.0.1 -d DB_NAME -o ./mongo-backup`
+
+## Restore
+`mongorestore -h 127.0.0.1 -d DB_NAME --directoryperdb DB_FILE`
+
+     
+# TODO 111-2
 
 - [ ] 新增編輯投票人名單 UI
 - [ ] 新增選舉活動、候選人增修查改 UI

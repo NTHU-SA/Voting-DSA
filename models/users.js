@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const {Schema} = Mongoose;
+const { Schema } = Mongoose;
 
 const usersSchema = new Schema({
     student_id: {
@@ -22,5 +22,5 @@ const usersSchema = new Schema({
     strict: 'throw',
 });
 
-usersSchema.index({student_id: 1});
+usersSchema.index({ student_id: 1 });
 Mongoose.model('users', usersSchema);

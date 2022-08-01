@@ -86,7 +86,7 @@ async function editCandidate(activity_id, previous_modal) {
     previous_modal.modal('toggle');
     //console.log(activity_id);
     try {
-        await axios.post('/options/getOptions', { filter: { activity_id }, sort: {created_at: 1} }).then((resp) => {
+        await axios.post('/options/getOptions', { filter: { activity_id }, sort: { created_at: 1 } }).then((resp) => {
             data = resp.data.data;
             if ($(`#modal-${id}`)[0] != undefined) {
                 modal = $(`#modal-${id}`).remove();
@@ -107,19 +107,19 @@ async function editCandidate(activity_id, previous_modal) {
                 candidate_info = candidate.candidate;
                 //console.log("candidate_info",candidate_info);
                 vice1_info = null;
-                if(candidate.vice1){
+                if (candidate.vice1) {
                     vice1_info = candidate.vice1;
                     //console.log("vice1_info",vice1_info);
                 }
                 vice2_info = null;
-                if(candidate.vice1){
+                if (candidate.vice1) {
                     vice2_info = candidate.vice2;
                     //console.log("vice2_info",vice2_info);
                 }
 
-                card = $('<div />', { class: 'card', id:`${candidate._id}-card`});
+                card = $('<div />', { class: 'card', id: `${candidate._id}-card` });
                 accordion.append(card);
-                
+
                 cardHeader = $('<div />', { class: 'card-header row', id: `${id}-heading-${index}` });
                 card.append(cardHeader);
 
@@ -131,18 +131,18 @@ async function editCandidate(activity_id, previous_modal) {
                 headerBtn.attr('aria-expanded', 'false');
                 headerBtn.attr('aria-controls', `${id}-collapse-${index}`);
                 col_1.append(headerBtn);
-                
+
                 col_2 = $('<div />', { class: 'col-2' });
-                closeBtn = $('<button />',{class: 'btn btn-light', type:'button'});
-                closeBtn.attr('aria-label','Close');
-                x = $('<span />', {class:'text-danger',text:'×'}).click(() => { removeOption(candidate._id) });
-                x.attr('aria-hidden',true);
+                closeBtn = $('<button />', { class: 'btn btn-light', type: 'button' });
+                closeBtn.attr('aria-label', 'Close');
+                x = $('<span />', { class: 'text-danger', text: '×' }).click(() => { removeOption(candidate._id) });
+                x.attr('aria-hidden', true);
                 closeBtn.append(x);
                 col_2.append(closeBtn);
-                
+
                 cardHeader.append(col_1);
                 cardHeader.append(col_2);
-            
+
                 cardCollapse = $('<div />', { class: 'collapse', id: `${id}-collapse-${index}` });
                 cardCollapse.attr('aria-labelledby', `${id}-heading-${index}`);
                 cardCollapse.attr('data-parent', `#accordion-${id}`);
@@ -154,19 +154,19 @@ async function editCandidate(activity_id, previous_modal) {
                 // 候選人
 
                 //照片
-                information = $('<div>',{class: 'container'});
-                row = $('<div>', {class:'row'});
-                col1 = $('<div>', {class:'col custom-file'});
-                col2 = $('<div>', {class:'col'});
-                if(candidate_info.avatar_url)
-                    $('<img>',{src:`${candidate_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                information = $('<div>', { class: 'container' });
+                row = $('<div>', { class: 'row' });
+                col1 = $('<div>', { class: 'col custom-file' });
+                col2 = $('<div>', { class: 'col' });
+                if (candidate_info.avatar_url)
+                    $('<img>', { src: `${candidate_info.avatar_url}`, class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
                 else
-                    $('<img>',{src:"https://picsum.photos/100", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
-                
+                    $('<img>', { src: "https://picsum.photos/100", class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
+
                 // 姓名
-                Name = $('<label>', { text: '候選人：'});
+                Name = $('<label>', { text: '候選人：' });
                 col2.append(Name);
-                $('<input>', { value: candidate_info.name, id: `${candidate._id}-name`}).appendTo(Name);
+                $('<input>', { value: candidate_info.name, id: `${candidate._id}-name` }).appendTo(Name);
                 col2.append($('<br />'));
                 // 系級
                 dept = $('<label>', { text: '系級：' });
@@ -182,29 +182,29 @@ async function editCandidate(activity_id, previous_modal) {
                 avatar = $('<label>', { text: '照片URL：' });
                 $('<input>', { value: candidate_info.avatar_url, id: `${candidate._id}-avatar` }).appendTo(avatar);
                 col2.append(avatar);
-                
+
                 row.append(col1); row.append(col2);
                 information.append(row);
                 cardBody.append(information);
                 cardBody.append($('<br />'));
 
                 // 經歷
-                experiences = $('<div>', {id: `${candidate._id}-experiences-block`});
+                experiences = $('<div>', { id: `${candidate._id}-experiences-block` });
                 candidate_info.personal_experiences.forEach((exp, idx) => {
-                    experience = $('<div>', { class:'input-group'});
-                    $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experience);
-                    $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-experience` }).appendTo(experience);
+                    experience = $('<div>', { class: 'input-group' });
+                    $('<span>', { text: '經歷' + (idx + 1), class: "input-group-text" }).appendTo(experience);
+                    $('<textarea>', { text: exp, class: 'form-control input-sm', id: `${candidate._id}-experience` }).appendTo(experience);
                     experiences.append(experience);
                 });
                 cardBody.append(experiences);
-                
+
                 add_exp_btn = $('<button />', { class: 'btn btn-sm btn-info', text: '+' }).click(() => {
                     experiences = document.getElementById(`${candidate._id}-experiences-block`);
                     exp_new_idx = experiences.childElementCount;
                     exp = document.createElement('div');
                     exp.setAttribute("class", `input-group`);
                     exp.innerHTML = `
-                        <span class=input-group-text>經歷${exp_new_idx+1}</span>
+                        <span class=input-group-text>經歷${exp_new_idx + 1}</span>
                         <textarea class='form-control input-sm' id='${candidate._id}-experience'></textarea>
                     `;
                     experiences.appendChild(exp);
@@ -212,11 +212,11 @@ async function editCandidate(activity_id, previous_modal) {
                 cardBody.append(add_exp_btn);
                 cardBody.append($('<br />'));
                 // 政見
-                opinions = $('<div>', {id: `${candidate._id}-opinions-block`});
+                opinions = $('<div>', { id: `${candidate._id}-opinions-block` });
                 candidate_info.political_opinions.forEach((op, idx) => {
-                    opinion = $('<div>', { class:'input-group'});
-                    $('<span>', { text: '政見'+(idx+1), class:"input-group-text bg-secondary text-white"}).appendTo(opinion);
-                    $('<textarea>', { text: op, class:'form-control input-sm', id: `${candidate._id}-opinion` }).appendTo(opinion);
+                    opinion = $('<div>', { class: 'input-group' });
+                    $('<span>', { text: '政見' + (idx + 1), class: "input-group-text bg-secondary text-white" }).appendTo(opinion);
+                    $('<textarea>', { text: op, class: 'form-control input-sm', id: `${candidate._id}-opinion` }).appendTo(opinion);
                     opinions.append(opinion);
                 });
                 cardBody.append(opinions);
@@ -226,34 +226,34 @@ async function editCandidate(activity_id, previous_modal) {
                     opinion = document.createElement('div');
                     opinion.setAttribute("class", `input-group`);
                     opinion.innerHTML = `
-                        <span class='input-group-text bg-secondary text-white'>政見${op_new_idx+1}</span>
+                        <span class='input-group-text bg-secondary text-white'>政見${op_new_idx + 1}</span>
                         <textarea class='form-control input-sm' id='${candidate._id}-opinion'></textarea>
                     `;
                     opinions.appendChild(opinion);
                 });
                 cardBody.append(add_op_btn);
                 cardBody.append($('<br />'));
-                
+
                 save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateOption(candidate._id) });
                 cardBody.append(save_btn);
-                cardBody.append($('<br />'));cardBody.append($('<br />'));
+                cardBody.append($('<br />')); cardBody.append($('<br />'));
 
                 // 副候選人1
-                if(vice1_info){
+                if (vice1_info) {
                     // 照片
-                    information = $('<div>',{class: 'container'});
-                    row = $('<div>', {class:'row'});
-                    col1 = $('<div>', {class:'col custom-file'});
-                    col2 = $('<div>', {class:'col'});
-                    if(candidate_info.avatar_url)
-                        $('<img>',{src:`${vice1_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                    information = $('<div>', { class: 'container' });
+                    row = $('<div>', { class: 'row' });
+                    col1 = $('<div>', { class: 'col custom-file' });
+                    col2 = $('<div>', { class: 'col' });
+                    if (candidate_info.avatar_url)
+                        $('<img>', { src: `${vice1_info.avatar_url}`, class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
                     else
-                        $('<img>',{src:"https://picsum.photos/200", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
-                    
+                        $('<img>', { src: "https://picsum.photos/200", class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
+
                     // 姓名
-                    Name = $('<label>', { text: '副候選人一：'});
+                    Name = $('<label>', { text: '副候選人一：' });
                     col2.append(Name);
-                    $('<input>', { value: vice1_info.name, id: `${candidate._id}-vice1name`}).appendTo(Name);
+                    $('<input>', { value: vice1_info.name, id: `${candidate._id}-vice1name` }).appendTo(Name);
                     col2.append($('<br />'));
                     // 系級
                     dept = $('<label>', { text: '系級：' });
@@ -269,39 +269,39 @@ async function editCandidate(activity_id, previous_modal) {
                     avatar = $('<label>', { text: '照片URL：' });
                     $('<input>', { value: vice1_info.avatar_url, id: `${candidate._id}-vice1avatar` }).appendTo(avatar);
                     col2.append(avatar);
-                
+
                     row.append(col1); row.append(col2);
                     information.append(row);
                     cardBody.append(information);
                     cardBody.append($('<br />'));
                     // 經歷
                     vice1_info.personal_experiences.forEach((exp, idx) => {
-                        experiences = $('<div>', { class:'input-group'});
-                        $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
-                        $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-vice1experience` }).appendTo(experiences);
+                        experiences = $('<div>', { class: 'input-group' });
+                        $('<span>', { text: '經歷' + (idx + 1), class: "input-group-text" }).appendTo(experiences);
+                        $('<textarea>', { text: exp, class: 'form-control input-sm', id: `${candidate._id}-vice1experience` }).appendTo(experiences);
                         cardBody.append(experiences);
                         cardBody.append($('<br />'));
                     });
-                    
-                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => {updateVice(candidate._id, 1)});
+
+                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateVice(candidate._id, 1) });
                     cardBody.append(save_btn);
-                    cardBody.append($('<br />'));cardBody.append($('<br />'));
+                    cardBody.append($('<br />')); cardBody.append($('<br />'));
                 }
                 // 副候選人2
-                if(vice2_info){
+                if (vice2_info) {
                     // 照片
-                    information = $('<div>',{class: 'container'});
-                    row = $('<div>', {class:'row'});
-                    col1 = $('<div>', {class:'col custom-file'});
-                    col2 = $('<div>', {class:'col'});
-                    if(candidate_info.avatar_url)
-                        $('<img>',{src:`${vice2_info.avatar_url}`, class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                    information = $('<div>', { class: 'container' });
+                    row = $('<div>', { class: 'row' });
+                    col1 = $('<div>', { class: 'col custom-file' });
+                    col2 = $('<div>', { class: 'col' });
+                    if (candidate_info.avatar_url)
+                        $('<img>', { src: `${vice2_info.avatar_url}`, class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
                     else
-                        $('<img>',{src:"https://picsum.photos/200", class:"img-thumbnail rounded mx-auto d-block"}).appendTo(col1);
+                        $('<img>', { src: "https://picsum.photos/200", class: "img-thumbnail rounded mx-auto d-block" }).appendTo(col1);
 
-                    Name = $('<label>', { text: '副候選人二：'});
+                    Name = $('<label>', { text: '副候選人二：' });
                     col2.append(Name);
-                    $('<input>', { value: vice2_info.name, id: `${candidate._id}-vice2name`}).appendTo(Name);
+                    $('<input>', { value: vice2_info.name, id: `${candidate._id}-vice2name` }).appendTo(Name);
                     col2.append($('<br />'));
                     // 系級
                     dept = $('<label>', { text: '系級：' });
@@ -313,11 +313,11 @@ async function editCandidate(activity_id, previous_modal) {
                     col2.append(college);
                     $('<input>', { value: vice2_info.college, id: `${candidate._id}-vice2college` }).appendTo(college);
                     col2.append($('<br />'));
-                    
+
                     avatar = $('<label>', { text: '照片URL：' });
                     $('<input>', { value: vice2_info.avatar_url, id: `${candidate._id}-vice2avatar` }).appendTo(avatar);
                     col2.append(avatar);
-                
+
                     row.append(col1); row.append(col2);
                     information.append(row);
                     cardBody.append(information);
@@ -325,18 +325,18 @@ async function editCandidate(activity_id, previous_modal) {
 
                     // 經歷
                     vice2_info.personal_experiences.forEach((exp, idx) => {
-                        experiences = $('<div>', { class:'input-group'});
-                        $('<span>', { text: '經歷'+(idx+1), class:"input-group-text"}).appendTo(experiences);
-                        $('<textarea>', { text: exp, class:'form-control input-sm', id: `${candidate._id}-vice2experience` }).appendTo(experiences);
+                        experiences = $('<div>', { class: 'input-group' });
+                        $('<span>', { text: '經歷' + (idx + 1), class: "input-group-text" }).appendTo(experiences);
+                        $('<textarea>', { text: exp, class: 'form-control input-sm', id: `${candidate._id}-vice2experience` }).appendTo(experiences);
                         cardBody.append(experiences);
                         cardBody.append($('<br />'));
                     });
-                    
-                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => {updateVice(candidate._id, 2)});
+
+                    save_btn = $('<button />', { class: 'btn btn-sm btn-info', text: 'save' }).click(() => { updateVice(candidate._id, 2) });
                     cardBody.append(save_btn);
                 }
             })
-            
+
             // trigger modal
             $(`#modal-${id}`).modal();
         });
@@ -364,9 +364,9 @@ async function updateActivity(id) {
 
 async function removeActivity(id) {
     try {
-        
+
         _id = id;
-        await axios.post('/activities/removeActivity', {_id}).then((resp) => {
+        await axios.post('/activities/removeActivity', { _id }).then((resp) => {
             if (resp.data.success) {
                 $('#table').bootstrapTable('destroy');
                 getActivity();
@@ -426,7 +426,7 @@ function newActivity() {
 
 async function updateOption(id) {
     try {
-        if(confirm("確定更新候選人？")){
+        if (confirm("確定更新候選人？")) {
             _id = id;
             Name = $(`#${id}-name`)[0].value;
             department = $(`#${id}-department`)[0].value;
@@ -436,8 +436,8 @@ async function updateOption(id) {
             var experience_input = $(`[id=${id}-experience]`);
             var personal_experiences = [];
             var i = 0;
-            for(i=0; i < experience_input.length; i++){
-                if(experience_input[i].value != ""){
+            for (i = 0; i < experience_input.length; i++) {
+                if (experience_input[i].value != "") {
                     personal_experiences.push(experience_input[i].value);
                 }
             }
@@ -445,21 +445,21 @@ async function updateOption(id) {
             var opinion_input = $(`[id=${id}-opinion]`);
             var political_opinions = [];
             i = 0;
-            for(i=0; i < opinion_input.length; i++){
-                if(opinion_input[i].value != ""){
+            for (i = 0; i < opinion_input.length; i++) {
+                if (opinion_input[i].value != "") {
                     political_opinions.push(opinion_input[i].value);
                 }
             }
-            
-            await axios.post('/options/modifyOption', { _id, "candidate":{name:Name, department, college, personal_experiences, political_opinions, avatar_url:url}}).then((resp) => {
+
+            await axios.post('/options/modifyOption', { _id, "candidate": { name: Name, department, college, personal_experiences, political_opinions, avatar_url: url } }).then((resp) => {
                 if (resp.data.success) {
-                console.log('update candidate');
+                    console.log('update candidate');
                 }
             });
-        }else{
+        } else {
             return
         }
-        
+
     } catch (error) {
         alert(errorReloadText);
     }
@@ -467,7 +467,7 @@ async function updateOption(id) {
 
 async function updateVice(id, viceNum) {
     try {
-        if(confirm("確定更新候選人"+viceNum)){
+        if (confirm("確定更新候選人" + viceNum)) {
             _id = id;
             Name = $(`#${id}-vice${viceNum}name`)[0].value;
             department = $(`#${id}-vice${viceNum}department`)[0].value;
@@ -477,32 +477,32 @@ async function updateVice(id, viceNum) {
             var experience_input = $(`[id=${id}-vice${viceNum}experience]`);
             var personal_experiences = [];
             var i = 0;
-            for(i=0; i < experience_input.length; i++){
-                if(experience_input[i].value != ""){
+            for (i = 0; i < experience_input.length; i++) {
+                if (experience_input[i].value != "") {
                     personal_experiences.push(experience_input[i].value);
                 }
             }
 
-            if(viceNum === 1){
-                await axios.post('/options/modifyOption', { _id,"vice1":{name:Name, department, college, personal_experiences, avatar_url:url}}).then((resp) => {
+            if (viceNum === 1) {
+                await axios.post('/options/modifyOption', { _id, "vice1": { name: Name, department, college, personal_experiences, avatar_url: url } }).then((resp) => {
                     if (resp.data.success) {
-                    console.log('update vice1');
+                        console.log('update vice1');
                     }
                 });
             }
 
-            if(viceNum === 2){
-                await axios.post('/options/modifyOption', { _id,"vice2":{name:Name, department, college, personal_experiences, avatar_url:url}}).then((resp) => {
+            if (viceNum === 2) {
+                await axios.post('/options/modifyOption', { _id, "vice2": { name: Name, department, college, personal_experiences, avatar_url: url } }).then((resp) => {
                     if (resp.data.success) {
-                    console.log('update vice2');
+                        console.log('update vice2');
                     }
                 });
             }
-        }else{
+        } else {
             return;
         }
-        
-        
+
+
     } catch (error) {
         alert(errorReloadText);
     }
@@ -511,7 +511,7 @@ async function updateVice(id, viceNum) {
 async function removeOption(id) {
     try {
         _id = id;
-        await axios.post('/options/removeOption', {_id}).then((resp) => {
+        await axios.post('/options/removeOption', { _id }).then((resp) => {
             if (resp.data.success) {
                 $(`#${id}-card`).remove();
             }
@@ -530,7 +530,7 @@ function operateFormatter(value, row, index) {
 }
 
 window.operateEvents = {
-    'click .edit': function(e, value, row, index) {
+    'click .edit': function (e, value, row, index) {
         editActivity(row._id);
     },
 };
@@ -544,7 +544,7 @@ function removeFormatter(value, row, index) {
 }
 
 window.removeEvents = {
-    'click .remove': function(e, value, row, index) {
+    'click .remove': function (e, value, row, index) {
         removeActivity(row._id);
     },
 };
@@ -558,7 +558,7 @@ function detailFormatter(index, row) {
                 activity_id: row._id,
             },
             sort: {
-                created_at:1
+                created_at: 1
             }
         }),
         type: 'POST',
@@ -566,10 +566,10 @@ function detailFormatter(index, row) {
         headers: { Authorization: `Bearer ${jwtToken}` },
         contentType: 'application/json;charset=utf-8',
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert(errorReloadText);
             return false;
         },
@@ -669,10 +669,10 @@ function getVotes(activityId, candidates) {
         contentType: 'application/json;charset=utf-8',
         headers: { 'Authorization': `Bearer ${jwtToken}` },
         async: false,
-        success: function(resp) {
+        success: function (resp) {
             return resp;
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             alert('發生錯誤，請確認您是否擁有管理員權限！');
             return false;
         },
@@ -739,13 +739,13 @@ function drawChart() {
                 animation: {
                     duration: 500,
                     easing: 'easeOutQuart',
-                    onComplete: function() {
+                    onComplete: function () {
                         const ctx = this.chart.ctx;
                         ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
 
-                        this.data.datasets.forEach(function(dataset) {
+                        this.data.datasets.forEach(function (dataset) {
                             for (let i = 0; i < dataset.data.length; i++) {
                                 const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
                                 const total = dataset._meta[Object.keys(dataset._meta)[0]].total;

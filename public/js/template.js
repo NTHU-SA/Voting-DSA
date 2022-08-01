@@ -9,9 +9,9 @@ async function getCandidates(opt, name) {
     try {
         const resCandidate = await axios.post(
             '/options/getOptions', {
-                'filter': { 'activity_id': opt },
-                "sort": { "created_at": 1 }
-            });
+            'filter': { 'activity_id': opt },
+            "sort": { "created_at": 1 }
+        });
         candidates = resCandidate.data.data;
         // construct remark
         for (let i = 0; i < candidates.length; i++) remarks[`remarkmember${i + 1}`] = undefined;
@@ -61,8 +61,8 @@ async function getCandidate(opt) {
     try {
         const resCandidate = await axios.post(
             '/options/getOptions', {
-                'type': 'candidate',
-            });
+            'type': 'candidate',
+        });
         for (i = 0; i < Object.keys(remarks).length; i++) {
             candidateTempl.push(
                 [{
@@ -292,7 +292,7 @@ const candidatesAppend = (actName) => {
             };
             for (let j = 0; j < VPperCandidate; j++) {
                 vps = `${members}vp${j + 1}`;
-                VPTmpl = vicePresidentsTempl[j+countCandidate][0];
+                VPTmpl = vicePresidentsTempl[j + countCandidate][0];
 
                 const VPMarkup = `
 <div class="row VPInfo">
@@ -315,7 +315,7 @@ const candidatesAppend = (actName) => {
 </div> `;
                 $.template(`${vicePresidentsTempl}`, VPMarkup);
                 $.tmpl(`${vicePresidentsTempl}`, '').appendTo(`.${vps}`);
-                if (j===(VPperCandidate-1)) countCandidate += VPperCandidate;
+                if (j === (VPperCandidate - 1)) countCandidate += VPperCandidate;
             }
         }
         $.tmpl(`voteTemplate`, candidateTempl[idx]).appendTo(`.memberInfo${idx}`);
@@ -340,7 +340,7 @@ async function getAvailableActivities() {
             console.log('Fail to call getAvailableActivities function');
         });
     } catch (e) {
-        document.getElementById('modalTokan-title').innerHTML='伺服器連線失敗&#128563 ';
+        document.getElementById('modalTokan-title').innerHTML = '伺服器連線失敗&#128563 ';
         $('.modalToken').html(`<p>${e}</p>`);
         $('#modalToken').modal('show');
         console.log(e.response.data);

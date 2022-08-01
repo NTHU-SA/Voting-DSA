@@ -11,3 +11,6 @@ db/
 package-lock.json
 voting
 backups/
+libs/*.csv
+libs/*.backup
+package-lock.json

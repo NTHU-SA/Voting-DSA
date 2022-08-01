@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const {Schema} = Mongoose;
+const { Schema } = Mongoose;
 
 const activitiesSchema = new Schema({
     name: {

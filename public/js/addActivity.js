@@ -7,20 +7,20 @@ const viceExp = {};
 // }
 
 async function addAct() {
-    if(confirm('確定送出嗎?')) {
+    if (confirm('確定送出嗎?')) {
         const NAME = document.getElementById("name").value;
         const RULE = document.getElementById("rule").value;
         const OPEN_FROM = document.getElementById("open_from").value.replaceAll('/', '-').replace('T', ' ');
         const OPEN_TO = document.getElementById("open_to").value.replaceAll('/', '-').replace('T', ' ');
         // console.log(jwtToken);
 
-        if(NAME == "" || NAME == undefined) {
+        if (NAME == "" || NAME == undefined) {
             alert("請將活動名稱填寫完整");
             return;
-        } else if(OPEN_FROM == "" || OPEN_TO == "") {
+        } else if (OPEN_FROM == "" || OPEN_TO == "") {
             alert("請將開始及結束時間填寫完整");
             return;
-        } else if(OPEN_FROM >= OPEN_TO) {
+        } else if (OPEN_FROM >= OPEN_TO) {
             alert("結束時間小於等於開始時間，請填入正確的開始及結束時間");
             return;
         }
@@ -28,45 +28,45 @@ async function addAct() {
         try {
             const resActivity = await axios.post(
                 '/activities/getActivities', {
-                    'filter': { name: NAME },
-                }, {
-                    headers: {
-                        Authentication:
+                'filter': { name: NAME },
+            }, {
+                headers: {
+                    Authentication:
                         `Bearer ${document.cookie.split('service_token=')[1]} `,
-                    },
-                });
-            if(resActivity.data.total > 0) {
+                },
+            });
+            if (resActivity.data.total > 0) {
                 _id = resActivity.data.data[0]._id;
                 axios.post(
                     '/activities/modifyActivity', {
-                        '_id': _id,
-                        'open_from': OPEN_FROM + ":00",
-                        'open_to': OPEN_TO + ":00",
-                    }, {
-                        headers: {
-                            Authentication:
+                    '_id': _id,
+                    'open_from': OPEN_FROM + ":00",
+                    'open_to': OPEN_TO + ":00",
+                }, {
+                    headers: {
+                        Authentication:
                             `Bearer ${document.cookie.split('service_token=')[1]} `,
-                        },
-                    });
+                    },
+                });
                 addOption(_id);
             } else {
                 await axios.post(
                     '/activities/addActivity', {
-                        'name': NAME,
-                        'type': 'candidate',
-                        'rule': RULE,
-                        'open_from': OPEN_FROM + ":00",
-                        'open_to': OPEN_TO + ":00",
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
-                    }).then(res => {
-                        const { _id } = res.data;
-                        addOption(_id);
-                    }).catch(err => {
-                        console.log(err);
-                    });
+                    'name': NAME,
+                    'type': 'candidate',
+                    'rule': RULE,
+                    'open_from': OPEN_FROM + ":00",
+                    'open_to': OPEN_TO + ":00",
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                }).then(res => {
+                    const { _id } = res.data;
+                    addOption(_id);
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         } catch (e) {
             console.log(e.response.data);
@@ -81,22 +81,22 @@ async function addOption(activityID) {
     const VICES = [];
     let valid = await getFieldValue(CANDIDATES, VICES);
     try {
-        if(options.length == 0) {
+        if (options.length == 0) {
             alert("新增活動成功，請填寫候選人表格");
             return;
         }
-        if(!valid) {
+        if (!valid) {
             alert("請將表格填寫完整");
             CANDIDATES.length = 0;
             VICES.length = 0;
             return;
         }
         for (options_idx = 1; options_idx <= options.length; options_idx++) {
-            if(options[options_idx-1].vice_options > 0) {
+            if (options[options_idx - 1].vice_options > 0) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': CANDIDATES[options_idx-1],
+                    'candidate': CANDIDATES[options_idx - 1],
                     'vice1': VICES[options_idx][0],
                     'vice2': VICES[options_idx][1],
                 }, {
@@ -109,7 +109,7 @@ async function addOption(activityID) {
                 axios.post('/options/addOption', {
                     'activity_id': activityID,
                     'type': 'candidate',
-                    'candidate': CANDIDATES[options_idx-1],
+                    'candidate': CANDIDATES[options_idx - 1],
                 }, {
                     headers: {
                         Authentication:
@@ -130,19 +130,19 @@ async function addImg(src) {
     try {
         await axios.post(
             '/files/uploadFile', {
-                'mode': 'formdata',
-                'formdata': [
-                    {
-                        'key': 'file',
-                        'type': 'file',
-                        'src': `'../uploads/${src}'`,
-                    },
-                ],
-            }, {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
+            'mode': 'formdata',
+            'formdata': [
+                {
+                    'key': 'file',
+                    'type': 'file',
+                    'src': `'../uploads/${src}'`,
                 },
-            }
+            ],
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+        }
         );
     } catch (e) {
         console.log(e.response.data);
@@ -150,62 +150,62 @@ async function addImg(src) {
 }
 
 async function getFieldValue(CANDIDATES, VICES) {
-    if(options.length == 0) return false;
+    if (options.length == 0) return false;
     for (options_idx = 1; options_idx <= options.length; options_idx++) {
         let candidateName = document.getElementById(`option-${options_idx}-name`).value;
         let candidateDepartment = document.getElementById(`option-${options_idx}-department`).value;
         let candidateCollege = document.getElementById(`option-${options_idx}-college`).value;
         let candidateAvatarUrl = document.getElementById(`option-${options_idx}-avatar_url`).value;
         // check valid : candidate's field
-        if(candidateName == "" || candidateDepartment == "" || candidateCollege == "" || candidateAvatarUrl == "") {
+        if (candidateName == "" || candidateDepartment == "" || candidateCollege == "" || candidateAvatarUrl == "") {
             return false;
         }
         let candidatePersonalExperiences = [];
-        for(exp_idx = 1; exp_idx <= options[options_idx-1].personal_experiences; exp_idx++) {
+        for (exp_idx = 1; exp_idx <= options[options_idx - 1].personal_experiences; exp_idx++) {
             let ex = document.getElementById(`option-exp-${options_idx}-${exp_idx}`).value;
             // check valid : candidate's exp
-            if(ex == "") {
+            if (ex == "") {
                 return false;
             }
             candidatePersonalExperiences.push(ex);
         }
         let candidatePoliticalOptions = [];
-        for(political_idx = 1; political_idx <= options[options_idx-1].political_options; political_idx++) {
+        for (political_idx = 1; political_idx <= options[options_idx - 1].political_options; political_idx++) {
             let op = document.getElementById(`option-political-${options_idx}-${political_idx}`).value;
             // check valid : candidate's opt
-            if(op == "") {
+            if (op == "") {
                 return false;
             }
-//            candidatePoliticalOptions.push(`${political_idx}. `+ op);
-	      candidatePoliticalOptions.push(op);
+            //            candidatePoliticalOptions.push(`${political_idx}. `+ op);
+            candidatePoliticalOptions.push(op);
         }
-        if(options[options_idx-1].vice_options > 0) {
+        if (options[options_idx - 1].vice_options > 0) {
             vice = [];
-            for(vice_idx = 1; vice_idx <= 2; vice_idx++) {
+            for (vice_idx = 1; vice_idx <= 2; vice_idx++) {
                 let viceName = document.getElementById(`option-vice-${options_idx}-${vice_idx}-name`).value;
                 let viceDepartment = document.getElementById(`option-vice-${options_idx}-${vice_idx}-department`).value;
                 let viceCollege = document.getElementById(`option-vice-${options_idx}-${vice_idx}-college`).value;
                 let viceAvatarUrl = document.getElementById(`option-vice-${options_idx}-${vice_idx}-avatar_url`).value;
                 // check valid : vice candidate's field
-                if(viceName == "" || viceDepartment == "" || viceCollege == "" || viceAvatarUrl == "") {
+                if (viceName == "" || viceDepartment == "" || viceCollege == "" || viceAvatarUrl == "") {
                     return false;
                 }
 
                 let vicePersonalExperiences = [];
-                if(vice_idx == 1) {
-                    for(idx = 1; idx <= viceExp[options_idx].vice1; idx++) {
+                if (vice_idx == 1) {
+                    for (idx = 1; idx <= viceExp[options_idx].vice1; idx++) {
                         let vex = document.getElementById(`option-vice-exp-${options_idx}-${vice_idx}-${idx}`).value;
                         // check valid : vice candidate's exp
-                        if(vex == "") {
+                        if (vex == "") {
                             return false;
                         }
                         vicePersonalExperiences.push(vex);
                     }
                 } else {
-                    for(idx = 1; idx <= viceExp[options_idx].vice2; idx++) {
+                    for (idx = 1; idx <= viceExp[options_idx].vice2; idx++) {
                         let vex = document.getElementById(`option-vice-exp-${options_idx}-${vice_idx}-${idx}`).value;
                         // check valid : vice candidate's opt
-                        if(vex == "") {
+                        if (vex == "") {
                             return false;
                         }
                         vicePersonalExperiences.push(vex);
@@ -239,10 +239,10 @@ async function getFieldValue(CANDIDATES, VICES) {
 // </div>
 function addPersonalExpField(order) {
     // check last personal exp valid
-    const  current = options[order - 1].personal_experiences;
-    if(current > 0) {
+    const current = options[order - 1].personal_experiences;
+    if (current > 0) {
         const valid = document.getElementById(`option-exp-${order}-${current}`).value;
-        if(valid == "") {
+        if (valid == "") {
             alert("請先填完上一個候選人經歷");
             return;
         }
@@ -267,9 +267,9 @@ function addPersonalExpField(order) {
 function addPoliticalField(order) {
     // check last political opinion valid
     const current = options[order - 1].political_options;
-    if(current > 0) {
+    if (current > 0) {
         const valid = document.getElementById(`option-political-${order}-${current}`).value;
-        if(valid == "") {
+        if (valid == "") {
             alert("請先填完上一個候選人政見");
             return;
         }
@@ -294,14 +294,14 @@ function addPoliticalField(order) {
 function addVicePersonalExpField(order, newOrder) {
     // check last vice personal exp valid
     let current;
-    if(newOrder == 1) {
+    if (newOrder == 1) {
         current = viceExp[order].vice1;
     } else {
         current = viceExp[order].vice2;
     }
-    if(current > 0) {
+    if (current > 0) {
         const valid = document.getElementById(`option-vice-exp-${order}-${newOrder}-${current}`).value;
-        if(valid == "") {
+        if (valid == "") {
             alert("請先填完上一個副候選人經歷");
             return;
         }
@@ -309,7 +309,7 @@ function addVicePersonalExpField(order, newOrder) {
     // add new vice personal exp field
     let idx;
     optionsNode = document.getElementById(`option-vice-${order}-${newOrder}-exp`);
-    if(newOrder == 1) {
+    if (newOrder == 1) {
         viceExp[order].vice1 += 1;
         idx = viceExp[order].vice1;
     } else {
@@ -402,12 +402,12 @@ function closeVicePersonalExpField(order, newOrder) {
 // </div>
 function addOptionField() {
     // check if last candidate field valid
-    if(options.length > 0) {
+    if (options.length > 0) {
         let name_valid = document.getElementById(`option-${options.length}-name`).value;
         let department_valid = document.getElementById(`option-${options.length}-department`).value;
         let college_valid = document.getElementById(`option-${options.length}-college`).value;
         let avatar_url_valid = document.getElementById(`option-${options.length}-avatar_url`).value;
-        if(name_valid == "" || department_valid == "" || college_valid == "" || avatar_url_valid == "") {
+        if (name_valid == "" || department_valid == "" || college_valid == "" || avatar_url_valid == "") {
             alert('請先填完上一位候選人');
             return;
         }

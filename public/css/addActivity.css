@@ -1,0 +1,11 @@
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .divider{
+    width: 10px;
+    height:auto;
+    display:inline-block;
+}

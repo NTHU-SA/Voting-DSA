@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <title>管理員設定</title>
+  <link rel="shortcut icon" href=/img/nthusa.ico>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/admin.js"></script>
+</head>
+
+<body onload="rewriteTable()">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 style="margin: 10px 3px 20px 5px;">管理員設定</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="學號" aria-label="username" aria-describedby="basic-addon2"
+            id="stuId">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="addAdmin()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-hover" id="adminTable">
+        <thead>
+          <tr>
+            <th scope="col">學號</th>
+            <th scope="col">上次編輯</th>
+            <th scope="col">刪除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td><input type='button' value='Delete' /></td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+    <br />
+  </div>
+
+
+</html>

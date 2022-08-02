@@ -59,6 +59,7 @@ module.exports = {
         }
     },
 
+    // 修改候選人
     async modifyOption(req, res) {
         try {
             const { _id, ...params } = req.body;
@@ -73,6 +74,7 @@ module.exports = {
         }
     },
 
+    // 移除候選人
     async removeOption(req, res) {
         try {
             const { _id } = req.body;

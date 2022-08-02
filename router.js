@@ -4,6 +4,7 @@ const votes = require('./controllers/votes');
 const activities = require('./controllers/activities');
 const options = require('./controllers/options');
 const files = require('./controllers/files');
+const voter = require('./controllers/voter');
 const mock = require('./controllers/mock');
 const authentication = require('./middlewares/authentication');
 const adminAuthorization = require('./middlewares/adminAuthorization');
@@ -28,8 +29,6 @@ router.post('/users/removeUser', authentication, adminAuthorization, users.remov
 router.post('/votes/addVote', authentication, votes.addVote);
 router.post('/votes/getVote', authentication, adminAuthorization, votes.getVote);
 router.post('/votes/getVotes', authentication, adminAuthorization, votes.getVotes);
-// Deprecated: router.post('/votes/getVoteResult', votes.getVoteResult);
-// No Need: router.post('/votes/modifyVote', votes.modifyVote);
 router.post('/votes/removeVote', authentication, adminAuthorization, votes.removeVote);
 
 // activities
@@ -48,7 +47,13 @@ router.post('/options/modifyOption', authentication, adminAuthorization, options
 router.post('/options/removeOption', authentication, adminAuthorization, options.removeOption);
 
 // files
-router.post('/files/uploadFile', authentication, files.uploadFile);
+router.post('/files/uploadFile', authentication, adminAuthorization, files.uploadFile);
+
+// voter
+router.post('/voter/uploadList', authentication, adminAuthorization, voter.uploadList);
+router.post('/voter/restore', authentication, adminAuthorization, voter.restoreBackup);
+
+//admin
 
 // mock
 router.get('/mock/auth', mock.auth);

@@ -10,12 +10,15 @@ const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOST, MONGO_NAME } = process.env;
 
 // const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}?authSource=admin&w=1`;
 const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_NAME}`;
+
 Mongoose.connect(url, {
     keepAlive: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
 });
+
+//? Always set to true?
 Mongoose.set('debug', true);
 
 require('./models/users');
@@ -30,6 +33,7 @@ app.use(fileUpload());
 app.use(require('./router'));
 app.use(express.static('./public'));
 
+const port = process.env.PORT || 3000
 app.listen(
-    config.serverPort,
-    () => console.log(`Server is listening on port ${config.serverPort}.`));
+    port,
+    () => console.log(`Server is listening on port ${port}.`));

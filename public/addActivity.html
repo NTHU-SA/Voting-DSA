@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href=/img/nthusa.ico>
     <link rel="stylesheet" href="./css/login.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
     <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/addActivity.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
@@ -18,6 +20,7 @@
     </script>
     <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
+    <script src="./js/utils.js"></script>
     <script src="./js/addActivity.js"></script>
     <title>新增選舉活動</title>
 </head>
@@ -29,16 +32,21 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <form>
+                <form autocomplete="off">
                     <div class="form-group">
-                        <label for="name">名稱</label><input id="name" class="form-control" />
+                        <label for="name">名稱</label><input type="text" id="name" class="form-control" required/>
                     </div>
                     <div class="form-group">
                         <label for="rule">規則</label>
-                        <select id="rule" class="form-control">
-                            <option id="rule" value="choose_one">單選</option>
+                        <select id="rule" class="form-control" selected="choose_all" disabled>
+                            <option id="rule" value="choose_one" disabled>單選</option>
                             <option id="rule" value="choose_all">多選</option>
                         </select>
+                    </div>
+                    <div class="date-group">
+                        <label for="open_from">開始時間</label><input type="datetime-local" id="open_from" min="2022-01-01" max="2122-12-31" required/>
+                        <br></br>
+                        <label for="open_to">結束時間</label><input type="datetime-local" id="open_to" min="2022-01-01" max="2122-12-31" required/>
                     </div>
                     <div id="options"></div>
                 </form>
@@ -46,8 +54,11 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button class="btn btn-info" onclick="addOptionField()">新增候選人</button>
+                <button type="button" class="btn btn-warning" onclick="addOptionField()">新增候選人</button>
             </div>
+        </div>
+        <div class="center">
+            <button type="submit" class="btn btn-danger" onclick="addAct()">確認送出</button>
         </div>
     </div>
 </body>

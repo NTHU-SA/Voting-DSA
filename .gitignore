@@ -8,3 +8,7 @@ db_files/
 uploads/
 wget*
 db/
+voting
+backups/
+libs/*.csv
+libs/*.backup

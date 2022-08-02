@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const {Schema} = Mongoose;
+const { Schema } = Mongoose;
 
 const candidateSchema = new Schema({
     name: {
@@ -61,5 +61,5 @@ const optionsSchema = new Schema({
     strict: 'throw',
 });
 
-optionsSchema.index({activity_id: 1});
+optionsSchema.index({ activity_id: 1 });
 Mongoose.model('options', optionsSchema);

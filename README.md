@@ -45,6 +45,16 @@ auth.obtainServiceToken('108060001', user);
 
 - `mongorestore --drop --host localhost --port 27017 -uroot -ppassword --db voting_sa README/dump`
 
+## 指派使用者為管理員
+  ```bash
+    mongo
+
+    use DATABASE_NAME
+    
+    db.TABLE_NAME.update({student_id:'{YOUR_STUDENTID}'}, {$set: {"remark":"admin"}})
+
+  ```
+
 ## 新增投票活動步驟
 
 1. 透過 Postman 新增管理員（addUser）
@@ -191,11 +201,29 @@ auth.obtainServiceToken('108060001', user);
 
 1. 修改 `libs/全校在學學生資料.csv`，這是可以投票的學生名單
 
-## TODO
+
+# Development
+
+## Backup
+`mongodump -h 127.0.0.1 -d DB_NAME -o ./mongo-backup`
+
+## Restore
+`mongorestore -h 127.0.0.1 -d DB_NAME --directoryperdb DB_FILE`
+
+     
+# TODO 111-2
+
+- [ ] 新增編輯投票人名單 UI
+- [ ] 新增選舉活動、候選人增修查改 UI
+- [ ] 將介面「我不投給他」改成「反對」
+- [ ] 介面增加**一人多票**的說明
+- [ ] 候選人增加一欄「參選執行長意願」
+- [ ] 完善 README.md
+
+---
 
 - [ ] 加入登入跳轉到原先頁面
 - [ ] 加入 debug、log
-- [ ] 加入後台資料新增、修改、刪除功能
 - [ ] 加入後台投票統計圓餅圖
 - [ ] 加入自動化測試
 - [ ] 修正投票按鈕點選範圍
